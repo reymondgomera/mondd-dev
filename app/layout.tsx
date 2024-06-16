@@ -1,6 +1,11 @@
 import type { Metadata } from 'next'
 import { DM_Sans } from 'next/font/google'
+
 import './globals.css'
+import { siteConfig } from '@/constant'
+import { ThemeProvider } from '@/components/provider/theme-provider'
+import ToastProvider from '@/components/provider/toast-provider'
+import TailwindIndicatorProvider from '@/components/provider/tailwind-indicator-provider'
 
 const dmSans = DM_Sans({
   subsets: ['latin'],
@@ -8,8 +13,8 @@ const dmSans = DM_Sans({
 })
 
 export const metadata: Metadata = {
-  title: 'mond.dev',
-  description: 'A professional portfolio website of Rey Mond Gomera, a Filipino Full Stack Developer'
+  title: siteConfig.name,
+  description: siteConfig.description
 }
 
 export default function RootLayout({
@@ -18,8 +23,23 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang='en' suppressHydrationWarning>
-      <body className={`${dmSans.className} h-screen`}>{children}</body>
+    <html className='h-full scroll-smooth' lang='en' suppressHydrationWarning>
+      <body className={`${dmSans.className} h-full`}>
+        <ThemeProvider
+          attribute='class'
+          defaultTheme='dark'
+          forcedTheme='dark'
+          enableSystem
+          disableTransitionOnChange
+          storageKey='mond-dev-theme'
+        >
+          {children}
+
+          <TailwindIndicatorProvider />
+        </ThemeProvider>
+
+        <ToastProvider />
+      </body>
     </html>
   )
 }

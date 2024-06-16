@@ -1,5 +1,7 @@
 import type { Config } from 'tailwindcss'
 
+const defaultTheme = require('tailwindcss/defaultTheme') as Config['theme']
+
 const config = {
   darkMode: ['class'],
   content: ['./pages/**/*.{ts,tsx}', './components/**/*.{ts,tsx}', './app/**/*.{ts,tsx}', './src/**/*.{ts,tsx}'],
@@ -8,10 +10,19 @@ const config = {
     fontFamily: {
       sans: ['var(--font-dm-sans)']
     },
+    screens: {
+      xs: '490px',
+      ...defaultTheme?.screens
+    },
     container: {
       center: true,
       padding: '2rem',
       screens: {
+        xs: '490px',
+        sm: '640px',
+        md: '768px',
+        lg: '1024px',
+        xl: '	1280px',
         '2xl': '1400px'
       }
     },
@@ -49,7 +60,12 @@ const config = {
         card: {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))'
-        }
+        },
+
+        'base-primary': 'hsl(var(--base))',
+        'base-dark': 'hsl(var(--base-dark))',
+        'slate-subtle-1': 'hsla(var(--slate-subtle-1))',
+        'slate-subtle-2': 'hsla(var(--slate-subtle-2))'
       },
       borderRadius: {
         lg: 'var(--radius)',
