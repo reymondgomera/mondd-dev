@@ -45,7 +45,7 @@ export default async function ExperienceTimeline() {
         {exp
           .sort((a, b) => b.order - a.order)
           .map((item, i) => (
-            <div className='grid grid-cols-[auto_repeat(3,minmax(0,1fr))] justify-center gap-x-6'>
+            <div key={`${i}-${item.title}`} className='grid grid-cols-[auto_repeat(3,minmax(0,1fr))] justify-center gap-x-6'>
               <div className={cn('ml-auto mt-1.5 hidden self-stretch md:flex md:flex-col md:items-center md:gap-2')}>
                 <div className=' size-3 rounded-full bg-teal-300' />
                 {i < exp.length - 1 && <div className='flex h-full w-[1px] bg-slate-700' />}

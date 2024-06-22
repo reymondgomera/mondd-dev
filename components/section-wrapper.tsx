@@ -19,8 +19,6 @@ export default function SectionWrapper({ children, id, className, enableSyncNav 
     const landingPageSections = Array.from(document.querySelectorAll('.landing-page-section')) as HTMLElement[]
 
     landingPageSections.forEach((section) => {
-      console.log({ scrollY: window.scrollY, sectionTop: section.offsetTop })
-
       if (window.scrollY + 72 >= section.offsetTop) {
         setHash(`#${section.id}`)
       }

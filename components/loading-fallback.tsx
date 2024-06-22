@@ -51,7 +51,7 @@ export function ProjectSkilliton() {
             </div>
 
             <div className='flex flex-wrap gap-1'>
-              {['React.js', 'Node.js', 'Express.js', 'Prisma', 'PostgreSQL qwe qweqw ewqe wqe qw'].map((tag, i) => (
+              {['React.js', 'Node.js', 'Express.js', 'Prisma', 'PostgreSQL'].map((tag, i) => (
                 <Badge key={`${tag}-${i}`} variant='primary' size='sm'>
                   {tag}
                 </Badge>

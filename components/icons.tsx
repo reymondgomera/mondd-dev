@@ -25,7 +25,10 @@ import {
   CircleAlertIcon,
   ArrowRight,
   ArrowLeft,
-  FileTextIcon
+  Calendar,
+  Trash,
+  File,
+  UploadCloud
 } from 'lucide-react'
 
 export type Icon = LucideIcon
@@ -57,6 +60,10 @@ export const Icons = {
   circleAlert: CircleAlertIcon,
   arrowRight: ArrowRight,
   arrowLeft: ArrowLeft,
+  calendar: Calendar,
+  trash: Trash,
+  file: File,
+  cloudUpload: UploadCloud,
   logo: () => {
     return (
       <svg width='87' height='14' viewBox='0 0 87 14' fill='none' xmlns='http://www.w3.org/2000/svg'>
