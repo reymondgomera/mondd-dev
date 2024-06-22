@@ -1,0 +1,69 @@
+import SkillCard from './skill-card'
+import { getSkills } from '@/actions'
+import { getReferences } from '@/actions'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/custom/tabs'
+
+type RenderTabsContent = {
+  triggers: { value: string; label: string }[]
+  skills: Awaited<ReturnType<typeof getSkills>>['data']
+}
+
+export default async function SkillTabs() {
+  // await new Promise((resolve) => setTimeout(resolve, 10000))
+
+  const [skilltypes, skills] = await Promise.all([getReferences({ entityCodes: ['skill-type'] }), getSkills()])
+
+  if (!skilltypes.data || !skills.data) return null
+
+  const triggers = [
+    { value: 'all', label: 'All' },
+    ...skilltypes.data
+      .sort((a, b) => {
+        const metaDataA = a.metadata as { order: number }
+        const metaDataB = b.metadata as { order: number }
+        return metaDataA.order - metaDataB.order
+      })
+      .map((type) => ({ value: type.code, label: type.name }))
+  ]
+
+  function renderTabsContent({ triggers, skills }: RenderTabsContent) {
+    if (!triggers || !skills) return null
+
+    return triggers.map((trigger, i) => (
+      <TabsContent
+        key={`${i}-${trigger.value}`}
+        className='flex w-full max-w-3xl flex-wrap justify-center gap-4 p-3 data-[state=inactive]:m-0 data-[state=inactive]:p-0 sm:min-w-72 lg:max-w-5xl'
+        value={trigger.value}
+      >
+        {skills
+          .filter((skill) => trigger.value === skill.typeCode)
+          .map((skill, i) => (
+            <SkillCard key={`${i}-${skill.title}`} title={skill.title} icon={skill.logo} isFavorite={skill.isFavorite} />
+          ))}
+      </TabsContent>
+    ))
+  }
+
+  return (
+    <Tabs defaultValue='all' className='w-full'>
+      <TabsList>
+        {triggers.map((trigger, i) => (
+          <TabsTrigger key={`${i}-tabs-trigger`} value={trigger.value}>
+            {trigger.label}
+          </TabsTrigger>
+        ))}
+      </TabsList>
+
+      <TabsContent
+        className='flex w-full max-w-3xl flex-wrap justify-center gap-4 p-3 data-[state=inactive]:m-0 data-[state=inactive]:p-0 sm:min-w-72 lg:max-w-5xl'
+        value='all'
+      >
+        {skills.data.map((skill, i) => (
+          <SkillCard key={i} title={skill.title} icon={skill.logo} isFavorite={skill.isFavorite} />
+        ))}
+      </TabsContent>
+
+      {renderTabsContent({ triggers, skills: skills.data })}
+    </Tabs>
+  )
+}

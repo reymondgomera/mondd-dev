@@ -1,0 +1,106 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Entity {
+  code        String  @unique
+  name        String
+  description String?
+  parentCode  String?
+  isActive    Boolean @default(true)
+  isDefault   Boolean @default(false)
+  isParent    Boolean @default(false)
+  metadata    Json
+
+  parent      Entity?     @relation("EntityToEntity", fields: [parentCode], references: [code])
+  subEntities Entity[]    @relation("EntityToEntity")
+  references  Reference[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model Reference {
+  code        String  @unique
+  name        String
+  entityCode  String
+  description String?
+  parentCode  String?
+  isActive    Boolean @default(true)
+  isDefault   Boolean @default(false)
+  isParent    Boolean @default(false)
+  metadata    Json
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  entity        Entity      @relation(fields: [entityCode], references: [code])
+  parent        Reference?  @relation("ReferenceToReference", fields: [parentCode], references: [code])
+  subReferences Reference[] @relation("ReferenceToReference")
+  postType      Post[]      @relation("PostToReference")
+  skillType     Skill[]     @relation("SkillToReference")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  password  String
+  email     String   @unique
+  image     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  posts Post[]
+}
+
+model Post {
+  id          String   @id @default(uuid())
+  authorId    String
+  typeCode    String
+  title       String
+  description String
+  thumbnail   String
+  slug        String   @unique
+  body        String
+  tags        String[]
+  isFeatured  Boolean  @default(false)
+  isPublished Boolean  @default(false)
+  metadata    Json
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  author User      @relation(fields: [authorId], references: [id])
+  type   Reference @relation("PostToReference", fields: [typeCode], references: [code])
+}
+
+model Skill {
+  id         String  @id @default(uuid())
+  title      String
+  logo       String
+  typeCode   String
+  isFavorite Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  type Reference @relation("SkillToReference", fields: [typeCode], references: [code])
+}
+
+model Experience {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  tags        String[]
+  start       DateTime @db.Date
+  end         DateTime @db.Date
+  order       Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
