@@ -4,6 +4,7 @@ import { cn } from '@/lib'
 import { Badge } from './ui/badge'
 import Image from 'next/image'
 import BadgeGroup from './badge-group'
+import BlurImage from './blur-image'
 
 export const BentoGrid = ({ className, children }: { className?: string; children?: React.ReactNode }) => {
   return (
@@ -43,7 +44,7 @@ export const BentoGridItem = ({ thumbnail, title, description, creationDate, mad
         <BadgeGroup max={5} data={tags} badgeProps={{ variant: 'primary', size: 'sm' }} />
       </div>
 
-      <Image
+      <BlurImage
         className='absolute inset-0 rounded-xl transition-all group-hover/bento:-z-10 group-hover/bento:brightness-[15%]'
         src={thumbnail}
         alt={title}

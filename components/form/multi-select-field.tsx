@@ -91,12 +91,14 @@ export default function MultiSelectField<T extends FieldValues>({
 
   const selected = React.useMemo(() => {
     return getValues(name)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [watch(name)])
 
   const selectables = React.useMemo(() => {
     const selected = getValues(name)
 
     return data.filter((option) => !selected.includes(option.value))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [watch(name)])
 
   const getLabel = (value: string) => {

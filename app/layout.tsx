@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
+import { auth } from '@/auth'
 import { DM_Sans } from 'next/font/google'
+import { SessionProvider } from 'next-auth/react'
 
 import './globals.css'
 import { siteConfig } from '@/constant'
@@ -17,26 +19,30 @@ export const metadata: Metadata = {
   description: siteConfig.description
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const session = await auth()
+
   return (
     <html className='h-full scroll-smooth' lang='en' suppressHydrationWarning>
       <body className={`${dmSans.className} h-full`}>
-        <ThemeProvider
-          attribute='class'
-          defaultTheme='dark'
-          forcedTheme='dark'
-          enableSystem
-          disableTransitionOnChange
-          storageKey='mond-dev-theme'
-        >
-          {children}
+        <SessionProvider session={session}>
+          <ThemeProvider
+            attribute='class'
+            defaultTheme='dark'
+            forcedTheme='dark'
+            enableSystem
+            disableTransitionOnChange
+            storageKey='mond-dev-theme'
+          >
+            {children}
 
-          <TailwindIndicatorProvider />
-        </ThemeProvider>
+            <TailwindIndicatorProvider />
+          </ThemeProvider>
+        </SessionProvider>
 
         <ToastProvider />
       </body>

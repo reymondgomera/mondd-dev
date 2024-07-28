@@ -4,13 +4,13 @@ import { type ClassValue, clsx } from 'clsx'
 import { StoreApi, UseBoundStore } from 'zustand'
 import { shallow } from 'zustand/shallow'
 import { v4 as uuidv4 } from 'uuid'
-import { ZodObject, ZodRawShape, ZodType, ZodTypeAny } from 'zod'
+import { ZodEffects, ZodObject, ZodRawShape, ZodType, ZodTypeAny } from 'zod'
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-function capitalize(string: string) {
+export function capitalize(string: string) {
   return string.charAt(0).toUpperCase() + string.slice(1)
 }
 
@@ -40,9 +40,14 @@ type DefaultValues<T> = {
   [K in keyof T]: T[K] extends ZodType<any, any, infer U> ? (U extends null ? null : U) : never
 }
 
-export function getFormDefaultValues<T extends ZodRawShape>(schema: ZodObject<T>): DefaultValues<T> {
+export function getFormDefaultValues<T extends ZodRawShape>(schema: ZodObject<T> | ZodEffects<ZodObject<T>>): DefaultValues<T> {
+  let shape: ZodRawShape
+
+  if (schema instanceof ZodEffects) shape = schema._def.schema.shape
+  else shape = schema.shape
+
   return Object.fromEntries(
-    Object.entries(schema.shape).map(([key, fieldSchema]) => {
+    Object.entries(shape).map(([key, fieldSchema]) => {
       let value
 
       const typeName = fieldSchema._def.typeName
@@ -99,7 +104,11 @@ export function isFieldRequired<T extends ZodTypeAny>(name: string, schema: T) {
   function getField(schema: ZodTypeAny, path: string[]): ZodTypeAny | null {
     if (path.length === 0) return schema
 
-    const shape = (schema as ZodObject<any>)._def.shape()
+    let shape: ZodRawShape
+
+    if (schema instanceof ZodEffects) shape = schema._def.schema.shape
+    else shape = schema._def.shape()
+
     const field = shape[path[0]]
 
     if (!field) return null

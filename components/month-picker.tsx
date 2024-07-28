@@ -45,9 +45,8 @@ export default function MonthPicker({ className, currentMonth = new Date(), onMo
   }
 
   React.useEffect(() => {
-    console.log('rerender..')
-
     onMonthChange(currentMonth)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

@@ -1,8 +1,6 @@
 'use server'
 
-import createError from 'http-errors'
-
-import { db } from '@/lib'
+import { db, resolveAppError } from '@/lib'
 import { HttpSuccess } from '@/types'
 
 export async function getSkills() {
@@ -13,8 +11,7 @@ export async function getSkills() {
     })
 
     return { statusCode: 200, data: skills } as HttpSuccess<typeof skills>
-  } catch (error) {
-    console.error('[GET_SKILLS]: Internal Server Error')
-    throw createError(500, 'Internal Server Error')
+  } catch (err) {
+    throw resolveAppError(err, 'GET_SKILLS')
   }
 }

@@ -1,7 +1,6 @@
 'use client'
 
-import Image from 'next/image'
-import React, { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import Link from 'next/link'
 import { useInView, useScroll, useMotionValueEvent } from 'framer-motion'
 
@@ -11,6 +10,7 @@ import { Badge } from '@/components/ui/badge'
 import ContactMeButton from './contact-me-button'
 import FixedSocialNav from './fixed-social-nav'
 import { useNavigationStore } from '@/hooks'
+import BlurImage from '@/components/blur-image'
 
 export default function AboutSection() {
   const contactRef = useRef(null)
@@ -76,8 +76,8 @@ export default function AboutSection() {
 
         {/* hero image */}
         <div className='order-1 flex w-60 items-center justify-center xs:w-[400px] lg:order-2 lg:w-[560px]'>
-          <div className='relative rounded-full md:w-[320px]'>
-            <Image className='!relative' src='/images/mond.svg' alt='mond' fill />
+          <div className='relative min-h-[240px] rounded-full xs:min-h-[300px]  md:min-h-[320px] md:w-[320px]'>
+            <BlurImage className='!relative' src='/images/mond.svg' alt='mond' fill />
             <div className='absolute left-6 top-5 -z-10 size-48 animate-pulse rounded-full bg-teal-300/15 blur-2xl xs:left-14 xs:top-10 sm:left-10 sm:size-56 md:left-12' />
           </div>
         </div>

@@ -6,7 +6,7 @@ import { FormField, FormItem, FormLabel, FormDescription, FormControl, useFormSc
 import { FormExtendedProps } from '@/types'
 import { Icon, Icons } from '../icons'
 import { FileUploader } from '../file-uploader'
-import { MimeType } from '@/lib/mime-db'
+import { MimeType } from '@/lib'
 import { isFieldRequired } from '@/lib'
 
 type ExtendedProps = FormExtendedProps & {

@@ -3,7 +3,7 @@ import AsyncWrapper from '@/components/async-wrapper'
 import SectionWrapper from '@/components/section-wrapper'
 import SectionHeader from '@/components/section-header'
 import { ComponentErrorFallback } from '@/components/error-fallback'
-import { ExperienceSkilliton, ProjectSkilliton, SkillSkilliton } from '@/components/loading-fallback'
+import { BlogSkeleton, ExperienceSkeleton, ProjectSkeleton, SkillSkeleton } from '@/components/loading-fallback'
 import ContactForm from './_components/form/contact-form'
 import SkillTabs from './_components/skill-tabs'
 import ProjectBento from './_components/project-bento'
@@ -31,11 +31,11 @@ export default async function Home() {
                   title: "Oops! skill can't be loaded",
                   description: 'Something went wrong!',
                   className: 'p-2',
-                  icon: <Icons.triangleAlert className='size-14 text-destructive' />
+                  icon: <Icons.circleAlert className='size-14 text-destructive' />
                 }
               }
             }}
-            suspenseProps={{ fallback: <SkillSkilliton /> }}
+            suspenseProps={{ fallback: <SkillSkeleton /> }}
           >
             <SkillTabs />
           </AsyncWrapper>
@@ -56,11 +56,11 @@ export default async function Home() {
                 title: "Oops! project can't be loaded",
                 description: 'Something went wrong!',
                 className: 'p-2',
-                icon: <Icons.triangleAlert className='size-14 text-destructive' />
+                icon: <Icons.circleAlert className='size-14 text-destructive' />
               }
             }
           }}
-          suspenseProps={{ fallback: <ProjectSkilliton /> }}
+          suspenseProps={{ fallback: <ProjectSkeleton /> }}
         >
           <ProjectBento />
         </AsyncWrapper>
@@ -81,11 +81,11 @@ export default async function Home() {
                 title: "Oops! experience can't be loaded",
                 description: 'Something went wrong!',
                 className: 'p-2',
-                icon: <Icons.triangleAlert className='size-14 text-destructive' />
+                icon: <Icons.circleAlert className='size-14 text-destructive' />
               }
             }
           }}
-          suspenseProps={{ fallback: <ExperienceSkilliton /> }}
+          suspenseProps={{ fallback: <ExperienceSkeleton /> }}
         >
           <ExperienceTimeline />
         </AsyncWrapper>
@@ -98,7 +98,22 @@ export default async function Home() {
           <span className='font-bold text-slate-200'> web development</span>.
         </SectionHeader>
 
-        <BlogBento />
+        <AsyncWrapper
+          errorBoundaryProps={{
+            FallbackComponent: ComponentErrorFallback,
+            extendedProps: {
+              componentErrorFallback: {
+                title: "Oops! blog can't be loaded",
+                description: 'Something went wrong!',
+                className: 'p-2',
+                icon: <Icons.circleAlert className='size-14 text-destructive' />
+              }
+            }
+          }}
+          suspenseProps={{ fallback: <BlogSkeleton /> }}
+        >
+          <BlogBento />
+        </AsyncWrapper>
       </SectionWrapper>
 
       <SectionWrapper id='contact' className='landing-page-section' enableSyncNav>

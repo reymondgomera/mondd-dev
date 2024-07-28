@@ -1,16 +1,16 @@
 import React from 'react'
-
-import { ElementRef, useEffect, useRef, useState } from 'react'
-import { toast } from 'sonner'
+import Image from 'next/image'
 import Link from 'next/link'
-import { Icon, Icons } from './icons'
+import { toast } from 'sonner'
+import { ElementRef, useEffect, useRef, useState } from 'react'
+
 import { useMounted } from '@/hooks'
+import { MimeType } from '@/lib'
 import { byteFormatter, cn, getFileFromBlobUrl } from '@/lib'
+import { Icon, Icons } from './icons'
 import { ScrollArea } from './ui/scroll-area'
 import { Button } from './ui/button'
-import Image from 'next/image'
 import { Input } from './ui/input'
-import { MimeType } from '@/lib/mime-db'
 
 export type UnSupportedType = Extract<MimeType, `image/${string}`>
 
@@ -114,6 +114,7 @@ export default function ImageUploader({
       setUploadedFiles([])
       setIsInitializingData(false)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   if (!mounted) return null
