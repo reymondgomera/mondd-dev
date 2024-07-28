@@ -4,7 +4,7 @@ import { ElementRef, useEffect, useRef, useState } from 'react'
 import { toast } from 'sonner'
 import Link from 'next/link'
 
-import { MimeType, mimeTypesInternal } from '@/lib/mime-db'
+import { MimeType, mimeTypesInternal } from '@/lib'
 import { useMounted } from '@/hooks/use-mounted'
 import { byteFormatter, cn, getFileFromBlobUrl } from '@/lib'
 import { Input } from './ui/input'
@@ -113,6 +113,7 @@ export function FileUploader({
       setUploadedFiles([])
       setIsInitializingData(false)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   if (!mounted) return null

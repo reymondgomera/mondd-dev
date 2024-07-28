@@ -61,9 +61,8 @@ const config = {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))'
         },
-
-        'base-primary': 'hsl(var(--base))',
-        'base-dark': 'hsl(var(--base-dark))',
+        'base-primary': 'hsl(var(--base), <alpha-value>)',
+        'base-dark': 'hsl(var(--base-dark), <alpha-value>)',
         'slate-subtle-1': 'hsla(var(--slate-subtle-1))',
         'slate-subtle-2': 'hsla(var(--slate-subtle-2))'
       },
