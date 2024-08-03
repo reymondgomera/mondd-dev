@@ -23,10 +23,7 @@ export default function Nav({ items }: NavProps) {
       <nav className='container flex justify-between'>
         {/* logo */}
         <Link href='/' className='hidden lg:inline-flex lg:items-center' onClick={() => setHash('')}>
-          <h1 className='text-lg font-bold'>
-            <span>mond.</span>
-            <span className='text-teal-300'>dev</span>
-          </h1>
+          <img alt='logo' src='/images/logo-text-default.svg' className='h-4' />
         </Link>
 
         <div className='hidden lg:flex lg:gap-3'>

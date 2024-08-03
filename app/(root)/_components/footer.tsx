@@ -1,14 +1,37 @@
+'use client'
+
 import Link from 'next/link'
+import { useTheme } from 'next-themes'
 
 import { Icons } from '@/components/icons'
 import { navItems, siteConfig } from '@/constant'
+import { cn } from '@/lib'
 
-export default function Footer() {
+type FooterProps = {
+  showNav?: boolean
+  className?: string
+}
+
+export default function Footer({ showNav, className }: FooterProps) {
+  const { theme } = useTheme()
+
   return (
-    <footer className='flex flex-col border border-t border-slate-500/15'>
-      <div className='container flex flex-col gap-y-4 bg-base-primary py-6 lg:flex-row lg:justify-between lg:gap-0'>
+    <footer className={cn('flex flex-col border border-t border-slate-500/15', className)}>
+      <div
+        className={cn(
+          'container flex flex-col gap-y-4 py-6 dark:bg-base-primary lg:flex-row lg:justify-between lg:gap-0',
+          !showNav ? 'hidden' : 'flex'
+        )}
+      >
         <div className='flex flex-col items-center gap-y-3 lg:items-start'>
-          <Icons.logo />
+          <Link href='/'>
+            <img
+              src={theme === 'light' ? '/images/logo-text-dark.svg' : '/images/logo-text-default.svg'}
+              alt='logo'
+              className='h-4 w-auto'
+            />
+          </Link>
+
           <div className='flex gap-3'>
             <Link className='group transition-all hover:scale-125' href={siteConfig.socials.github} target='_blank'>
               <Icons.social.github className='size-5 fill-current text-slate-400 group-hover:text-slate-200' />
@@ -40,11 +63,11 @@ export default function Footer() {
             : null}
         </div>
       </div>
-      <div className='flex justify-center bg-base-dark py-3'>
+      <div className='flex justify-center bg-base-dark/80 py-3 dark:bg-base-dark'>
         <div className='flex gap-1 text-sm'>
-          <span>© 2024, Made with</span>
+          <span className='text-white'>© 2024, Made with</span>
           <img src='/images/heart.svg' alt='heart' />
-          <span> by</span>
+          <span className='text-white'> by</span>
           <span className='font-semibold text-teal-300'>mond</span>
         </div>
       </div>

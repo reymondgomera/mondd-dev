@@ -1,4 +1,4 @@
-import { Icon } from '@/components/icons'
+import { Icon, Icons } from '@/components/icons'
 
 export const socials = {
   facebook: 'https://www.facebook.com/raymond.gomera',
@@ -30,24 +30,25 @@ export type NavItem = {
 }
 
 export const navItems: NavItem[] = [
-  {
-    title: 'Skill',
-    href: '#skill'
-  },
-  {
-    title: 'Project',
-    href: '#project'
-  },
-  {
-    title: 'Experience',
-    href: '#experience'
-  },
-  {
-    title: 'Blog',
-    href: '#blog'
-  },
-  {
-    title: 'Contact',
-    href: '#contact'
-  }
+  { title: 'Skill', href: '#skill' },
+  { title: 'Project', href: '#project' },
+  { title: 'Experience', href: '#experience' },
+  { title: 'Blog', href: '#blog' },
+  { title: 'Contact', href: '#contact' }
+]
+
+export type SidebarNavItem = {
+  title: string
+  href: string
+  icon?: Icon
+  disabled?: boolean
+}
+
+export const sidebarNavItems: SidebarNavItem[] = [
+  { title: 'Overview', href: '/dashboard', icon: Icons.dashboard },
+  { title: 'Account', href: '/dashboard/account', icon: Icons.user },
+  { title: 'Project', href: '/dashboard/post/project', icon: Icons.code },
+  { title: 'Blog', href: '/dashboard/post/blog', icon: Icons.notebookPen },
+  { title: 'Skill', href: '/dashboard/skill', icon: Icons.bulb },
+  { title: 'Experience', href: '/dashboard/experience', icon: Icons.clock }
 ]
