@@ -1,4 +1,5 @@
 import { Icons } from '@/components/icons'
+import Link from 'next/link'
 
 type AuthLeftSideProps = {
   subtitle?: string
@@ -8,7 +9,10 @@ export default function AuthLeftSide({ subtitle }: AuthLeftSideProps) {
   return (
     <div className='relative hidden h-full w-[50%] bg-base-primary lg:flex lg:items-center lg:justify-center'>
       <div className='relative flex flex-col items-center justify-center gap-y-1'>
-        <Icons.logo className='h-10 w-40' />
+        <Link href='/'>
+          <img src='/images/logo-text-default.svg' alt='logo' className='h-[25px] w-auto' />
+        </Link>
+
         {subtitle ? <p className='text-center text-sm text-slate-400'>"{subtitle}"</p> : null}
         <div className='absolute -top-8 left-[calc(50%-45px)] size-28 rounded-full bg-teal-300/10 blur-xl' />
       </div>

@@ -78,6 +78,10 @@
   * {
     @apply border-border;
   }
+  *::selection {
+    @apply bg-teal-300;
+    @apply text-base-primary;
+  }
   body {
     @apply bg-background text-foreground;
   }
