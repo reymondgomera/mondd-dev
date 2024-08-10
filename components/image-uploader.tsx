@@ -5,8 +5,8 @@ import { toast } from 'sonner'
 import { ElementRef, useEffect, useRef, useState } from 'react'
 
 import { useMounted } from '@/hooks'
-import { MimeType } from '@/lib'
-import { byteFormatter, cn, getFileFromBlobUrl } from '@/lib'
+import { MimeType, formatByte } from '@/lib'
+import { cn, getFileFromBlobUrl } from '@/lib'
 import { Icon, Icons } from './icons'
 import { ScrollArea } from './ui/scroll-area'
 import { Button } from './ui/button'
@@ -401,7 +401,7 @@ export default function ImageUploader({
                     {obj.file.name}
                   </Link>
 
-                  <p className='text-xs text-gray-500'>{byteFormatter.format(obj.file.size)}</p>
+                  <p className='text-xs text-gray-500'>{formatByte(obj.file.size)}</p>
                 </div>
                 <Button
                   type='button'

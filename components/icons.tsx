@@ -37,10 +37,14 @@ import {
   User,
   Code2,
   NotebookPen,
-  Clock
+  Clock,
+  LucideProps,
+  TrendingUp,
+  TrendingDown
 } from 'lucide-react'
 
 export type Icon = LucideIcon
+export type IconProps = LucideProps
 export type LocalIcon = { className?: string }
 
 export const Icons = {
@@ -81,6 +85,8 @@ export const Icons = {
   code: Code2,
   user: User,
   dashboard: PanelsLeftBottom,
+  trendUp: TrendingUp,
+  trendDown: TrendingDown,
   fileText: ({ className }: LocalIcon) => (
     <svg className={className} viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
       <path

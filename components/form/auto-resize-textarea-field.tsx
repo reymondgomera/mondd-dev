@@ -2,6 +2,7 @@
 
 import { Control, FieldPath, FieldValues } from 'react-hook-form'
 
+import { cn, getClassName, omitClassName } from '@/lib'
 import { FormField, FormItem, FormLabel, FormDescription, FormControl, FormMessage } from '../ui/form'
 import { FormExtendedProps } from '@/types'
 import AutoResizeTextarea, { AutoResizeTextareaProps } from '../custom/auto-resize-textarea'
@@ -34,12 +35,16 @@ export default function AutoResizeTextAreaField<T extends FieldValues>({
       name={name}
       render={({ field }) => {
         return (
-          <FormItem className='space-y-2' {...extendedProps?.itemProps}>
-            <FormLabel className='space-x-1' {...extendedProps?.labelProps}>
+          <FormItem className={cn('space-y-2', getClassName(extendedProps?.itemProps))} {...omitClassName(extendedProps?.itemProps)}>
+            <FormLabel className={cn('space-x-1', getClassName(extendedProps?.labelProps))} {...omitClassName(extendedProps?.labelProps)}>
               {label}
             </FormLabel>
             <FormControl>
-              <AutoResizeTextarea className='placeholder:capitalize' {...field} {...extendedProps?.autoResizeTextAreaProps} />
+              <AutoResizeTextarea
+                className={cn('placeholder:capitalize', getClassName(extendedProps?.autoResizeTextAreaProps))}
+                {...field}
+                {...omitClassName(extendedProps?.autoResizeTextAreaProps)}
+              />
             </FormControl>
             {description && <FormDescription {...extendedProps?.descriptionProps}>{description}</FormDescription>}
             <FormMessage {...extendedProps?.messageProps} />

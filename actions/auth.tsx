@@ -15,7 +15,7 @@ import {
 } from '@/schema'
 import { HttpSuccess } from '@/types'
 import { action, db, resend, resolveAppError } from '@/lib'
-import { signIn } from '@/auth'
+import { auth, signIn } from '@/auth'
 import { DEFAULT_LOGIN_REDIRECT } from '@/constant'
 import {
   generatePasswordResetToken,
@@ -25,10 +25,15 @@ import {
   getTwoFactorTokenByEmail,
   getVerificationTokenByToken
 } from './token'
-import { getUserByEmail } from '.'
+import { getUserByEmail } from './user'
 import EmailConfirmationEmail from '@/components/email/email-confirmation'
 import PasswordResetEmail from '@/components/email/password-reset'
 import TwoFactorAuthEmail from '@/components/email/two-factor-auth'
+
+export async function getCurrentUser() {
+  const session = await auth()
+  return session?.user
+}
 
 const signupUser = action.schema(signupFormSchema).action(async ({ parsedInput: data }) => {
   try {
@@ -63,7 +68,7 @@ const signupUser = action.schema(signupFormSchema).action(async ({ parsedInput: 
 })
 
 const signinUser = action.schema(signinFormSchema).action(async ({ parsedInput: data }) => {
-  const { email, password } = data
+  const { email, password, callbackUrl } = data
 
   const user = await getUserByEmail(email)
 
@@ -93,7 +98,7 @@ const signinUser = action.schema(signinFormSchema).action(async ({ parsedInput: 
       email,
       password,
       redirect: user.isTwoFactorEnabled ? false : true,
-      redirectTo: DEFAULT_LOGIN_REDIRECT
+      redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT
     })
 
     //* send 2FA email if user has 2FA enabled

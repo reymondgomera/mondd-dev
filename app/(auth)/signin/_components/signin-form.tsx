@@ -26,12 +26,13 @@ export default function SigninForm() {
   const [isGoogleSigninLoading, setIsGoogleSigninLoading] = useState<boolean>(false)
 
   const searchParams = useSearchParams()
+  const callbackUrl = searchParams.get('callbackUrl')
 
   const { executeAsync, isExecuting } = useAction(signinUser)
 
   const form = useForm<SigninForm>({
     mode: 'onChange',
-    defaultValues: getFormDefaultValues(signinFormSchema),
+    defaultValues: { ...getFormDefaultValues(signinFormSchema), callbackUrl },
     resolver: zodResolver(signinFormSchema)
   })
 
@@ -112,7 +113,7 @@ export default function SigninForm() {
             isLoading={isGoogleSigninLoading}
             onClick={() => {
               setIsGoogleSigninLoading(true)
-              signIn('google', { callbackUrl: DEFAULT_LOGIN_REDIRECT })
+              signIn('google', { callbackUrl: callbackUrl || DEFAULT_LOGIN_REDIRECT })
             }}
           >
             <FcGoogle className='mr-2 h-4 w-4' />

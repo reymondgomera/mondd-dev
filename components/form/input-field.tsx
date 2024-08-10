@@ -2,9 +2,10 @@
 
 import { Control, FieldPath, FieldValues } from 'react-hook-form'
 
+import { cn, getClassName, omitClassName } from '@/lib'
 import { FormField, FormItem, FormLabel, FormDescription, FormControl, FormMessage } from '../ui/form'
-import { Input, InputProps } from '../ui/input'
 import { FormExtendedProps } from '@/types'
+import { Input, InputProps } from '../ui/input'
 
 type ExtendedProps = FormExtendedProps & { inputProps?: InputProps }
 
@@ -16,8 +17,6 @@ type InputFieldProps<TFieldValues extends FieldValues = FieldValues, TName exten
   extendedProps?: ExtendedProps
 }
 
-//? if className is passed among the properties of extendedProps, the specified or default className will be overridden
-
 export default function InputField<T extends FieldValues>({ control, name, label, description, extendedProps }: InputFieldProps<T>) {
   return (
     <FormField
@@ -25,12 +24,16 @@ export default function InputField<T extends FieldValues>({ control, name, label
       name={name}
       render={({ field }) => {
         return (
-          <FormItem className='space-y-2' {...extendedProps?.itemProps}>
-            <FormLabel className='space-x-1' {...extendedProps?.labelProps}>
+          <FormItem className={cn('space-y-2', getClassName(extendedProps?.itemProps))} {...omitClassName(extendedProps?.itemProps)}>
+            <FormLabel className={cn('space-x-1', getClassName(extendedProps?.labelProps))} {...omitClassName(extendedProps?.labelProps)}>
               {label}
             </FormLabel>
             <FormControl>
-              <Input className='placeholder:capitalize' {...field} {...extendedProps?.inputProps} />
+              <Input
+                className={cn('placeholder:capitalize', getClassName(extendedProps?.inputProps))}
+                {...field}
+                {...omitClassName(extendedProps?.inputProps)}
+              />
             </FormControl>
             {description && <FormDescription {...extendedProps?.descriptionProps}>{description}</FormDescription>}
             <FormMessage {...extendedProps?.messageProps} />

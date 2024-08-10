@@ -4,9 +4,9 @@ import { ElementRef, useEffect, useRef, useState } from 'react'
 import { toast } from 'sonner'
 import Link from 'next/link'
 
-import { MimeType, mimeTypesInternal } from '@/lib'
+import { MimeType, formatByte, mimeTypesInternal } from '@/lib'
 import { useMounted } from '@/hooks/use-mounted'
-import { byteFormatter, cn, getFileFromBlobUrl } from '@/lib'
+import { cn, getFileFromBlobUrl } from '@/lib'
 import { Input } from './ui/input'
 import { Button } from './ui/button'
 import { ScrollArea } from './ui/scroll-area'
@@ -385,7 +385,7 @@ export function FileUploader({
                   <Link href={obj.url} target='_blank' className='line-clamp-1 w-full text-xs hover:underline'>
                     {obj.file.name}
                   </Link>
-                  <p className='text-xs text-gray-500'>{byteFormatter.format(obj.file.size)}</p>
+                  <p className='text-xs text-gray-500'>{formatByte(obj.file.size)}</p>
                 </div>
                 <Button
                   variant='ghost'

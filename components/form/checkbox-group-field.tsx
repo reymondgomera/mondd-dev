@@ -2,6 +2,7 @@
 
 import { Control, FieldPath, FieldValues } from 'react-hook-form'
 
+import { cn, getClassName, omitClassName } from '@/lib'
 import { FormField, FormItem, FormLabel, FormDescription, FormControl, FormMessage, FormItemProps, FormLabelProps } from '../ui/form'
 import { FormExtendedProps, FormOption } from '@/types'
 import { Checkbox, CheckboxProps } from '../ui/checkbox'
@@ -41,12 +42,15 @@ export default function CheckboxGroupField<T extends FieldValues>({
       name={name}
       render={() => {
         return (
-          <FormItem className='space-y-2' {...extendedProps?.itemProps}>
-            <FormLabel className='space-x-1' {...extendedProps?.labelProps}>
+          <FormItem className={cn('space-y-2', getClassName(extendedProps?.itemProps))} {...omitClassName(extendedProps?.itemProps)}>
+            <FormLabel className={cn('space-x-1', getClassName(extendedProps?.labelProps))} {...omitClassName(extendedProps?.labelProps)}>
               {label}
             </FormLabel>
 
-            <div className='flex flex-col gap-y-2' {...extendedProps?.checkboxGroupProps}>
+            <div
+              className={cn('flex flex-col gap-y-2', getClassName(extendedProps?.checkboxGroupProps))}
+              {...omitClassName(extendedProps?.checkboxGroupProps)}
+            >
               {!isLoading &&
                 data &&
                 data.length > 0 &&
@@ -59,8 +63,11 @@ export default function CheckboxGroupField<T extends FieldValues>({
                       return (
                         <FormItem
                           key={`${i}-${item.value}`}
-                          className='flex flex-row items-start space-x-3 space-y-0'
-                          {...extendedProps?.checkboxGroupFormItemProps}
+                          className={cn(
+                            'flex flex-row items-start space-x-3 space-y-0',
+                            getClassName(extendedProps?.checkboxGroupFormItemProps)
+                          )}
+                          {...omitClassName(extendedProps?.checkboxGroupFormItemProps)}
                         >
                           <FormControl>
                             <Checkbox
@@ -73,7 +80,11 @@ export default function CheckboxGroupField<T extends FieldValues>({
                               {...extendedProps?.checkboxGroupItemProps}
                             />
                           </FormControl>
-                          <FormLabel className='font-normal' noAsterisk {...extendedProps?.checkboxGroupFormLabelProps}>
+                          <FormLabel
+                            className={cn('font-normal', getClassName(extendedProps?.checkboxGroupFormLabelProps))}
+                            noAsterisk
+                            {...omitClassName(extendedProps?.checkboxGroupFormLabelProps)}
+                          >
                             {item.label}
                           </FormLabel>
                         </FormItem>

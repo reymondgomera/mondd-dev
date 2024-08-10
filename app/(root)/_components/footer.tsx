@@ -8,21 +8,15 @@ import { navItems, siteConfig } from '@/constant'
 import { cn } from '@/lib'
 
 type FooterProps = {
-  showNav?: boolean
   className?: string
 }
 
-export default function Footer({ showNav, className }: FooterProps) {
+export default function Footer({ className }: FooterProps) {
   const { theme } = useTheme()
 
   return (
     <footer className={cn('flex flex-col border border-t border-slate-500/15', className)}>
-      <div
-        className={cn(
-          'container flex flex-col gap-y-4 py-6 dark:bg-base-primary lg:flex-row lg:justify-between lg:gap-0',
-          !showNav ? 'hidden' : 'flex'
-        )}
-      >
+      <div className={cn('container flex flex-col gap-y-4 py-6 dark:bg-base-primary lg:flex-row lg:justify-between lg:gap-0')}>
         <div className='flex flex-col items-center gap-y-3 lg:items-start'>
           <Link href='/'>
             <img

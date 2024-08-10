@@ -2,6 +2,7 @@
 
 import { Control, FieldPath, FieldValues } from 'react-hook-form'
 
+import { cn, getClassName, omitClassName } from '@/lib'
 import { FormExtendedProps, FormOption } from '@/types'
 import { ButtonProps } from '../ui/button'
 import { FormField, FormItem, FormLabel, FormDescription, FormControl, FormMessage } from '../ui/form'
@@ -48,8 +49,8 @@ export default function SelectField<T extends FieldValues>({
       name={name}
       render={({ field }) => {
         return (
-          <FormItem className='space-y-2' {...extendedProps?.itemProps}>
-            <FormLabel className='space-x-1' {...extendedProps?.labelProps}>
+          <FormItem className={cn('space-y-2', getClassName(extendedProps?.itemProps))} {...omitClassName(extendedProps?.itemProps)}>
+            <FormLabel className={cn('space-x-1', getClassName(extendedProps?.labelProps))} {...omitClassName(extendedProps?.labelProps)}>
               {label}
             </FormLabel>
             <Select onValueChange={field.onChange} defaultValue={field.value} {...extendedProps?.selectProps}>

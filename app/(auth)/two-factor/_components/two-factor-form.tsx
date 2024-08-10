@@ -7,7 +7,7 @@ import { useAction } from 'next-safe-action/hooks'
 
 import { verifyTwoFactorCodeFormSchema } from '@/schema'
 import type { VerifyTwoFactorCodeForm } from '@/schema'
-import { getFormDefaultValues, useCurrentUser } from '@/lib'
+import { getFormDefaultValues } from '@/lib'
 import { Form } from '@/components/ui/form'
 import { default as CustomButton } from '@/components/custom/button'
 import { Button } from '@/components/ui/button'
@@ -15,10 +15,10 @@ import { DEFAULT_LOGIN_REDIRECT } from '@/constant'
 import { useRouter } from 'next/navigation'
 import { resendCode, verifyTwoFactorCode } from '@/actions'
 import Alert from '@/components/custom/alert'
-import TwoFactorFormFields from './two-factor-form-fields'
-import { useMounted } from '@/hooks'
+import { useCurrentUser, useMounted } from '@/hooks'
 import CountDown from '@/components/countdown'
 import { Icons } from '@/components/icons'
+import TwoFactorFormFields from './two-factor-form-fields'
 
 export default function TwoFactorForm() {
   const [error, setError] = useState<string | undefined>()

@@ -7,7 +7,7 @@ import authConfig from './auth.config'
 import { getAccountByUserId, getUserById } from './actions'
 
 //* module augmentation for next-auth
-type ExtendedUser = {
+export type ExtendedUser = {
   id: string
   name: string | null
   email: string
