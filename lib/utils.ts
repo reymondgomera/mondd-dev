@@ -152,3 +152,8 @@ export async function getFileFromBlobUrl(url: string) {
 
   return new File([blob], uuidv4(), { type: blob.type })
 }
+
+export function extractFileKeyFromUrl(url: string) {
+  if (url) return url.split('/').pop() ?? ''
+  return ''
+}

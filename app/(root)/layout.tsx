@@ -13,7 +13,7 @@ export default function HomeLayout({ children }: { children: React.ReactNode }) 
         <main id='main-content' className='flex-1'>
           {children}
         </main>
-        <Footer showNav />
+        <Footer />
       </div>
     </>
   )

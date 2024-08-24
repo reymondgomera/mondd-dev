@@ -2,12 +2,14 @@ import type { Metadata } from 'next'
 import { auth } from '@/auth'
 import { DM_Sans } from 'next/font/google'
 import { SessionProvider } from 'next-auth/react'
+import Script from 'next/script'
 
-import './globals.css'
 import { siteConfig } from '@/constant'
 import { ThemeProvider } from '@/components/provider/theme-provider'
 import ToastProvider from '@/components/provider/toast-provider'
 import TailwindIndicatorProvider from '@/components/provider/tailwind-indicator-provider'
+
+import './styles/index.css'
 
 const dmSans = DM_Sans({
   subsets: ['latin'],
@@ -46,6 +48,15 @@ export default async function RootLayout({
 
         <ToastProvider />
       </body>
+
+      <Script>
+        {`
+          // rich-text-editor image fallback on error
+          const handleError = (e) => {
+            if (e) e.alt = 'Image not found'
+          }
+        `}
+      </Script>
     </html>
   )
 }

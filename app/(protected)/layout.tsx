@@ -15,7 +15,6 @@ export default async function ProtectedRouteLayout({ children }: { children: Rea
     <div className='flex h-full w-full flex-col'>
       <Navbar />
 
-      {/* //TODO fix sidebar height when fixed */}
       <div className='mt-20 flex h-fit px-6 py-6 sm:px-10 lg:px-20'>
         <div className='fixed bottom-6 top-[calc(80px+1.5rem)] z-[200] max-[1200px]:hidden'>
           <Sidebar />
