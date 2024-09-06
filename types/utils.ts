@@ -2,10 +2,13 @@ import { Schema } from 'zod'
 
 export type ExcludeFromArray<T extends any[], toExclude> = Exclude<T[number], toExclude>[]
 
-//? Takes an object type and makes it more readable.
+//* Takes an object type and makes it more readable.
 export type Prettify<T> = {
   [K in keyof T]: T[K]
 } & {}
 
-//? Returns type or promise of type.
+//* Returns type or promise of type.
 export type MaybePromise<T> = Promise<T> | T
+
+//* Return the type of a value in object.
+export type ValueOf<T> = T[keyof T]

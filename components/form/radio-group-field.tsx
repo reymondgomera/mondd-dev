@@ -2,6 +2,7 @@
 
 import { Control, FieldPath, FieldValues } from 'react-hook-form'
 
+import { cn, getClassName, omitClassName } from '@/lib'
 import { FormField, FormItem, FormLabel, FormDescription, FormControl, FormMessage, FormItemProps, FormLabelProps } from '../ui/form'
 import { FormExtendedProps, FormOption } from '@/types'
 import { RadioGroup, RadioGroupItem, RadioGroupItemProps, RadioGroupProps } from '../ui/radio-group'
@@ -26,8 +27,6 @@ type RadioGroupFieldProps<
   extendedProps?: ExtendedProps
 }
 
-//? if className is passed among the properties of extendedProps, the specified or default className will be overridden
-
 export default function RadioGroupField<T extends FieldValues>({
   data,
   isLoading,
@@ -43,16 +42,16 @@ export default function RadioGroupField<T extends FieldValues>({
       name={name}
       render={({ field }) => {
         return (
-          <FormItem className='space-y-2' {...extendedProps?.itemProps}>
-            <FormLabel className='space-x-1' {...extendedProps?.labelProps}>
+          <FormItem className={cn('space-y-2', getClassName(extendedProps?.itemProps))} {...omitClassName(extendedProps?.itemProps)}>
+            <FormLabel className={cn('space-x-1', getClassName(extendedProps?.labelProps))} {...omitClassName(extendedProps?.labelProps)}>
               {label}
             </FormLabel>
             <FormControl>
               <RadioGroup
                 onValueChange={field.onChange}
                 defaultValue={field.value}
-                className='flex flex-col space-y-1'
-                {...extendedProps?.radioGroupProps}
+                className={cn('flex flex-col space-y-1', getClassName(extendedProps?.radioGroupProps))}
+                {...omitClassName(extendedProps?.radioGroupProps)}
               >
                 {!isLoading &&
                   data &&
@@ -60,13 +59,17 @@ export default function RadioGroupField<T extends FieldValues>({
                   data.map((item, i) => (
                     <FormItem
                       key={`${i}-${item.value}`}
-                      className='flex items-center space-x-3 space-y-0'
-                      {...extendedProps?.radioGroupFormItemProps}
+                      className={cn('flex items-center space-x-3 space-y-0', getClassName(extendedProps?.radioGroupFormItemProps))}
+                      {...omitClassName(extendedProps?.radioGroupFormItemProps)}
                     >
                       <FormControl>
                         <RadioGroupItem value={item.value} {...extendedProps?.radioGroupItemProps} />
                       </FormControl>
-                      <FormLabel className='font-normal' noAsterisk {...extendedProps?.radioGroupFormLabelProps}>
+                      <FormLabel
+                        className={cn('font-normal', getClassName(extendedProps?.radioGroupFormLabelProps))}
+                        noAsterisk
+                        {...omitClassName(extendedProps?.radioGroupFormLabelProps)}
+                      >
                         {item.label}
                       </FormLabel>
                     </FormItem>

@@ -19,8 +19,9 @@ import {
   CommandProps
 } from '@/components/ui/command'
 import { Command as CommandPrimitive } from 'cmdk'
-import { FormField, FormItem, FormLabel, FormDescription, FormControl, FormMessage } from '../ui/form'
 import { FormExtendedProps, FormOption } from '@/types'
+import { cn, getClassName, omitClassName } from '@/lib'
+import { FormField, FormItem, FormLabel, FormDescription, FormControl, FormMessage } from '../ui/form'
 
 type ExtendedProps = FormExtendedProps & {
   commandProps?: CommandProps
@@ -46,8 +47,6 @@ type MultiSelectFieldProps<
   description?: string
   extendedProps?: ExtendedProps
 }
-
-//? if className is passed among the properties of extendedProps, the specified or default className will be overridden
 
 export default function MultiSelectField<T extends FieldValues>({
   data,
@@ -112,24 +111,30 @@ export default function MultiSelectField<T extends FieldValues>({
       name={name}
       render={({ field }) => {
         return (
-          <FormItem className='space-y-2' {...extendedProps?.itemProps}>
-            <FormLabel className='space-x-1' {...extendedProps?.labelProps}>
+          <FormItem className={cn('space-y-2', getClassName(extendedProps?.itemProps))} {...omitClassName(extendedProps?.itemProps)}>
+            <FormLabel className={cn('space-x-1', getClassName(extendedProps?.labelProps))} {...omitClassName(extendedProps?.labelProps)}>
               {label}
             </FormLabel>
             <FormControl>
               <Command
                 onKeyDown={(e) => handleKeyDown(e, field.value, field.onChange)}
-                className='overflow-visible bg-transparent'
-                {...extendedProps?.commandProps}
+                className={cn('overflow-visible bg-transparent', getClassName(extendedProps?.commandProps))}
+                {...omitClassName(extendedProps?.commandProps)}
               >
                 <div className='group rounded-md border border-input px-3 py-2 text-sm ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2'>
-                  <div className='flex flex-wrap gap-1' {...extendedProps?.badgeGroupProps}>
+                  <div
+                    className={cn('flex flex-wrap gap-1', getClassName(extendedProps?.badgeGroupProps))}
+                    {...omitClassName(extendedProps?.badgeGroupProps)}
+                  >
                     {selected.map((value: string) => {
                       return (
                         <Badge key={value} variant='secondary' {...extendedProps?.badgeGroupItemProps}>
                           {getLabel(value)}
                           <button
-                            className='ml-1 rounded-full outline-none ring-offset-background focus:ring-2 focus:ring-ring focus:ring-offset-2'
+                            className={cn(
+                              'ml-1 rounded-full outline-none ring-offset-background focus:ring-2 focus:ring-ring focus:ring-offset-2',
+                              getClassName(extendedProps?.badgeGroupItemButton)
+                            )}
                             onKeyDown={(e) => {
                               if (e.key === 'Enter') {
                                 handleUnselect(field.value, value, field.onChange)
@@ -140,7 +145,7 @@ export default function MultiSelectField<T extends FieldValues>({
                               e.stopPropagation()
                             }}
                             onClick={() => handleUnselect(field.value, value, field.onChange)}
-                            {...extendedProps?.badgeGroupItemButton}
+                            {...omitClassName(extendedProps?.badgeGroupItemButton)}
                           >
                             <X className='h-3 w-3 text-muted-foreground hover:text-foreground' />
                           </button>
@@ -155,8 +160,11 @@ export default function MultiSelectField<T extends FieldValues>({
                       onBlur={() => setOpen(false)}
                       onFocus={() => setOpen(true)}
                       placeholder={`Select ${label}...`}
-                      className='ml-2 flex-1 bg-transparent outline-none placeholder:text-muted-foreground'
-                      {...extendedProps?.commandInputProps}
+                      className={cn(
+                        'ml-2 flex-1 bg-transparent outline-none placeholder:text-muted-foreground',
+                        getClassName(extendedProps?.commandInputProps)
+                      )}
+                      {...omitClassName(extendedProps?.commandInputProps)}
                     />
                   </div>
                 </div>
@@ -167,7 +175,10 @@ export default function MultiSelectField<T extends FieldValues>({
                       <div className='absolute top-0 z-10 w-full rounded-md border bg-popover text-popover-foreground shadow-md outline-none animate-in'>
                         {isLoading && <CommandEmpty {...extendedProps?.commandEmptyProps}>Loading...</CommandEmpty>}
 
-                        <CommandGroup className='h-full overflow-auto' {...extendedProps?.commandGroupProps}>
+                        <CommandGroup
+                          className={cn('h-full overflow-auto', getClassName(extendedProps?.commandGroupProps))}
+                          {...omitClassName(extendedProps?.commandGroupProps)}
+                        >
                           {!isLoading &&
                             selectables.map((option) => {
                               return (
@@ -181,8 +192,8 @@ export default function MultiSelectField<T extends FieldValues>({
                                     setInputValue('')
                                     field.onChange([...field.value, option.value])
                                   }}
-                                  className={'cursor-pointer'}
-                                  {...extendedProps?.commandItemProps}
+                                  className={cn('cursor-pointer', getClassName(extendedProps?.commandItemProps))}
+                                  {...omitClassName(extendedProps?.commandItemProps)}
                                 >
                                   {option.label}
                                 </CommandItem>

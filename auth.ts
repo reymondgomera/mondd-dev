@@ -7,7 +7,7 @@ import authConfig from './auth.config'
 import { getAccountByUserId, getUserById } from './actions'
 
 //* module augmentation for next-auth
-type ExtendedUser = {
+export type ExtendedUser = {
   id: string
   name: string | null
   email: string
@@ -45,7 +45,7 @@ export const callbacks: NextAuthConfig['callbacks'] = {
 
     return true
   },
-  jwt: async ({ token }) => {
+  jwt: async ({ token, session, trigger }) => {
     if (!token.sub) return token
 
     const existingUser = await getUserById(token.sub)
@@ -57,6 +57,8 @@ export const callbacks: NextAuthConfig['callbacks'] = {
     const { id, name, email, image, roleCode, emailVerified, isTwoFactorEnabled, isTwoFactorVerified } = existingUser
 
     token.user = { id, name, email, roleCode, image, emailVerified, isTwoFactorEnabled, isTwoFactorVerified, isOAuth: !!existingAccount }
+
+    if (trigger === 'update') token.user = session.user as ExtendedUser
 
     return token
   },

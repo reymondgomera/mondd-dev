@@ -7,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useAction } from 'next-safe-action/hooks'
 
 import { getFormDefaultValues } from '@/lib'
-import { ForgotPasswordForm, forgotPasswordFormSchema } from '@/schema'
+import { type ForgotPasswordForm, forgotPasswordFormSchema } from '@/schema'
 import { Form } from '@/components/ui/form'
 import { default as CustomButton } from '@/components/custom/button'
 import { forgotPassword } from '@/actions'
@@ -27,28 +27,29 @@ export default function ForgotPasswordForm() {
     resolver: zodResolver(forgotPasswordFormSchema)
   })
 
-  const handleSubmit = async (data: ForgotPasswordForm) => {
+  async function handleSubmit(formValues: ForgotPasswordForm) {
     setError('')
     setSuccess('')
 
     try {
-      const response = await executeAsync(data)
+      const response = await executeAsync(formValues)
+      const result = response?.data
 
-      if (!response || !response.data) {
+      if (!response || !result) {
         setError('Failed to send reset password email! Please try again later.')
         return
       }
 
-      if (response.data.statusCode === 200) {
-        setSuccess(response.data.message)
+      if (!result.error) {
+        setSuccess(result.message)
         form.reset()
         return
       }
 
-      setError('Something went wrong! Please try again later.')
-    } catch (err: any) {
+      setError(result.message)
+    } catch (err) {
       console.error(error)
-      setError(err.message)
+      setError('Something went wrong! Please try again later.')
     }
   }
 

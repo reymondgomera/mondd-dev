@@ -56,5 +56,6 @@ export const config = {
   //* The following matcher runs middleware on all routes
   //* except static assets.
   //* This matcher is from clerk
-  matcher: ['/((?!.*\\..*|_next).*)', '/', '/(api|trpc)(.*)']
+  matcher: ['/((?!.*\\..*|_next).*)', '/', '/(api|trpc)(.*)'],
+  unstable_allowDynamic: ['*lodash.js', '*.{js,mjs}']
 }

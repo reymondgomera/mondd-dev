@@ -1,12 +1,13 @@
 'use client'
 
-import { ElementRef, useEffect, useRef, useState } from 'react'
 import { toast } from 'sonner'
 import Link from 'next/link'
+import { ElementRef, useEffect, useRef, useState } from 'react'
+import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd'
 
-import { MimeType, mimeTypesInternal } from '@/lib'
+import { MimeType, extractFileKeyFromUrl, formatByte, mimeTypesInternal } from '@/lib'
 import { useMounted } from '@/hooks/use-mounted'
-import { byteFormatter, cn, getFileFromBlobUrl } from '@/lib'
+import { cn, getFileFromBlobUrl } from '@/lib'
 import { Input } from './ui/input'
 import { Button } from './ui/button'
 import { ScrollArea } from './ui/scroll-area'
@@ -311,6 +312,17 @@ export function FileUploader({
     return extensions.flat(Infinity).toString().split(',').join(', ')
   }
 
+  const handleDragEnd = (result: DropResult) => {
+    if (!result.destination || !isMultiple) return
+
+    const files = Array.from(uploadedFiles)
+    const [reorderedItem] = files.splice(result.source.index, 1)
+    files.splice(result.destination.index, 0, reorderedItem)
+
+    onChange(files.map((file) => file.url))
+    setUploadedFiles(files)
+  }
+
   return (
     <div className={cn('flex flex-col items-stretch justify-stretch gap-1', mainContainerClassName)}>
       <div
@@ -377,33 +389,48 @@ export function FileUploader({
           className={cn('mt-1 w-full', !isMultiple && uploadedFiles.length > 0 && 'h-[64px]')}
           viewPortClassName={cn(isMultiple && 'min-h-[79px] max-h-52')}
         >
-          <div className='flex h-full flex-col gap-1.5'>
-            {uploadedFiles.map((obj, i) => (
-              <div key={i} className='flex w-full items-center justify-center gap-3 rounded-md bg-teal-50 p-3 dark:bg-slate-800/25'>
-                <Icons.file className='h-6 w-6 flex-shrink-0 text-teal-300' />
-                <div className='w-full'>
-                  <Link href={obj.url} target='_blank' className='line-clamp-1 w-full text-xs hover:underline'>
-                    {obj.file.name}
-                  </Link>
-                  <p className='text-xs text-gray-500'>{byteFormatter.format(obj.file.size)}</p>
-                </div>
-                <Button
-                  variant='ghost'
-                  type='button'
-                  onClick={() => {
-                    if (!isMultiple) {
-                      handleRemoveFile({ url: obj.url, isMultiple, onChange })
-                      return
-                    }
+          <DragDropContext onDragEnd={handleDragEnd}>
+            <Droppable droppableId={`${uploaderKey}-files`} direction='vertical'>
+              {(provided) => (
+                <div {...provided.droppableProps} ref={provided.innerRef} className='flex h-full flex-col gap-1.5'>
+                  {uploadedFiles.map((obj, i) => (
+                    <Draggable key={extractFileKeyFromUrl(obj.url)} draggableId={extractFileKeyFromUrl(obj.url)} index={i}>
+                      {(provided) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          className='flex w-full items-center justify-center gap-3 rounded-md bg-teal-50 p-3 dark:bg-slate-800/50'
+                        >
+                          <Icons.file className='h-6 w-6 flex-shrink-0 text-teal-300' />
+                          <div className='w-full'>
+                            <Link href={obj.url} target='_blank' className='line-clamp-1 w-full text-xs hover:underline'>
+                              {obj.file.name}
+                            </Link>
+                            <p className='text-xs text-gray-500'>{formatByte(obj.file.size)}</p>
+                          </div>
+                          <Button
+                            variant='ghost'
+                            type='button'
+                            onClick={() => {
+                              if (!isMultiple) {
+                                handleRemoveFile({ url: obj.url, isMultiple, onChange })
+                                return
+                              }
 
-                    handleRemoveFile({ url: obj.url, isMultiple, files: uploadedFiles, onChange })
-                  }}
-                >
-                  <Icons.trash className='h-4 w-4 text-red-500' />
-                </Button>
-              </div>
-            ))}
-          </div>
+                              handleRemoveFile({ url: obj.url, isMultiple, files: uploadedFiles, onChange })
+                            }}
+                          >
+                            <Icons.trash className='h-4 w-4 text-red-500' />
+                          </Button>
+                        </div>
+                      )}
+                    </Draggable>
+                  ))}
+                </div>
+              )}
+            </Droppable>
+          </DragDropContext>
         </ScrollArea>
       ) : null}
     </div>

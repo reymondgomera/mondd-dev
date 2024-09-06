@@ -1,33 +1,39 @@
 'use server'
 
-import { db, resolveAppError } from '@/lib'
+import { db } from '@/lib'
 
 export async function getUserByEmail(email: string) {
   try {
-    const user = await db.user.findUnique({ where: { email: email } })
-
-    return user
+    return await db.user.findUnique({ where: { email: email } })
   } catch (error) {
-    throw resolveAppError(error, 'GET_USER_BY_EMAIL')
+    return null
   }
 }
 
 export async function getUserById(id: string) {
   try {
-    const user = await db.user.findUnique({ where: { id } })
-
-    return user
+    return await db.user.findUnique({ where: { id } })
   } catch (err) {
-    throw resolveAppError(err, 'GET_USER_BY_ID')
+    return null
   }
 }
 
 export async function getAccountByUserId(userId: string) {
   try {
-    const account = await db.account.findFirst({ where: { userId } })
-
-    return account
+    return await db.account.findFirst({ where: { userId } })
   } catch (err) {
+    return null
+  }
+}
+
+export const getUserByPendingEmail = async (email: string) => {
+  try {
+    return await db.user.findFirst({
+      where: {
+        pendingEmail: email
+      }
+    })
+  } catch {
     return null
   }
 }

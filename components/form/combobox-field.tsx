@@ -4,7 +4,7 @@ import * as React from 'react'
 import { Check, ChevronsUpDown } from 'lucide-react'
 import { Control, FieldPath, FieldValues } from 'react-hook-form'
 
-import { cn } from '@/lib/utils'
+import { cn, getClassName, omitClassName } from '@/lib'
 import { FormExtendedProps, FormOption } from '@/types'
 import { Button, ButtonProps } from '@/components/ui/button'
 import {
@@ -42,8 +42,6 @@ type ComboboxFieldProps<TFieldValues extends FieldValues = FieldValues, TName ex
   extendedProps?: ExtendedProps
 }
 
-//? if className is passed among the properties of extendedProps, the specified or default className will be overridden
-
 export function ComboboxField<T extends FieldValues>({
   data,
   isLoading,
@@ -61,20 +59,27 @@ export function ComboboxField<T extends FieldValues>({
       name={name}
       render={({ field }) => {
         return (
-          <FormItem className='space-y-2' {...extendedProps?.itemProps}>
-            <FormLabel className='space-x-1' {...extendedProps?.labelProps}>
+          <FormItem className={cn('space-y-2', getClassName(extendedProps?.itemProps))} {...omitClassName(extendedProps?.itemProps)}>
+            <FormLabel className={cn('space-x-1', getClassName(extendedProps?.labelProps))} {...omitClassName(extendedProps?.labelProps)}>
               {label}
             </FormLabel>
             <Popover open={open} onOpenChange={setOpen}>
               <PopoverTrigger asChild>
                 <FormControl>
-                  <Button variant='outline' className='w-full justify-between capitalize' {...extendedProps?.buttonProps}>
+                  <Button
+                    variant='outline'
+                    className={cn('w-full justify-between capitalize', getClassName(extendedProps?.buttonProps))}
+                    {...omitClassName(extendedProps?.buttonProps)}
+                  >
                     {field.value ? data.find((item) => item.value === field.value)?.label : `Select ${label}`}
                     <ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
                   </Button>
                 </FormControl>
               </PopoverTrigger>
-              <PopoverContent className='z-50 w-full min-w-[var(--radix-popover-trigger-width)]' {...extendedProps?.popoverContentProps}>
+              <PopoverContent
+                className={cn('z-50 w-full min-w-[var(--radix-popover-trigger-width)]', getClassName(extendedProps?.popoverContentProps))}
+                {...omitClassName(extendedProps?.popoverContentProps)}
+              >
                 <Command {...extendedProps?.commandProps}>
                   <CommandInput placeholder={`Search ${label}...`} {...extendedProps?.commandInputProps} />
 

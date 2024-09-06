@@ -47,4 +47,5 @@ export const lightModeRoutes = [
   '/email-verification',
   '/two-factor',
   '/auth-error'
+  // '/examples/rich-text-editor'
 ]

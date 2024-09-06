@@ -1,6 +1,8 @@
 import { z } from 'zod'
 
+//* Schemas *//
 export const signinFormSchema = z.object({
+  callbackUrl: z.string().nullable(),
   email: z.string().min(1, { message: 'Please enter an email address.' }).email(),
   password: z.string().min(1, { message: 'Please enter a password.' })
 })
@@ -39,6 +41,7 @@ export const resetPasswordFormSchema = z.object({
   password: z.string().min(8, { message: 'Please enter a password with at least 8 characters.' })
 })
 
+//* Types *//
 export type SigninForm = z.infer<typeof signinFormSchema>
 export type SignupForm = z.infer<typeof signupFormSchema>
 export type ResendCodeForm = z.infer<typeof resendCodeFormSchema>

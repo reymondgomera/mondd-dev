@@ -1,14 +1,14 @@
 'use client'
 
+import { format } from 'date-fns'
 import { Control, FieldPath, FieldValues } from 'react-hook-form'
 
 import { FormExtendedProps } from '@/types'
+import { cn, getClassName, omitClassName } from '@/lib'
 import { Calendar, CalendarProps } from '../ui/calendar'
 import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '../ui/form'
-import { cn } from '@/lib'
 import { Popover, PopoverContent, PopoverContentProps, PopoverTrigger } from '../ui/popover'
 import { Button, ButtonProps } from '../ui/button'
-import { format } from 'date-fns'
 import { Icons } from '../icons'
 
 type ExtendedProps = FormExtendedProps & {
@@ -28,8 +28,6 @@ type DatePickerFieldProps<
   description?: string
   extendedProps?: ExtendedProps
 }
-
-//? if className is passed among the properties of extendedProps, the specified or default className will be overridden
 
 function renderValue(value: Date | Date[] | { from: Date | undefined; to: Date | undefined } | undefined) {
   if (!value) return null
@@ -59,8 +57,8 @@ export default function DatePickerField<T extends FieldValues>({
       name={name}
       render={({ field }) => {
         return (
-          <FormItem className='space-y-2' {...extendedProps?.itemProps}>
-            <FormLabel className='space-x-1' {...extendedProps?.labelProps}>
+          <FormItem className={cn('space-y-2', getClassName(extendedProps?.itemProps))} {...omitClassName(extendedProps?.itemProps)}>
+            <FormLabel className={cn('space-x-1', getClassName(extendedProps?.labelProps))} {...omitClassName(extendedProps?.labelProps)}>
               {label}
             </FormLabel>
             <Popover>
@@ -68,15 +66,23 @@ export default function DatePickerField<T extends FieldValues>({
                 <FormControl>
                   <Button
                     variant='outline'
-                    className={cn('flex w-full justify-start pl-3 text-left font-normal', !field.value && 'text-muted-foreground')}
-                    {...extendedProps?.buttonProps}
+                    className={cn(
+                      'flex w-full justify-start pl-3 text-left font-normal',
+                      getClassName(extendedProps?.buttonProps),
+                      !field.value && 'text-muted-foreground'
+                    )}
+                    {...omitClassName(extendedProps?.buttonProps)}
                   >
                     <Icons.calendar className='mr-2 size-4' />
                     {field.value ? renderValue(field.value) : <span>Pick a date</span>}
                   </Button>
                 </FormControl>
               </PopoverTrigger>
-              <PopoverContent className='w-auto p-0' align='start' {...extendedProps?.popoverContentProps}>
+              <PopoverContent
+                className={cn('w-auto p-0', getClassName(extendedProps?.popoverContentProps))}
+                align='start'
+                {...omitClassName(extendedProps?.popoverContentProps)}
+              >
                 <Calendar
                   {...extendedProps?.calendarProps}
                   initialFocus

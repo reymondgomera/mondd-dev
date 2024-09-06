@@ -5,19 +5,17 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/custom/ta
 
 type RenderTabsContent = {
   triggers: { value: string; label: string }[]
-  skills: Awaited<ReturnType<typeof getSkills>>['data']
+  skills: Awaited<ReturnType<typeof getSkills>>
 }
 
 export default async function SkillTabs() {
-  // await new Promise((resolve) => setTimeout(resolve, 10000))
-
   const [skilltypes, skills] = await Promise.all([getReferences({ entityCodes: ['skill-type'] }), getSkills()])
 
-  if (!skilltypes.data || !skills.data) return null
+  if (!skilltypes || !skills) return null
 
   const triggers = [
     { value: 'all', label: 'All' },
-    ...skilltypes.data
+    ...skilltypes
       .sort((a, b) => {
         const metaDataA = a.metadata as { order: number }
         const metaDataB = b.metadata as { order: number }
@@ -58,12 +56,12 @@ export default async function SkillTabs() {
         className='flex w-full max-w-3xl flex-wrap justify-center gap-4 p-3 data-[state=inactive]:m-0 data-[state=inactive]:p-0 sm:min-w-72 lg:max-w-5xl'
         value='all'
       >
-        {skills.data.map((skill, i) => (
+        {skills.map((skill, i) => (
           <SkillCard key={i} title={skill.title} icon={skill.logo} isFavorite={skill.isFavorite} />
         ))}
       </TabsContent>
 
-      {renderTabsContent({ triggers, skills: skills.data })}
+      {renderTabsContent({ triggers, skills })}
     </Tabs>
   )
 }

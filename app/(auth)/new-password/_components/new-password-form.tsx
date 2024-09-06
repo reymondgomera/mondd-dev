@@ -32,28 +32,29 @@ export default function NewPasswordForm() {
     resolver: zodResolver(newPasswordFormSchema)
   })
 
-  const handleSubmit = async (data: NewPasswordForm) => {
+  async function handleSubmit(formValues: NewPasswordForm) {
     setError('')
     setSuccess('')
 
     try {
-      const response = await executeAsync({ token: token ?? '', password: data.password })
+      const response = await executeAsync({ token: token ?? '', password: formValues.password })
+      const result = response?.data
 
-      if (!response || !response.data) {
+      if (!response || !result) {
         setError('Failed to reset password! Please try again later.')
         return
       }
 
-      if (response.data.statusCode === 200) {
-        setSuccess(response.data.message)
+      if (!result.error) {
+        setSuccess(result.message)
         form.reset()
         return
       }
 
-      setError('Something went wrong! Please try again later.')
-    } catch (err: any) {
+      setError(result.message)
+    } catch (err) {
       console.error(err)
-      setError(err.message)
+      setError('Something went wrong! Please try again later.')
     }
   }
 

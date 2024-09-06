@@ -9,6 +9,3 @@ function handleReturnedServerError(err: Error) {
 }
 
 export const action = createSafeActionClient({ handleServerErrorLog, handleReturnedServerError })
-
-// TODO: auth action
-export const authAction = createSafeActionClient({ handleServerErrorLog, handleReturnedServerError })

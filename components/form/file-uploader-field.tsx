@@ -2,12 +2,12 @@
 
 import { Control, FieldPath, FieldValues, useFormContext } from 'react-hook-form'
 
-import { FormField, FormItem, FormLabel, FormDescription, FormControl, useFormSchema } from '../ui/form'
+import { isFieldRequired } from '@/lib'
 import { FormExtendedProps } from '@/types'
+import { MimeType, cn, getClassName, omitClassName } from '@/lib'
+import { FormField, FormItem, FormLabel, FormDescription, FormControl, useFormSchema } from '../ui/form'
 import { Icon, Icons } from '../icons'
 import { FileUploader } from '../file-uploader'
-import { MimeType } from '@/lib'
-import { isFieldRequired } from '@/lib'
 
 type ExtendedProps = FormExtendedProps & {
   fileUploaderProps: {
@@ -35,8 +35,6 @@ type FileUploaderFieldProps<
   extendedProps?: ExtendedProps
 }
 
-//? if className is passed among the properties of extendedProps, the specified or default className will be overridden
-
 export default function FileUploaderField<T extends FieldValues>({
   type,
   control,
@@ -55,8 +53,8 @@ export default function FileUploaderField<T extends FieldValues>({
       name={name}
       render={({ field, fieldState: { error } }) => {
         return (
-          <FormItem className='space-y-2' {...extendedProps?.itemProps}>
-            <FormLabel className='space-x-1' {...extendedProps?.labelProps}>
+          <FormItem className={cn('space-y-2', getClassName(extendedProps?.itemProps))} {...omitClassName(extendedProps?.itemProps)}>
+            <FormLabel className={cn('space-x-1', getClassName(extendedProps?.labelProps))} {...omitClassName(extendedProps?.labelProps)}>
               {label}
             </FormLabel>
             <FormControl>
@@ -75,9 +73,9 @@ export default function FileUploaderField<T extends FieldValues>({
                 }}
                 isError={!!error}
                 errorMessage={error?.message}
-                inputContainerClassName='h-full w-full'
-                errorClassName='text-sm text-rose-500 mt-2'
-                {...extendedProps?.fileUploaderProps}
+                inputContainerClassName={cn('h-full w-full', getClassName(extendedProps?.fileUploaderProps, 'inputContainerClassName'))}
+                errorClassName={cn('mt-2', getClassName(extendedProps?.fileUploaderProps, 'errorClassName'))}
+                {...omitClassName(extendedProps?.fileUploaderProps, ['inputContainerClassName', 'errorClassName'])}
               />
             </FormControl>
             {description && <FormDescription {...extendedProps?.descriptionProps}>{description}</FormDescription>}

@@ -4,7 +4,7 @@ import { Control, FieldPath, FieldValues, useFormContext } from 'react-hook-form
 
 import { FormField, FormItem, FormLabel, FormDescription, FormControl, useFormSchema } from '../ui/form'
 import { FormExtendedProps } from '@/types'
-import { isFieldRequired } from '@/lib'
+import { cn, getClassName, isFieldRequired, omitClassName } from '@/lib'
 import { Icon, Icons } from '../icons'
 import ImageUploader, { UnSupportedType } from '../image-uploader'
 
@@ -29,13 +29,19 @@ type ImageUploaderFieldProps<
   control: Control<TFieldValues>
   name: TName
   label: string
+  showLabel?: boolean
   description?: string
   extendedProps?: ExtendedProps
 }
 
-//? if className is passed among the properties of extendedProps, the specified or default className will be overridden
-
-function ImageUploaderField<T extends FieldValues>({ control, name, label, description, extendedProps }: ImageUploaderFieldProps<T>) {
+function ImageUploaderField<T extends FieldValues>({
+  control,
+  name,
+  label,
+  showLabel = true,
+  description,
+  extendedProps
+}: ImageUploaderFieldProps<T>) {
   const { clearErrors } = useFormContext()
   const { schema } = useFormSchema()
   const isRequired = isFieldRequired(name, schema)
@@ -46,10 +52,12 @@ function ImageUploaderField<T extends FieldValues>({ control, name, label, descr
       name={name}
       render={({ field, fieldState: { error } }) => {
         return (
-          <FormItem className='space-y-2' {...extendedProps?.itemProps}>
-            <FormLabel className='space-x-1' {...extendedProps?.labelProps}>
-              {label}
-            </FormLabel>
+          <FormItem className={cn('space-y-2', getClassName(extendedProps?.itemProps))} {...omitClassName(extendedProps?.itemProps)}>
+            {showLabel ? (
+              <FormLabel className={cn('space-x-1', getClassName(extendedProps?.labelProps))} {...omitClassName(extendedProps?.labelProps)}>
+                {label}
+              </FormLabel>
+            ) : null}
             <FormControl>
               <ImageUploader
                 label={label}
@@ -57,7 +65,7 @@ function ImageUploaderField<T extends FieldValues>({ control, name, label, descr
                 isRequired={isRequired}
                 uploaderKey={name}
                 icon={Icons.image}
-                limitSize={2}
+                limitSize={4}
                 isMultiple={false}
                 display={null}
                 onChange={(url: string | string[]) => {
@@ -66,9 +74,9 @@ function ImageUploaderField<T extends FieldValues>({ control, name, label, descr
                 }}
                 isError={!!error}
                 errorMessage={error?.message}
-                inputContainerClassName='h-full w-full'
-                errorClassName='text-sm text-rose-500 mt-2'
-                {...extendedProps?.imageUploaderProps}
+                inputContainerClassName={cn('h-full w-full', getClassName(extendedProps?.imageUploaderProps, 'inputContainerClassName'))}
+                errorClassName={cn('mt-2', getClassName(extendedProps?.imageUploaderProps, 'errorClassName'))}
+                {...omitClassName(extendedProps?.imageUploaderProps, ['inputContainerClassName', 'errorClassName'])}
               />
             </FormControl>
             {description && <FormDescription {...extendedProps?.descriptionProps}>{description}</FormDescription>}

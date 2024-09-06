@@ -7,7 +7,7 @@ import { useAction } from 'next-safe-action/hooks'
 
 import { verifyTwoFactorCodeFormSchema } from '@/schema'
 import type { VerifyTwoFactorCodeForm } from '@/schema'
-import { getFormDefaultValues, useCurrentUser } from '@/lib'
+import { getFormDefaultValues } from '@/lib'
 import { Form } from '@/components/ui/form'
 import { default as CustomButton } from '@/components/custom/button'
 import { Button } from '@/components/ui/button'
@@ -15,10 +15,10 @@ import { DEFAULT_LOGIN_REDIRECT } from '@/constant'
 import { useRouter } from 'next/navigation'
 import { resendCode, verifyTwoFactorCode } from '@/actions'
 import Alert from '@/components/custom/alert'
-import TwoFactorFormFields from './two-factor-form-fields'
-import { useMounted } from '@/hooks'
+import { useCurrentUser, useMounted } from '@/hooks'
 import CountDown from '@/components/countdown'
 import { Icons } from '@/components/icons'
+import TwoFactorFormFields from './two-factor-form-fields'
 
 export default function TwoFactorForm() {
   const [error, setError] = useState<string | undefined>()
@@ -46,57 +46,54 @@ export default function TwoFactorForm() {
     resolver: zodResolver(verifyTwoFactorCodeFormSchema)
   })
 
-  const handleSubmit = async (data: VerifyTwoFactorCodeForm) => {
+  async function handleSubmit(formValues: VerifyTwoFactorCodeForm) {
     setError('')
     setSuccess('')
 
     try {
-      const response = await verifyTwoFactorCodeExecuteAsync(data)
+      const response = await verifyTwoFactorCodeExecuteAsync(formValues)
+      const result = response?.data
 
-      if (!response || !response.data) {
+      if (!response || !result) {
         setError('Failed to verify two factor code! Please try again later.')
         return
       }
 
-      if (response.data.statusCode === 200) {
+      if (!result.error) {
         router.replace(DEFAULT_LOGIN_REDIRECT)
         return
       }
 
-      setError('Something went wrong! Please try again later.')
-    } catch (err: any) {
+      setError(result.message)
+    } catch (err) {
       console.error(err)
-      setError(err.message)
+      setError('Something went wrong! Please try again later.')
     }
   }
 
-  const handleResendCode = async () => {
+  async function handleResendCode() {
     setError('')
     setSuccess('')
     setShowResendCode(false)
 
     try {
       const response = await resendCodeExecuteAsync({ email: user?.email })
+      const result = response?.data
 
-      if (!response || !response.data) {
+      if (!response || !result) {
         setError('Failed to resend code! Please try again later.')
         return
       }
 
-      if (response.data.statusCode === 200) {
-        setSuccess(response.data.message)
+      if (!result.error) {
+        setSuccess(result.message)
         return
       }
 
-      if (response && response.data && (response.data.statusCode === 401 || response.data.statusCode === 500)) {
-        setError(response.data.message)
-        return
-      }
-
-      setError('Something went wrong! Please try again later.')
-    } catch (err: any) {
+      setError(result.message)
+    } catch (err) {
       console.error(err)
-      setError(err.message)
+      setError('Something went wrong! Please try again later.')
     }
   }
 

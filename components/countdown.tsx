@@ -38,6 +38,7 @@ export default function CountDown({ className, seconds, callback }: CountDownPro
         callback()
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [countDown])
 
   return <span className={className}>{formatTime(countDown)}</span>

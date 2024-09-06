@@ -1,8 +1,6 @@
 import { format } from 'date-fns'
 
 import { cn } from '@/lib'
-import { Badge } from './ui/badge'
-import Image from 'next/image'
 import BadgeGroup from './badge-group'
 import BlurImage from './blur-image'
 

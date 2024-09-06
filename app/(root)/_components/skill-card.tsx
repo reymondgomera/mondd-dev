@@ -1,3 +1,5 @@
+import { Icons } from '@/components/icons'
+
 type SkillCardProps = {
   title: string
   icon: string
@@ -11,7 +13,7 @@ export default function SkillCard({ title, icon, isFavorite }: SkillCardProps) {
       <img className='size-8 transition-all lg:size-[45px]' src={icon} alt={title} />
       <h2 className='text-balance text-center text-sm font-medium text-slate-200 group-hover:text-teal-300'>{title}</h2>
 
-      {isFavorite ? <img className='absolute right-2 top-1 size-4' src='/images/heart.svg' alt='heart' /> : null}
+      {isFavorite ? <Icons.heart className='absolute right-2 top-1 size-4' /> : null}
     </div>
   )
 }

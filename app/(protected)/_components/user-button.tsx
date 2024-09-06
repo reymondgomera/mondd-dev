@@ -1,5 +1,8 @@
 'use client'
 
+import { signOut } from 'next-auth/react'
+
+import { ExtendedUser } from '@/auth'
 import { Icons } from '@/components/icons'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
@@ -9,12 +12,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
-import { getInitials, titleCase, useCurrentUser } from '@/lib'
-import { signOut } from 'next-auth/react'
+import { getInitials, titleCase } from '@/lib'
 
-export default function UserButton() {
-  const user = useCurrentUser()
+type UserButtonProps = {
+  user?: ExtendedUser
+}
 
+export default function UserButton({ user }: UserButtonProps) {
   if (!user || !user.name) return null
 
   return (
@@ -28,7 +32,7 @@ export default function UserButton() {
 
       <DropdownMenuContent align='end' sideOffset={15}>
         <div className='flex items-center gap-x-3 px-2 py-1.5'>
-          <Avatar className='size-11 cursor-pointer'>
+          <Avatar className='size-11'>
             <AvatarImage src={user.image ?? ''} />
             <AvatarFallback>{getInitials(user.name).toUpperCase()}</AvatarFallback>
           </Avatar>

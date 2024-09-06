@@ -2,6 +2,7 @@
 
 import { Control, FieldPath, FieldValues } from 'react-hook-form'
 
+import { cn, getClassName, omitClassName } from '@/lib'
 import { FormField, FormItem, FormLabel, FormDescription, FormControl, FormMessage } from '../ui/form'
 import { FormExtendedProps } from '@/types'
 import { Textarea, TextareaProps } from '../ui/textarea'
@@ -16,8 +17,6 @@ type TextAreaFieldProps<TFieldValues extends FieldValues = FieldValues, TName ex
   extendedProps?: ExtendedProps
 }
 
-//? if className is passed among the properties of extendedProps, the specified or default className will be overridden
-
 export default function TextAreaField<T extends FieldValues>({ control, name, label, description, extendedProps }: TextAreaFieldProps<T>) {
   return (
     <FormField
@@ -25,12 +24,16 @@ export default function TextAreaField<T extends FieldValues>({ control, name, la
       name={name}
       render={({ field }) => {
         return (
-          <FormItem className='space-y-2' {...extendedProps?.itemProps}>
-            <FormLabel className='space-x-1' {...extendedProps?.labelProps}>
+          <FormItem className={cn('space-y-2', getClassName(extendedProps?.itemProps))} {...omitClassName(extendedProps?.itemProps)}>
+            <FormLabel className={cn('space-x-1', getClassName(extendedProps?.labelProps))} {...omitClassName(extendedProps?.labelProps)}>
               {label}
             </FormLabel>
             <FormControl>
-              <Textarea className='resize-none placeholder:capitalize' {...field} {...extendedProps?.textAreaProps} />
+              <Textarea
+                className={cn('resize-none placeholder:capitalize', getClassName(extendedProps?.textAreaProps))}
+                {...field}
+                {...omitClassName(extendedProps?.textAreaProps)}
+              />
             </FormControl>
             {description && <FormDescription {...extendedProps?.descriptionProps}>{description}</FormDescription>}
             <FormMessage {...extendedProps?.messageProps} />

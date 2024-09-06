@@ -2,8 +2,9 @@
 
 import { Control, FieldPath, FieldValues } from 'react-hook-form'
 
-import { FormField, FormItem, FormLabel, FormDescription, FormControl } from '../ui/form'
+import { cn, getClassName, omitClassName } from '@/lib'
 import { FormExtendedProps } from '@/types'
+import { FormField, FormItem, FormLabel, FormDescription, FormControl } from '../ui/form'
 import { Switch, SwitchProps } from '../ui/switch'
 
 type ExtendedProps = FormExtendedProps & { switchProps?: SwitchProps }
@@ -56,11 +57,18 @@ export default function SwitchField<T extends FieldValues>({
                   <Switch checked={field.value} onCheckedChange={field.onChange} {...extendedProps?.switchProps} />
                 </FormControl>
                 <div className='space-y-0.5'>
-                  <FormLabel className='inline-block w-full text-center' noAsterisk {...extendedProps?.labelProps}>
+                  <FormLabel
+                    className={cn('inline-block w-full text-center', getClassName(extendedProps?.labelProps))}
+                    noAsterisk
+                    {...omitClassName(extendedProps?.labelProps)}
+                  >
                     {label}
                   </FormLabel>
                   {description && (
-                    <FormDescription className='text-center' {...extendedProps?.descriptionProps}>
+                    <FormDescription
+                      className={cn('text-center', getClassName(extendedProps?.descriptionProps))}
+                      {...omitClassName(extendedProps?.descriptionProps)}
+                    >
                       {description}
                     </FormDescription>
                   )}
@@ -70,7 +78,7 @@ export default function SwitchField<T extends FieldValues>({
 
           default:
             return (
-              <FormItem className='space-x-2' {...extendedProps?.itemProps}>
+              <FormItem className={cn('space-x-2', getClassName(extendedProps?.itemProps))} {...omitClassName(extendedProps?.itemProps)}>
                 <div className='flex items-center gap-2'>
                   <FormControl>
                     <Switch checked={field.value} onCheckedChange={field.onChange} {...extendedProps?.switchProps} />
@@ -80,7 +88,10 @@ export default function SwitchField<T extends FieldValues>({
                   </FormLabel>
                 </div>
                 {description && (
-                  <FormDescription className='!ml-0' {...extendedProps?.descriptionProps}>
+                  <FormDescription
+                    className={cn('!ml-0', getClassName(extendedProps?.descriptionProps))}
+                    {...omitClassName(extendedProps?.descriptionProps)}
+                  >
                     {description}
                   </FormDescription>
                 )}

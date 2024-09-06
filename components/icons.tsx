@@ -1,3 +1,4 @@
+import { cn } from '@/lib'
 import {
   LucideIcon,
   Menu,
@@ -37,10 +38,48 @@ import {
   User,
   Code2,
   NotebookPen,
-  Clock
+  Clock,
+  LucideProps,
+  TrendingUp,
+  TrendingDown,
+  CheckSquare,
+  Code,
+  Heading1,
+  Heading2,
+  Heading3,
+  Heading4,
+  Heading5,
+  Heading6,
+  List,
+  ListOrdered,
+  Text,
+  TextQuote,
+  ChevronLeft,
+  ChevronRight,
+  SigmaIcon,
+  ImageIcon,
+  Youtube,
+  Twitter,
+  Link,
+  Bold,
+  Italic,
+  Underline,
+  Strikethrough,
+  AlignLeft,
+  AlignCenter,
+  AlignRight,
+  AlignJustify,
+  Superscript,
+  Subscript,
+  WholeWord,
+  CaseLower,
+  Save,
+  Keyboard,
+  Plus
 } from 'lucide-react'
 
 export type Icon = LucideIcon
+export type IconProps = LucideProps
 export type LocalIcon = { className?: string }
 
 export const Icons = {
@@ -81,6 +120,37 @@ export const Icons = {
   code: Code2,
   user: User,
   dashboard: PanelsLeftBottom,
+  trendUp: TrendingUp,
+  trendDown: TrendingDown,
+  add: Plus,
+  list: List,
+  heart: ({ className }: LocalIcon) => {
+    return (
+      <svg className={className} viewBox='0 0 17 16' fill='none' xmlns='http://www.w3.org/2000/svg'>
+        <path
+          d='M5.92254 3.00199C5.03354 2.95499 4.16354 3.24899 3.51854 3.89499C2.22854 5.18699 2.34354 7.38499 3.77854 8.82099L4.29354 9.33599L8.95354 14L13.6125 9.33599L14.1275 8.82099C15.5625 7.38399 15.6775 5.18699 14.3875 3.89499C13.0975 2.60299 10.9045 2.71999 9.46954 4.15699L8.95354 4.67399L8.43654 4.15699C7.71954 3.43799 6.81254 3.04899 5.92254 3.00199Z'
+          fill='#F05542'
+        />
+      </svg>
+    )
+  },
+  heartOutline: ({ className }: LocalIcon) => {
+    return (
+      <svg
+        className={cn('fill-current stroke-primary text-transparent dark:stroke-white', className)}
+        viewBox='0 0 17 16'
+        fill='none'
+        xmlns='http://www.w3.org/2000/svg'
+      >
+        <path
+          d='M5.92254 3.00199C5.03354 2.95499 4.16354 3.24899 3.51854 3.89499C2.22854 5.18699 2.34354 7.38499 3.77854 8.82099L4.29354 9.33599L8.95354 14L13.6125 9.33599L14.1275 8.82099C15.5625 7.38399 15.6775 5.18699 14.3875 3.89499C13.0975 2.60299 10.9045 2.71999 9.46954 4.15699L8.95354 4.67399L8.43654 4.15699C7.71954 3.43799 6.81254 3.04899 5.92254 3.00199Z'
+          strokeWidth='1'
+          strokeLinecap='round'
+          strokeLinejoin='round'
+        />
+      </svg>
+    )
+  },
   fileText: ({ className }: LocalIcon) => (
     <svg className={className} viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
       <path
@@ -130,4 +200,46 @@ export const Icons = {
       </svg>
     )
   }
+}
+
+export const EditorIcons = {
+  text: Text,
+  h1: Heading1,
+  h2: Heading2,
+  h3: Heading3,
+  h4: Heading4,
+  h5: Heading5,
+  h6: Heading6,
+  list: List,
+  listOrdered: ListOrdered,
+  quote: TextQuote,
+  code: Code,
+  todo: CheckSquare,
+  up: ChevronUp,
+  down: ChevronDown,
+  left: ChevronLeft,
+  right: ChevronRight,
+  check: Check,
+  trash: Trash,
+  sigma: SigmaIcon,
+  image: ImageIcon,
+  youtube: Youtube,
+  twitter: Twitter,
+  link: Link,
+  alignLeft: AlignLeft,
+  alignCenter: AlignCenter,
+  alignRight: AlignRight,
+  alignJustify: AlignJustify,
+  superscript: Superscript,
+  subscript: Subscript,
+  bold: Bold,
+  italic: Italic,
+  underline: Underline,
+  strikethrough: Strikethrough,
+  word: WholeWord,
+  char: CaseLower,
+  save: Save,
+  info: Info,
+  keyboard: Keyboard,
+  loading: Loader2
 }

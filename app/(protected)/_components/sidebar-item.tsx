@@ -18,8 +18,8 @@ export default function SidebarItem({ item: { title, href, icon: Icon, disabled 
     <Link
       href={href}
       className={cn(
-        'flex items-center gap-x-2 rounded-md px-4 py-2 text-sm font-medium hover:cursor-pointer hover:bg-slate-subtle-1',
-        isActive && 'bg-slate-subtle-1',
+        'flex items-center gap-x-2 rounded-md px-4 py-2 text-sm font-medium hover:cursor-pointer hover:bg-accent hover:dark:bg-slate-subtle-1',
+        isActive && 'bg-accent dark:bg-slate-subtle-1',
         disabled && 'opacity-50 hover:cursor-not-allowed'
       )}
     >
