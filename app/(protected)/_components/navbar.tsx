@@ -9,7 +9,7 @@ export default async function Navbar() {
   const user = await getCurrentUser()
 
   return (
-    <header className='fixed z-10 h-[80px] w-full border-b border-t-0 px-6 dark:bg-base-primary sm:px-10 lg:px-20'>
+    <header className='fixed z-50 h-[80px] w-full border-b border-t-0 bg-white px-6 dark:bg-base-primary sm:px-10 lg:px-20'>
       <nav className='flex h-full w-full items-center justify-between py-5'>
         <NavbarLogo />
 

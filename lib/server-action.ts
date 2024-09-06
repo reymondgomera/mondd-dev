@@ -1,71 +1,60 @@
 import { Prisma } from '@prisma/client'
-import createHttpError from 'http-errors'
-import createError from 'http-errors'
-import { CommonError, MigrationError, QueryError } from 'prisma-error-enum'
+import { CommonError, QueryError } from 'prisma-error-enum'
 
-type PrismaClientErrorContructor = {
-  errorCode?: string
-  code?: string
+const commonErrorCodes = Object.values(CommonError)
+const queryErrorCodes = Object.values(QueryError)
+
+const serverActionErrorCodes = [
+  400, 401, 402, 403, 404, 405, 406, 407, 408, 409, 410, 411, 412, 413, 414, 415, 416, 417, 418, 421, 422, 423, 424, 425, 426, 428, 429,
+  431, 451, 500, 501, 502, 503, 504, 505, 506, 507, 508, 509, 510, 511
+] as const
+
+export type CommonErrorCode = (typeof commonErrorCodes)[number]
+export type QueryErrorCode = (typeof queryErrorCodes)[number]
+export type PrismaErrorCodes = CommonErrorCode | QueryErrorCode
+
+type PrismaError = {
+  code?: PrismaErrorCodes
   meta?: Record<string, unknown>
   message: string
   clientVersion: string
-  action: string
 }
 
-export class PrismaClientError extends Error {
-  name: string = 'PrismaClientError'
-  code?: string
-  meta?: Record<string, unknown>
+export type ServerActionErrorCodes = (typeof serverActionErrorCodes)[number] | PrismaErrorCodes
+
+export type ServerActionError<T = undefined> = {
+  error: true
+  code: ServerActionErrorCodes
   message: string
-  clientVersion: string
-  action: string
-
-  constructor({ code, errorCode, meta, message, clientVersion, action }: PrismaClientErrorContructor) {
-    super()
-    this.code = code || errorCode
-    this.meta = meta
-    this.message = message
-    this.clientVersion = clientVersion
-    this.action = action
-  }
+  data?: T
+  cause?: any
+  action?: string
 }
+export type ServerActionSuccess<T = undefined> = { error: false; code: 200; message: string; data?: T }
 
-export function resolveAppError(error: unknown, action: string) {
-  const prismaError = resolvePrismaClientError(error, action)
-  const httpError = resolveHttpError(error, action)
-
-  if (prismaError) return prismaError
-
-  return httpError
-}
-
-export function resolveHttpError(err: unknown, action: string) {
-  if (err instanceof createHttpError.HttpError && err.statusCode < 500) return err
-
-  if (err instanceof createHttpError.HttpError && err.statusCode === 500) return createError(500, err.message, { action })
-
-  return createError(500, 'Internal Server Error', { action, cause: err })
-}
-
-export function resolvePrismaClientError(err: unknown, action: string) {
+export function getPrismaError(err: unknown): PrismaError | undefined {
   if (err instanceof Prisma.PrismaClientKnownRequestError) {
     const message = getErrorMessage(err.code, err.message)
-    return new PrismaClientError({ ...err, code: err.code, message, action })
-  } else if (err instanceof Prisma.PrismaClientInitializationError) {
+    return { ...err, code: err.code as PrismaErrorCodes, message }
+  }
+
+  if (err instanceof Prisma.PrismaClientInitializationError) {
     const message = getErrorMessage(err.errorCode, err.message)
-    return new PrismaClientError({ ...err, code: err.errorCode, message, action })
-  } else if (
+    return { ...err, code: err.errorCode as PrismaErrorCodes, message }
+  }
+
+  if (
     err instanceof Prisma.PrismaClientUnknownRequestError ||
     err instanceof Prisma.PrismaClientRustPanicError ||
     err instanceof Prisma.PrismaClientValidationError
   ) {
-    return new PrismaClientError({ ...err, message: err.message, action })
+    return err
   }
 }
 
 function getErrorMessage(code?: string, message?: string) {
   switch (code) {
-    // common errors
+    //* common errors
     case CommonError.AuthenticationFailed:
       return 'Authentication failed.'
     case CommonError.CouldNotConnectToDatabase:
@@ -95,7 +84,7 @@ function getErrorMessage(code?: string, message?: string) {
     case CommonError.ServerClosedConnection:
       return 'Server closed connection.'
 
-    // query errors
+    //* query errors
     case QueryError.ValueTooLongForColumnType:
       return 'Value too long for column type.'
     case QueryError.RecordDoesNotExist:
@@ -153,51 +142,39 @@ function getErrorMessage(code?: string, message?: string) {
     case QueryError.MultipleErrors:
       return 'Multiple errors.'
 
-    // migration errors
-    case MigrationError.FailedToCreateDatabase:
-      return 'Failed to create database.'
-    case MigrationError.PossibleDestructiveOrDataLossChanges:
-      return 'Possible destructive or data loss changes.'
-    case MigrationError.MigrationRolledBack:
-      return 'Migration rolled back.'
-    case MigrationError.InvalidMigrationFormat:
-      return 'Invalid migration format.'
-    case MigrationError.SystemDatabaseNotSupported:
-      return 'System database not supported.'
-    case MigrationError.DatabaseNotEmpty:
-      return 'Database not empty.'
-    case MigrationError.CouldNotApplyCleanlyToTemporaryDatabase:
-      return 'Could not apply cleanly to temporary database.'
-    case MigrationError.PreviewFeaturesNotAllowedInMigrationEngine:
-      return 'Preview features not allowed in migration engine.'
-    case MigrationError.MigrationAlreadyApplied:
-      return 'Migration already applied.'
-    case MigrationError.FailedMigrationsFound:
-      return 'Failed migrations found.'
-    case MigrationError.MigrationNameTooLong:
-      return 'Migration name too long.'
-    case MigrationError.CannotRollBackANeverAppliedMigration:
-      return 'Cannot roll back a never applied migration.'
-    case MigrationError.CannotRollBackANotFailedMigration:
-      return 'Cannot roll back a not failed migration.'
-    case MigrationError.DatasourceProviderArraysNotSupported:
-      return 'Datasource provider arrays not supported.'
-    case MigrationError.DatasourceProviderDontMatchMigrationLock:
-      return 'Datasource provider dont match migration lock.'
-    case MigrationError.MissingMigrationFile:
-      return 'Missing migration file.'
-    case MigrationError.CouldNotCleanupDatabase:
-      return 'Could not cleanup database.'
-    case MigrationError.MigrationNotFound:
-      return 'Migration not found.'
-    case MigrationError.FailedToApplyMigration:
-      return 'Failed to apply migration.'
-    case MigrationError.DatasourceProvidersDontMatch:
-      return 'Datasource providers dont match.'
-    case MigrationError.ShadowDatabasesAutomaticCreationIsDisabled:
-      return 'Shadow databases automatic creation is disabled.'
-
     default:
       return 'Unknown prisma error'
   }
+}
+
+export function getServerActionError(err: unknown, action?: string) {
+  let message
+
+  if (err && typeof err === 'object' && 'message' in err && typeof err.message === 'string') message = err.message
+
+  const serverActionError = {
+    error: true,
+    code: 500,
+    cause: JSON.stringify(err),
+    message: message ?? 'Internal Server Error',
+    action: action ?? 'SERVER_ACTION'
+  } as ServerActionError
+
+  const prismaError = getPrismaError(err)
+
+  if (prismaError) {
+    if (prismaError.code) serverActionError.code = prismaError.code
+    serverActionError.message = prismaError.message
+    return serverActionError
+  }
+
+  return serverActionError
+}
+
+export function returnServerActionError<T = undefined>(errObj: Omit<ServerActionError<T>, 'error'>) {
+  return { error: true, ...errObj } as ServerActionError<T>
+}
+
+export function returnServerActionSuccess<T = undefined>({ data, message }: { data?: T; message?: string }) {
+  return { data, message: message ?? 'Action executed successfully.', error: false, code: 200 } as ServerActionSuccess<T>
 }

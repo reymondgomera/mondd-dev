@@ -36,18 +36,19 @@ export default function SigninForm() {
     resolver: zodResolver(signinFormSchema)
   })
 
-  const handleSubmit = async (data: SigninForm) => {
+  async function handleSubmit(formValues: SigninForm) {
     setError('')
     setSuccess('')
 
     try {
-      const response = await executeAsync(data)
+      const response = await executeAsync(formValues)
+      const result = response?.data
 
-      if (response && response.data && response.data.statusCode === 200) {
-        setSuccess(response.data.message)
+      if (result && !result.error) {
+        setSuccess(result.message)
         form.reset()
 
-        if (response.data.data && response.data.data.twoFactor) {
+        if (result.data && result.data.twoFactor) {
           setTimeout(() => {
             //** did this to do hard navigation to reflect user
             const location = window.location
@@ -59,13 +60,10 @@ export default function SigninForm() {
         return
       }
 
-      if (response && response.data && (response.data.statusCode === 401 || response.data.statusCode === 500)) {
-        setError(response.data.message)
-        return
-      }
-    } catch (err: any) {
+      if (result && result.error) setError(result.message)
+    } catch (err) {
       console.error(err)
-      setError(err.message)
+      setError('Something went wrong! Please try again later.')
     }
   }
 

@@ -10,6 +10,7 @@ export default function AuthLeftSide({ subtitle }: AuthLeftSideProps) {
     <div className='relative hidden h-full w-[50%] bg-base-primary lg:flex lg:items-center lg:justify-center'>
       <div className='relative flex flex-col items-center justify-center gap-y-1'>
         <Link href='/'>
+          {/* // eslint-disable-next-line @next/next/no-img-element*/}
           <img src='/images/logo-text-default.svg' alt='logo' className='h-[25px] w-auto' />
         </Link>
 
@@ -19,7 +20,7 @@ export default function AuthLeftSide({ subtitle }: AuthLeftSideProps) {
 
       <div className='absolute bottom-3 left-3 flex gap-1 text-sm'>
         <span className='text-white'>© 2024, Made with</span>
-        <img src='/images/heart.svg' alt='heart' />
+        <Icons.heart className='h-5' />
         <span className='text-white'> by</span>
         <span className='font-semibold text-teal-300'>mond</span>
       </div>

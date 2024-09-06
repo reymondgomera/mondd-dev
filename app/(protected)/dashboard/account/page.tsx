@@ -1,3 +1,8 @@
-export default function AccountPage() {
-  return <div className='flex h-full w-full items-center justify-center p-2'>Dashboard - Account</div>
+import { getCurrentUser } from '@/actions'
+import AccountForm from './_components/account-form'
+
+export default async function AccountPage() {
+  const user = await getCurrentUser()
+
+  return <AccountForm user={user} />
 }

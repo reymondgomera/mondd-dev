@@ -78,7 +78,7 @@ export default function MonthPickerField<T extends FieldValues>({
                   captionLayout='dropdown-buttons'
                   fromYear={1800}
                   toYear={new Date().getFullYear()}
-                  currentMonth={field.value}
+                  currentMonth={field.value ? new Date(field.value) : undefined}
                   onMonthChange={field.onChange}
                 />
               </PopoverContent>

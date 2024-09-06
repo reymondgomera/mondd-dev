@@ -109,7 +109,8 @@ ul[data-type='taskList'] li > label input[type='checkbox'] {
   }
 }
 
-ul[data-type='taskList'] li[data-checked='true'] > div > p {
+ul[data-type='taskList'] li[data-checked='true'] > div > p,
+ul[data-type='taskList'] li[data-checked]:not([data-checked='false']) > div > p {
   color: var(--muted-foreground);
   text-decoration: line-through;
   text-decoration-thickness: 2px;
@@ -209,4 +210,9 @@ span[style] > strong {
 
 mark[style] > strong {
   color: inherit;
+}
+
+/* style empty p tags to behave like <br/> */
+.empty-p p:empty::after {
+  content: '\00A0';
 }

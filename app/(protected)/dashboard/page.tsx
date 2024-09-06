@@ -6,7 +6,7 @@ import TotalVisitorsLineChart from './_components/total-visitors-bar-chart'
 
 export default async function DashboardPage() {
   return (
-    <div className='grid grid-cols-1 gap-5 overflow-auto p-6 md:grid-cols-2 lg:grid-cols-4'>
+    <div className='grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4'>
       <div className='order-1'>
         <StatCard title='Total Project' value='25' icon={Icons.code} />
       </div>

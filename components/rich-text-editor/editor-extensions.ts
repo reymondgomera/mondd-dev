@@ -36,7 +36,9 @@ const aiHighlight = AIHighlight
 const placeholder = Placeholder
 const tiptapLink = TiptapLink.configure({
   HTMLAttributes: {
-    class: cx('text-muted-foreground underline underline-offset-[3px] hover:text-primary transition-colors cursor-pointer')
+    class: cx(
+      'text-muted-foreground underline underline-offset-[3px] hover:text-primary transition-colors cursor-pointer dark:text-slate-400 dark:hover:text-slate-200'
+    )
   }
 })
 
@@ -84,7 +86,7 @@ const tiptapImage = TiptapImage.extend({
 
 const taskList = TaskList.configure({
   HTMLAttributes: {
-    class: cx('not-prose pl-2 dark:text-slate-400')
+    class: cx('not-prose pl-2')
   }
 })
 const taskItem = TaskItem.configure({
@@ -102,7 +104,10 @@ const horizontalRule = HorizontalRule.configure({
 
 const starterKit = StarterKit.configure({
   heading: {
-    levels: [1, 2, 3, 4]
+    levels: [1, 2, 3, 4],
+    HTMLAttributes: {
+      class: cx('dark:text-slate-200')
+    }
   },
   bulletList: {
     HTMLAttributes: {
@@ -127,8 +132,13 @@ const starterKit = StarterKit.configure({
   codeBlock: false,
   code: {
     HTMLAttributes: {
-      class: cx('rounded-md bg-muted  px-1.5 py-1 font-mono font-medium'),
+      class: cx('rounded-md bg-muted px-1.5 py-1 font-mono font-medium before:content-none after:content-none'),
       spellcheck: 'false'
+    }
+  },
+  paragraph: {
+    HTMLAttributes: {
+      class: cx('dark:text-slate-400')
     }
   },
   horizontalRule: false,

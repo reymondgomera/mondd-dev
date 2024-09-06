@@ -22,25 +22,26 @@ export default function ContactForm() {
     resolver: zodResolver(contactFormSchema)
   })
 
-  const handleSubmit = async (data: ContactForm) => {
+  async function handleSubmit(formValues: ContactForm) {
     try {
-      const response = await executeAsync(data)
+      const response = await executeAsync(formValues)
+      const result = response?.data
 
-      if (!response || !response.data) {
+      if (!response || !result) {
         toast.error('Failed to submit the inquiry. Please try again later.')
         return
       }
 
-      if (response.data.statusCode === 200) {
-        toast.success('The inquiry has been successfully submitted.')
+      if (!result.error) {
+        toast.success(result.message)
         form.reset()
         return
       }
 
-      toast.error('Something went wrong! Please try again later.')
+      toast.error(result.message)
     } catch (err: any) {
       console.error(err)
-      toast.error(err.message)
+      toast.error('Something went wrong! Please try again later.')
     }
   }
 

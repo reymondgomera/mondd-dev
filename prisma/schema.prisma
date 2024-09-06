@@ -44,7 +44,7 @@ model Reference {
   subReferences Reference[] @relation("ReferenceToReference")
   postTypes     Post[]      @relation("PostToReference")
   skillTypes    Skill[]     @relation("SkillToReference")
-  userRoles     User[]      @relation("UserToReference-role")
+  userRoles     User[]      @relation("UserToReference-Role")
 }
 
 model User {
@@ -55,6 +55,7 @@ model User {
   password            String?
   roleCode            String?
   image               String?
+  pendingEmail        String?
   isTwoFactorEnabled  Boolean   @default(false)
   isTwoFactorVerified Boolean?
 
@@ -63,7 +64,7 @@ model User {
 
   posts    Post[]
   accounts Account[]
-  role     Reference? @relation("UserToReference-role", fields: [roleCode], references: [code])
+  role     Reference? @relation("UserToReference-Role", fields: [roleCode], references: [code])
 }
 
 model VerificationToken {
@@ -118,7 +119,7 @@ model Post {
   typeCode    String
   title       String
   description String
-  thumbnail   String
+  thumbnail   String?
   slug        String   @unique
   body        String
   tags        String[]
@@ -153,7 +154,6 @@ model Experience {
   tags        String[]
   start       DateTime @db.Date
   end         DateTime @db.Date
-  order       Int
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt

@@ -3,7 +3,7 @@
 import { v4 as uuidv4 } from 'uuid'
 import crypto from 'crypto'
 
-import { db, resolveAppError } from '@/lib'
+import { db } from '@/lib'
 
 //* in seconds 3600 = 1 hour
 const verificationTokenExpiration = process.env.VERIFICATION_TOKEN_EXPIRATION || 3600
@@ -59,46 +59,34 @@ export async function getTwoFactorTokenByEmail(email: string) {
 }
 
 export async function generateVerificationToken(email: string) {
-  try {
-    const token = uuidv4()
-    const expiresAt = new Date(new Date().getTime() + (verificationTokenExpiration as number) * 1000)
+  const token = uuidv4()
+  const expiresAt = new Date(new Date().getTime() + (verificationTokenExpiration as number) * 1000)
 
-    const existingToken = await getVerificationTokenByEmail(email)
+  const existingToken = await getVerificationTokenByEmail(email)
 
-    if (existingToken) await db.verificationToken.delete({ where: { id: existingToken.id } })
+  if (existingToken) await db.verificationToken.delete({ where: { id: existingToken.id } })
 
-    return await db.verificationToken.create({ data: { email, expiresAt, token } })
-  } catch (err) {
-    throw resolveAppError(err, 'GENERATE_VERIFICATION_TOKEN')
-  }
+  return await db.verificationToken.create({ data: { email, expiresAt, token } })
 }
 
 export async function generatePasswordResetToken(email: string) {
-  try {
-    const token = uuidv4()
-    const expiresAt = new Date(new Date().getTime() + (passwordResetTokenExpiration as number) * 1000)
+  const token = uuidv4()
+  const expiresAt = new Date(new Date().getTime() + (passwordResetTokenExpiration as number) * 1000)
 
-    const existingToken = await getPasswordResetTokenByEmail(email)
+  const existingToken = await getPasswordResetTokenByEmail(email)
 
-    if (existingToken) await db.passwordResetToken.delete({ where: { id: existingToken.id } })
+  if (existingToken) await db.passwordResetToken.delete({ where: { id: existingToken.id } })
 
-    return await db.passwordResetToken.create({ data: { email, expiresAt, token } })
-  } catch (err) {
-    throw resolveAppError(err, 'GENERATE_PASSWORD_RESET_TOKEN')
-  }
+  return await db.passwordResetToken.create({ data: { email, expiresAt, token } })
 }
 
 export async function generateTwoFactorToken(email: string) {
-  try {
-    const token = crypto.randomInt(100_000, 1_000_000).toString()
-    const expiresAt = new Date(new Date().getTime() + (twoFactorTokenExpiration as number) * 1000)
+  const token = crypto.randomInt(100_000, 1_000_000).toString()
+  const expiresAt = new Date(new Date().getTime() + (twoFactorTokenExpiration as number) * 1000)
 
-    const existingToken = await getTwoFactorTokenByEmail(email)
+  const existingToken = await getTwoFactorTokenByEmail(email)
 
-    if (existingToken) await db.twoFactorToken.delete({ where: { id: existingToken.id } })
+  if (existingToken) await db.twoFactorToken.delete({ where: { id: existingToken.id } })
 
-    return await db.twoFactorToken.create({ data: { email, expiresAt, token } })
-  } catch (err) {
-    throw resolveAppError(err, 'GENERATE_TWO_FACTOR_TOKEN')
-  }
+  return await db.twoFactorToken.create({ data: { email, expiresAt, token } })
 }

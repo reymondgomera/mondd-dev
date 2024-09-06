@@ -1,6 +1,8 @@
 'use server'
 
-import { utapi } from '@/lib/uploadthing'
+import { UTApi } from 'uploadthing/server'
+
+const utapi = new UTApi()
 
 export const onUpload = async (formData: FormData) => {
   const file = formData.get('file') as File

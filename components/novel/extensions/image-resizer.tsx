@@ -11,6 +11,7 @@ export const ImageResizer: FC = () => {
       const selection = editor.state.selection
       editor.commands.setNodeSelection(selection.from)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   if (!editor?.isActive('image')) return null
@@ -32,6 +33,7 @@ export const ImageResizer: FC = () => {
 
   return (
     <Moveable
+      className='!z-40'
       target={document.querySelector('.ProseMirror-selectednode') as HTMLDivElement}
       container={null}
       origin={false}

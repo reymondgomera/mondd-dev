@@ -20,7 +20,7 @@ export default async function ProtectedRouteLayout({ children }: { children: Rea
           <Sidebar />
         </div>
 
-        <main className='flex-1 min-[1200px]:ml-[215px]'>{children}</main>
+        <main className='flex-1 flex-col gap-y-4 min-[1200px]:ml-[215px]'>{children}</main>
       </div>
     </div>
   )

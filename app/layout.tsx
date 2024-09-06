@@ -49,7 +49,7 @@ export default async function RootLayout({
         <ToastProvider />
       </body>
 
-      <Script>
+      <Script id='rich-text-edit-script'>
         {`
           // rich-text-editor image fallback on error
           const handleError = (e) => {

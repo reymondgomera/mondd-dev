@@ -3,7 +3,7 @@ import * as LabelPrimitive from '@radix-ui/react-label'
 import { Slot } from '@radix-ui/react-slot'
 import { Controller, ControllerProps, FieldPath, FieldValues, FormProvider, FormProviderProps, useFormContext } from 'react-hook-form'
 
-import { cn, isFieldRequired } from '@/lib/utils'
+import { cn, isFieldRequired } from '@/lib'
 import { Label } from '@/components/ui/label'
 import AsteriskRequired from '../asterisk-required'
 import { ZodTypeAny } from 'zod'

@@ -1,6 +1,6 @@
 'use client'
 
-const hljs = require('highlight.js')
+import hljs from 'highlight.js'
 import { JSONContent } from '@tiptap/core'
 import { generateHTML } from '@tiptap/html'
 
@@ -10,11 +10,11 @@ import katex from 'katex'
 export const formatHtml = (content: string) => {
   if (typeof window === 'undefined') return
 
-  // highlight codeblocks
+  //* highlight codeblocks
   const doc = new DOMParser().parseFromString(content, 'text/html')
   doc.querySelectorAll<HTMLElement>('pre code').forEach((el) => hljs.highlightElement(el))
 
-  // format katex
+  //* format katex
   doc.querySelectorAll<HTMLElement>('[data-type="math"]').forEach((el) => {
     const latex = el.innerText
     el.innerHTML = katex.renderToString(latex, { throwOnError: false })

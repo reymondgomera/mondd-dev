@@ -21,8 +21,10 @@ type MonthPickerCaptionLayout =
   | { captionLayout: 'text-only' }
   | { captionLayout: 'dropdown-buttons'; fromYear: number | undefined; toYear: number | undefined }
 
-export default function MonthPicker({ className, currentMonth = new Date(), onMonthChange, captionLayout, ...props }: MonthPickerProps) {
-  const [currentYear, setCurrentYear] = React.useState(currentMonth ? format(currentMonth, 'yyyy') : '')
+export default function MonthPicker({ className, currentMonth, onMonthChange, captionLayout, ...props }: MonthPickerProps) {
+  const [currentYear, setCurrentYear] = React.useState(
+    currentMonth ? format(new Date(currentMonth), 'yyyy') : format(new Date(new Date()), 'yyyy')
+  )
   const firstDayCurrentYear = parse(currentYear, 'yyyy', new Date())
 
   const months = eachMonthOfInterval({
@@ -45,7 +47,9 @@ export default function MonthPicker({ className, currentMonth = new Date(), onMo
   }
 
   React.useEffect(() => {
-    onMonthChange(currentMonth)
+    if (currentMonth) {
+      onMonthChange(new Date(currentMonth))
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -134,7 +138,6 @@ export default function MonthPicker({ className, currentMonth = new Date(), onMo
                 tabIndex={-1}
                 type='button'
                 onClick={() => {
-                  console.log('month = ', month)
                   onMonthChange(month)
                 }}
               >

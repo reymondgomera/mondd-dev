@@ -30,7 +30,7 @@ import { getSlashCommand, getSuggestionItems } from './editor-slash-command'
 import { TextAlignSelector } from './selectors/text-align-selector'
 import EditorInitializer from './editor-initializer'
 import { uploadFn } from './image-upload/editor-image-upload'
-import { cn, extractFileKeyFromUrl, getClassName } from '@/lib'
+import { cn, extractFileKeyFromUrl } from '@/lib'
 import { Transaction } from '@tiptap/pm/state'
 import EditorInfo from './editor-info'
 import { EditorIcons } from '../icons'
@@ -38,6 +38,7 @@ import { EditorKeyboardShortcuts } from './editor-keyboard-shortcuts'
 
 export type RichTextEditorProps = {
   onChange: (content: string) => void
+  onUpdate?: (content: string) => Promise<any>
   value: string
   limit?: number
   debounceMs?: number
@@ -49,6 +50,7 @@ export type RichTextEditorProps = {
 
 const RichTextEditor = ({
   onChange,
+  onUpdate,
   value,
   limit = 20,
   debounceMs = 500,
@@ -79,6 +81,9 @@ const RichTextEditor = ({
     setWordsCount(words)
     setCharsCount(characters)
     onChange(JSON.stringify(jsonContent))
+
+    if (onUpdate) await onUpdate(JSON.stringify(jsonContent))
+
     setSaveStatus('Saved')
   }, debounceMs)
 
@@ -135,9 +140,9 @@ const RichTextEditor = ({
   }, [isLoading])
 
   return (
-    <div className='relative flex w-full max-w-screen-lg flex-col justify-center rounded-md border border-input bg-background'>
+    <div className='relative flex w-full flex-col justify-center rounded-md border border-input bg-background'>
       {showEditorInfo ? (
-        <div className='relative z-10 flex gap-2 self-end px-5 pt-5'>
+        <div className='relative z-10 flex flex-wrap justify-end gap-2 self-end px-5 pt-5'>
           <div className='flex items-center gap-1.5 rounded-lg bg-accent px-2 py-1 text-sm text-muted-foreground'>
             {isLoading ? <EditorIcons.loading className='size-4 animate-spin' /> : <EditorIcons.save className='size-4' />} {saveStatus}
           </div>
@@ -157,8 +162,7 @@ const RichTextEditor = ({
             handleDrop: (view, event, _slice, moved) => handleImageDrop(view, event, moved, uploadFn(limit)),
             attributes: {
               class: cn(
-                'prose prose-base prose-slate dark:prose-invert prose-headings:font-title font-default focus:outline-none max-w-full prose-code:before:content-none prose-code:after:content-none',
-                'dark:prose-p:text-slate-400 dark:prose-headings:text-slate-200 dark:prose-a:text-slate-400 dark:hover:prose-a:text-slate-200 dark:prose-strong:text-slate-200 dark:prose-li:text-slate-400',
+                'prose prose-base prose-slate dark:prose-invert prose-headings:font-title font-default focus:outline-none max-w-full',
                 editorClassName
               )
             }

@@ -32,28 +32,29 @@ export default function SignupForm() {
     resolver: zodResolver(signupFormSchema)
   })
 
-  const handleSubmit = async (data: SignupForm) => {
+  async function handleSubmit(formValues: SignupForm) {
     setSuccess('')
     setError('')
 
     try {
-      const response = await executeAsync(data)
+      const response = await executeAsync(formValues)
+      const result = response?.data
 
-      if (!response || !response.data) {
+      if (!response || !result) {
         setError('Failed to create user! Please try again later.')
         return
       }
 
-      if (response.data.statusCode === 200) {
-        setSuccess(response.data.message)
+      if (!result.error) {
+        setSuccess(result.message)
         form.reset()
         return
       }
 
-      setError('Something went wrong! Please try again later.')
-    } catch (err: any) {
+      setError(result.message)
+    } catch (err) {
       console.error(err)
-      setError(err.message)
+      setError('Something went wrong! Please try again later.')
     }
   }
 

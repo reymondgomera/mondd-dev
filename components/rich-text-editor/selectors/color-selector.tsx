@@ -12,7 +12,7 @@ export interface BubbleColorMenuItem {
 const TEXT_COLORS: BubbleColorMenuItem[] = [
   {
     name: 'Default',
-    color: '#374151'
+    color: ''
   },
   {
     name: 'Purple',
@@ -96,9 +96,12 @@ export const ColorSelector = ({ open, onOpenChange }: ColorSelectorProps) => {
   const { editor } = useEditor()
 
   if (!editor) return null
-  const activeColorItem = TEXT_COLORS.find(({ color }) => editor.isActive('textStyle', { color }))
 
-  const activeHighlightItem = HIGHLIGHT_COLORS.find(({ color }) => editor.isActive('highlight', { color }))
+  const activeColorItem = TEXT_COLORS.find(({ color }) => editor.isActive('textStyle', { color })) ?? TEXT_COLORS[0]
+  const activeHighlightItem = HIGHLIGHT_COLORS.find(({ color }) => editor.isActive('highlight', { color })) ?? HIGHLIGHT_COLORS[0]
+
+  const isDefaultColorActive = !TEXT_COLORS.some(({ color }) => editor.isActive('textStyle', { color }))
+  const isDefaultHightlightActive = !HIGHLIGHT_COLORS.some(({ color }) => editor.isActive('highlight', { color }))
 
   return (
     <Popover modal={true} open={open} onOpenChange={onOpenChange}>
@@ -140,11 +143,13 @@ export const ColorSelector = ({ open, onOpenChange }: ColorSelectorProps) => {
               className='flex cursor-pointer items-center justify-between px-2 py-1 text-sm hover:bg-accent'
             >
               <div className='flex items-center gap-2'>
-                <div className='rounded-sm border px-2 py-px font-medium' style={{ color }}>
+                <div className='rounded-sm border px-2 py-px font-medium' style={{ color: name === 'Default' ? '#374151' : color }}>
                   A
                 </div>
                 <span>{name}</span>
               </div>
+              {editor.isActive('textStyle', { color }) && <Check className='h-4 w-4' />}
+              {name === 'Default' && isDefaultColorActive && <Check className='h-4 w-4' />}
             </EditorBubbleItem>
           ))}
         </div>
@@ -161,12 +166,17 @@ export const ColorSelector = ({ open, onOpenChange }: ColorSelectorProps) => {
               className='flex cursor-pointer items-center justify-between px-2 py-1 text-sm hover:bg-accent'
             >
               <div className='flex items-center gap-2'>
-                <div className='rounded-sm border px-2 py-px font-medium' style={{ backgroundColor: color }}>
+                <div
+                  className='rounded-sm border px-2 py-px font-medium'
+                  style={{ backgroundColor: name === 'Default' ? 'transparent' : color }}
+                >
                   A
                 </div>
                 <span>{name}</span>
               </div>
+
               {editor.isActive('highlight', { color }) && <Check className='h-4 w-4' />}
+              {name === 'Default' && isDefaultHightlightActive && <Check className='h-4 w-4' />}
             </EditorBubbleItem>
           ))}
         </div>

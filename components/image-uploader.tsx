@@ -3,9 +3,10 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { toast } from 'sonner'
 import { ElementRef, useEffect, useRef, useState } from 'react'
+import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd'
 
 import { useMounted } from '@/hooks'
-import { MimeType, formatByte } from '@/lib'
+import { MimeType, extractFileKeyFromUrl, formatByte } from '@/lib'
 import { cn, getFileFromBlobUrl } from '@/lib'
 import { Icon, Icons } from './icons'
 import { ScrollArea } from './ui/scroll-area'
@@ -302,6 +303,17 @@ export default function ImageUploader({
     }
   }
 
+  const handleDragEnd = (result: DropResult) => {
+    if (!result.destination || !isMultiple) return
+
+    const files = Array.from(uploadedFiles)
+    const [reorderedItem] = files.splice(result.source.index, 1)
+    files.splice(result.destination.index, 0, reorderedItem)
+
+    onChange(files.map((file) => file.url))
+    setUploadedFiles(files)
+  }
+
   return (
     <div className={cn('flex flex-col items-stretch justify-stretch gap-1', mainContainerClassName)}>
       <div
@@ -359,7 +371,7 @@ export default function ImageUploader({
               <span
                 onClick={() => handleRemoveFile({ url: uploadedFiles[0].url, isMultiple, onChange })}
                 title='Remove Image'
-                className='absolute -right-1.5 -top-2 z-[60] flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-rose-500 object-center text-white'
+                className='absolute -right-1.5 -top-2 z-[35] flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-rose-500 object-center text-white'
               >
                 <Icons.close className='h-4 w-4' />
               </span>
@@ -367,7 +379,7 @@ export default function ImageUploader({
                 fill
                 src={uploadedFiles[0].url}
                 alt={uploadedFiles[0].file.name}
-                className='absolute z-50 block h-full w-full rounded-md'
+                className='absolute z-30 block h-full w-full rounded-md'
               />
             </>
           )}
@@ -376,7 +388,7 @@ export default function ImageUploader({
         {isLoading || isInitializingData ? (
           <div className='absolute flex h-full w-full items-center justify-center opacity-50'>
             <Icons.spinner className='z-20 h-10 w-10 animate-spin text-black dark:text-slate-200' />
-            <div className='absolute z-10 h-full w-full bg-black opacity-50 dark:bg-slate-800/90'></div>
+            <div className='absolute z-10 h-full w-full bg-black opacity-50 dark:bg-slate-800/90 dark:opacity-100'></div>
           </div>
         ) : null}
       </div>
@@ -390,64 +402,98 @@ export default function ImageUploader({
           className={cn('mt-1 w-full', !isMultiple && uploadedFiles.length > 0 && 'h h-[64px]')}
           viewPortClassName={cn(isMultiple && 'min-h-[79px] max-h-[280px]')}
         >
-          <div className='flex flex-col gap-1.5'>
-            {uploadedFiles.map((obj, i) => (
-              <div key={i} className='flex w-full items-center justify-between gap-3 rounded-md bg-teal-50 p-3 dark:bg-slate-800/25'>
-                <div className='h-16 w-16 flex-shrink-0 '>
-                  <img src={obj.url} alt={obj.file.name} className='h-full w-full rounded-md' />
-                </div>
-                <div className='flex w-full min-w-[100px] flex-col gap-1'>
-                  <Link href={obj.url} target='_blank' className='line-clamp-1 w-full min-w-[100px] text-xs hover:underline'>
-                    {obj.file.name}
-                  </Link>
+          <DragDropContext onDragEnd={handleDragEnd}>
+            <Droppable droppableId={`${uploaderKey}-loose-images`} direction='vertical'>
+              {(provided) => (
+                <div {...provided.droppableProps} ref={provided.innerRef} className='flex flex-col gap-1.5'>
+                  {uploadedFiles.map((obj, i) => (
+                    <Draggable key={extractFileKeyFromUrl(obj.url)} draggableId={extractFileKeyFromUrl(obj.url)} index={i}>
+                      {(provided) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          className='flex w-full items-center justify-between gap-3 rounded-md bg-teal-50 p-3 dark:bg-slate-800/50'
+                        >
+                          <div className='h-16 w-16 flex-shrink-0 '>
+                            <img src={obj.url} alt={obj.file.name} className='h-full w-full rounded-md object-cover object-center' />
+                          </div>
+                          <div className='flex w-full min-w-[100px] flex-col gap-1'>
+                            <Link href={obj.url} target='_blank' className='line-clamp-1 w-full min-w-[100px] text-xs hover:underline'>
+                              {obj.file.name}
+                            </Link>
 
-                  <p className='text-xs text-gray-500'>{formatByte(obj.file.size)}</p>
-                </div>
-                <Button
-                  type='button'
-                  variant='ghost'
-                  onClick={() => {
-                    if (!isMultiple) {
-                      handleRemoveFile({ url: obj.url, isMultiple, onChange })
-                      return
-                    }
+                            <p className='text-xs text-gray-500'>{formatByte(obj.file.size)}</p>
+                          </div>
+                          <Button
+                            type='button'
+                            variant='ghost'
+                            onClick={() => {
+                              if (!isMultiple) {
+                                handleRemoveFile({ url: obj.url, isMultiple, onChange })
+                                return
+                              }
 
-                    handleRemoveFile({ url: obj.url, isMultiple, files: uploadedFiles, onChange })
-                  }}
-                >
-                  <Icons.trash className='h-5 w-5 text-rose-500' />
-                </Button>
-              </div>
-            ))}
-          </div>
+                              handleRemoveFile({ url: obj.url, isMultiple, files: uploadedFiles, onChange })
+                            }}
+                          >
+                            <Icons.trash className='h-5 w-5 text-rose-500' />
+                          </Button>
+                        </div>
+                      )}
+                    </Draggable>
+                  ))}
+                </div>
+              )}
+            </Droppable>
+          </DragDropContext>
         </ScrollArea>
       ) : null}
 
       {isMultiple && display && display === 'compact' && !isLoading && !isInitializingData && uploadedFiles.length > 0 ? (
         <ScrollArea className='mt-1 w-full' viewPortClassName={cn(isMultiple && 'min-h-[104px] max-h-[200px]')}>
-          <div className='mt-1 flex w-full flex-wrap gap-4 bg-teal-50 p-3 dark:bg-slate-800/90'>
-            {uploadedFiles.map((obj, i) => (
-              <div key={i} className='relative flex w-fit flex-col items-center gap-1.5'>
-                <Link href={obj.url} target='_blank'>
-                  <img src={obj.url} alt={obj.file.name} className='h-20 w-20 rounded-md' />
-                </Link>
-
-                <span
-                  className='absolute -right-1.5 -top-2 flex h-5 w-5 cursor-pointer items-center justify-center rounded-full bg-rose-500'
-                  onClick={() => {
-                    if (!isMultiple) {
-                      handleRemoveFile({ url: obj.url, isMultiple, onChange })
-                      return
-                    }
-
-                    handleRemoveFile({ url: obj.url, isMultiple, files: uploadedFiles, onChange })
-                  }}
+          <DragDropContext onDragEnd={handleDragEnd}>
+            <Droppable droppableId={`${uploaderKey}-compact-images`} direction='horizontal'>
+              {(provided) => (
+                <div
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                  className='mt-1 flex w-full flex-wrap gap-4 rounded-md bg-teal-50 p-3 dark:bg-slate-800/50'
                 >
-                  <Icons.close className='h-4 w-4 text-white' />
-                </span>
-              </div>
-            ))}
-          </div>
+                  {uploadedFiles.map((obj, i) => (
+                    <Draggable key={extractFileKeyFromUrl(obj.url)} draggableId={extractFileKeyFromUrl(obj.url)} index={i}>
+                      {(provided) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          className='relative flex w-fit flex-col items-center gap-1.5'
+                        >
+                          <Link href={obj.url} target='_blank' className='block h-20 w-20'>
+                            <img src={obj.url} alt={obj.file.name} className='h-full w-full rounded-md object-cover object-center' />
+                          </Link>
+
+                          <span
+                            className='absolute -right-1.5 -top-2 flex h-5 w-5 cursor-pointer items-center justify-center rounded-full bg-rose-500'
+                            onClick={() => {
+                              if (!isMultiple) {
+                                handleRemoveFile({ url: obj.url, isMultiple, onChange })
+                                return
+                              }
+
+                              handleRemoveFile({ url: obj.url, isMultiple, files: uploadedFiles, onChange })
+                            }}
+                          >
+                            <Icons.close className='h-4 w-4 text-white' />
+                          </span>
+                        </div>
+                      )}
+                    </Draggable>
+                  ))}
+                </div>
+              )}
+            </Droppable>
+          </DragDropContext>
         </ScrollArea>
       ) : null}
     </div>

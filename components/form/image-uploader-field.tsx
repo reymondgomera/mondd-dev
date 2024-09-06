@@ -29,11 +29,19 @@ type ImageUploaderFieldProps<
   control: Control<TFieldValues>
   name: TName
   label: string
+  showLabel?: boolean
   description?: string
   extendedProps?: ExtendedProps
 }
 
-function ImageUploaderField<T extends FieldValues>({ control, name, label, description, extendedProps }: ImageUploaderFieldProps<T>) {
+function ImageUploaderField<T extends FieldValues>({
+  control,
+  name,
+  label,
+  showLabel = true,
+  description,
+  extendedProps
+}: ImageUploaderFieldProps<T>) {
   const { clearErrors } = useFormContext()
   const { schema } = useFormSchema()
   const isRequired = isFieldRequired(name, schema)
@@ -45,9 +53,11 @@ function ImageUploaderField<T extends FieldValues>({ control, name, label, descr
       render={({ field, fieldState: { error } }) => {
         return (
           <FormItem className={cn('space-y-2', getClassName(extendedProps?.itemProps))} {...omitClassName(extendedProps?.itemProps)}>
-            <FormLabel className={cn('space-x-1', getClassName(extendedProps?.labelProps))} {...omitClassName(extendedProps?.labelProps)}>
-              {label}
-            </FormLabel>
+            {showLabel ? (
+              <FormLabel className={cn('space-x-1', getClassName(extendedProps?.labelProps))} {...omitClassName(extendedProps?.labelProps)}>
+                {label}
+              </FormLabel>
+            ) : null}
             <FormControl>
               <ImageUploader
                 label={label}
@@ -55,7 +65,7 @@ function ImageUploaderField<T extends FieldValues>({ control, name, label, descr
                 isRequired={isRequired}
                 uploaderKey={name}
                 icon={Icons.image}
-                limitSize={2}
+                limitSize={4}
                 isMultiple={false}
                 display={null}
                 onChange={(url: string | string[]) => {

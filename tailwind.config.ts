@@ -27,6 +27,10 @@ const config = {
       }
     },
     extend: {
+      backgroundImage: {
+        'logo-dark': "url('/images/logo-text-dark.svg')",
+        'logo-default': "url('/images/logo-text-default.svg')"
+      },
       colors: {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
