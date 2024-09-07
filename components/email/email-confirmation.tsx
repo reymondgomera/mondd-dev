@@ -1,8 +1,11 @@
 import { formatRelative } from 'date-fns'
+import { Section } from '@react-email/section'
+import { Text } from '@react-email/text'
+import { Link } from '@react-email/link'
 
-import { Tailwind, Html, Head, Body, Preview, Container, Section, Img, Heading, Text, Button, Link } from '@react-email/components'
-import Footer from './_components/footer'
-import EmailContentWrapper from './_components/content-wrapper'
+import EmailContentWrapper from './_components/email-content-wrapper'
+import Email from './_components/email'
+import EmailButton from './_components/email-button'
 
 type EmailConfirmationEmailProps = {
   token: string
@@ -14,32 +17,47 @@ export default function EmailConfirmationEmail({ token = '', expires = new Date(
   const confirmationLink = `${BASE_URL}/email-verification?token=${token}`
 
   return (
-    <Html lang='en' dir='ltr'>
-      <Head>
-        <title>mond.dev - Email Confirmation</title>
-      </Head>
+    <Email title='mond.dev - Email Confirmation' preview='Confirm your email address'>
+      <EmailContentWrapper title='Confirm your email'>
+        <Section style={confirmButtonContainer}>
+          <EmailButton text='Confirm Email Address' href={confirmationLink} target='_blank' />
+        </Section>
 
-      <Preview>Confirm your email address</Preview>
-
-      <Tailwind>
-        <EmailContentWrapper title='Confirm your email'>
-          <Section className='py-5 text-center'>
-            <Button href={confirmationLink} target='_blank' className='rounded-md bg-[#131C26] px-4 py-2 text-sm font-semibold text-white'>
-              Confirm Email Address
-            </Button>
-          </Section>
-
-          <Section className='flex items-center justify-center text-sm'>
-            <Text className='mb-1 block w-full text-center'>or copy and paste this URL into your browser:</Text>
-            <Link className='block w-full text-center' target='_blank' href={confirmationLink}>
-              {confirmationLink}
-            </Link>
-            <Text className='mb-0 mt-2 block w-full text-center text-sm text-slate-500'>
-              For security reasons, the link will expire {formatRelative(expires, new Date())}
-            </Text>
-          </Section>
-        </EmailContentWrapper>
-      </Tailwind>
-    </Html>
+        <Section style={confirmLinkContainer}>
+          <Text style={description}>or copy and paste this URL into your browser:</Text>
+          <Link style={text} target='_blank' href={confirmationLink}>
+            {confirmationLink}
+          </Link>
+          <Text style={expire}>For security reasons, the link will expire {formatRelative(expires, new Date())}</Text>
+        </Section>
+      </EmailContentWrapper>
+    </Email>
   )
 }
+
+const confirmButtonContainer = {
+  padding: '20px 0',
+  textAlign: 'center'
+} satisfies React.CSSProperties
+
+const confirmLinkContainer = {
+  fontSize: '14px',
+  lineHeight: '20px'
+} satisfies React.CSSProperties
+
+const text = {
+  display: 'inline-block',
+  width: '100%',
+  textAlign: 'center'
+} satisfies React.CSSProperties
+
+const description = {
+  ...text,
+  marginBottom: '4px'
+} satisfies React.CSSProperties
+
+const expire = {
+  ...text,
+  margin: '4px 0 0 0',
+  color: '#64748B'
+} satisfies React.CSSProperties
