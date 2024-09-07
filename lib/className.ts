@@ -1,11 +1,14 @@
-import _ from 'lodash'
+import { get, omit } from 'radash'
 
 export function getClassName(props: Object | undefined, customClassName?: string) {
   if (!props) return ''
-  return _.get(props, customClassName || 'className')
+  return get<string>(props, customClassName || 'className')
 }
 
 export function omitClassName(props: Object | undefined, customClassName?: string | string[]) {
   if (!props) return ''
-  return _.omit(props, customClassName || 'className')
+
+  if (customClassName && Array.isArray(customClassName)) return omit(props, customClassName as (keyof Object)[])
+
+  return omit(props, [(customClassName || 'className') as keyof Object])
 }

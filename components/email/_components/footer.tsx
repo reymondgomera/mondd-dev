@@ -1,17 +1,39 @@
-import { Hr, Section, Tailwind, Text } from '@react-email/components'
+import { Hr } from '@react-email/hr'
+import { Section } from '@react-email/section'
+import { Text } from '@react-email/text'
 
 export default function Footer() {
   return (
-    <Tailwind>
-      <Hr className='mb-0 mt-6 h-[10px] w-full' />
+    <footer>
+      <Hr style={hr} />
 
       <Section>
-        <Text className='mb-1.5 mt-1 text-center text-[12px] leading-[18px] text-slate-400'>Davao City, Davao Del Sur, Philippines</Text>
-
-        <Text className='my-0 text-center text-[12px] leading-[18px] text-slate-400'>
-          &copy; {new Date().getFullYear()}&nbsp;mond.dev, All rights reserved.
-        </Text>
+        <Text style={addressText}>Davao City, Davao Del Sur, Philippines</Text>
+        <Text style={copyrightText}>&copy; {new Date().getFullYear()}&nbsp;mond.dev, All rights reserved.</Text>
       </Section>
-    </Tailwind>
+    </footer>
   )
 }
+
+const hr = {
+  margin: '24px 0 0 0',
+  height: '10px',
+  width: '100%'
+} satisfies React.CSSProperties
+
+const text = {
+  textAlign: 'center',
+  fontSize: '12px',
+  lineHeight: '18px',
+  color: '#94A3B8'
+} satisfies React.CSSProperties
+
+const addressText = {
+  ...text,
+  margin: '4 0 6px 0'
+} satisfies React.CSSProperties
+
+const copyrightText = {
+  ...text,
+  margin: '0'
+} satisfies React.CSSProperties
