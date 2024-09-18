@@ -46,7 +46,7 @@ export function getColumns(): ColumnDef<SkillData>[] {
     {
       id: 'actions',
       size: 40,
-      cell: ({ row }) => {
+      cell: function ActionCell({ row }) {
         const router = useRouter()
         const { executeAsync } = useAction(deleteSkill)
         const [showConfirmation, setShowConfirmation] = useState(false)

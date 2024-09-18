@@ -48,7 +48,7 @@ export function getColumns(): ColumnDef<PostData>[] {
     {
       id: 'actions',
       size: 40,
-      cell: ({ row }) => {
+      cell: function ActionCell({ row }) {
         const router = useRouter()
         const { executeAsync, isExecuting } = useAction(deletePost)
         const [showConfirmation, setShowConfirmation] = useState(false)

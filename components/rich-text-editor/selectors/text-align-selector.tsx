@@ -66,9 +66,8 @@ export const TextAlignSelector = ({ open, onOpenChange }: NodeSelectorProps) => 
       </ActionTooltipProvider>
       <PopoverContent sideOffset={5} align='start' className='w-fit p-1'>
         {items.map((item) => (
-          <ActionTooltipProvider side='left' label={item.name}>
+          <ActionTooltipProvider key={item.name} side='left' label={item.name}>
             <EditorBubbleItem
-              key={item.name}
               onSelect={(editor) => {
                 item.command(editor)
                 onOpenChange(false)

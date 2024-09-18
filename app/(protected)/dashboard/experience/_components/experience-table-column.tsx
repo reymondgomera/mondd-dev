@@ -34,7 +34,7 @@ export function getColumns(): ColumnDef<ExperienceData>[] {
     {
       id: 'actions',
       size: 40,
-      cell: ({ row }) => {
+      cell: function ActionCell({ row }) {
         const router = useRouter()
         const { executeAsync } = useAction(deleteExperience)
         const [showConfirmation, setShowConfirmation] = useState(false)

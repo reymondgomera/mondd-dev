@@ -9,7 +9,8 @@ type RenderTabsContent = {
 }
 
 export default async function SkillTabs() {
-  const [skilltypes, skills] = await Promise.all([getReferences({ entityCodes: ['skill-type'] }), getSkills()])
+  //TODO: add get skills for root page, create separate server action for fetching skills for root page
+  const [skilltypes, skills] = await Promise.all([getReferences({ entityCodes: ['skill-type'] }), getSkills({})])
 
   if (!skilltypes || !skills) return null
 
@@ -33,7 +34,7 @@ export default async function SkillTabs() {
         className='flex w-full max-w-3xl flex-wrap justify-center gap-4 p-3 data-[state=inactive]:m-0 data-[state=inactive]:p-0 sm:min-w-72 lg:max-w-5xl'
         value={trigger.value}
       >
-        {skills
+        {skills.data
           .filter((skill) => trigger.value === skill.typeCode)
           .map((skill, i) => (
             <SkillCard key={`${i}-${skill.title}`} title={skill.title} icon={skill.logo} isFavorite={skill.isFavorite} />
@@ -56,7 +57,7 @@ export default async function SkillTabs() {
         className='flex w-full max-w-3xl flex-wrap justify-center gap-4 p-3 data-[state=inactive]:m-0 data-[state=inactive]:p-0 sm:min-w-72 lg:max-w-5xl'
         value='all'
       >
-        {skills.map((skill, i) => (
+        {skills.data.map((skill, i) => (
           <SkillCard key={i} title={skill.title} icon={skill.logo} isFavorite={skill.isFavorite} />
         ))}
       </TabsContent>

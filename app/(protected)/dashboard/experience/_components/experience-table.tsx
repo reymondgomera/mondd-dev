@@ -4,7 +4,7 @@ import { use, useMemo } from 'react'
 
 import { ExperienceData, getExperiences } from '@/actions'
 import { getColumns } from './experience-table-column'
-import { useDataTable, useDataTableStore } from '@/hooks/use-data-table'
+import { useDataTable } from '@/hooks/use-data-table'
 import { DataTableFilterField } from '@/types'
 import { DataTable } from '@/components/data-table/data-table'
 import { DataTableAdvancedToolbar } from '@/components/data-table/advanced/data-table-advanced-toolbar'
