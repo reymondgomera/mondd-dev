@@ -1,7 +1,6 @@
 'use client'
 
 import { FallbackProps } from 'react-error-boundary'
-import { Icon, Icons } from './icons'
 import { cn } from '@/lib'
 import { Button } from './ui/button'
 
@@ -13,10 +12,6 @@ type ComponentErrorFallbackProps = {
   description: string
   icon: React.ReactNode
 }
-
-// TODO: GlobalErrorFallback & PageErrorFallback Components
-export function GlobalErrorFallback({ error, resetErrorBoundary }: FallbackComponentProps) {}
-export function PageErrorFallback({ error, resetErrorBoundary }: FallbackComponentProps) {}
 
 export function ComponentErrorFallback({ error, resetErrorBoundary, ...extendedProps }: FallbackComponentProps) {
   const { className, title, description, icon } = extendedProps.componentErrorFallback as ComponentErrorFallbackProps

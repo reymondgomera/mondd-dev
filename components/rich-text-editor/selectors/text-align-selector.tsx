@@ -66,16 +66,18 @@ export const TextAlignSelector = ({ open, onOpenChange }: NodeSelectorProps) => 
       </ActionTooltipProvider>
       <PopoverContent sideOffset={5} align='start' className='w-fit p-1'>
         {items.map((item) => (
-          <EditorBubbleItem
-            key={item.name}
-            onSelect={(editor) => {
-              item.command(editor)
-              onOpenChange(false)
-            }}
-            className='flex cursor-pointer flex-col justify-center rounded-sm px-2 py-1 text-sm hover:bg-accent'
-          >
-            <item.icon className={cn('h-4 w-4', { 'text-blue-500': activeItem.name === item.name })} />
-          </EditorBubbleItem>
+          <ActionTooltipProvider side='left' label={item.name}>
+            <EditorBubbleItem
+              key={item.name}
+              onSelect={(editor) => {
+                item.command(editor)
+                onOpenChange(false)
+              }}
+              className='flex cursor-pointer flex-col justify-center rounded-sm px-2 py-1 text-sm hover:bg-accent'
+            >
+              <item.icon className={cn('h-4 w-4', { 'text-blue-500': activeItem.name === item.name })} />
+            </EditorBubbleItem>
+          </ActionTooltipProvider>
         ))}
       </PopoverContent>
     </Popover>

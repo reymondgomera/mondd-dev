@@ -1,12 +1,13 @@
 'use server'
 
-import { Post } from '@prisma/client'
+import { Post, Prisma } from '@prisma/client'
 import { redirect } from 'next/navigation'
 import slugify from 'slugify'
-import { revalidatePath } from 'next/cache'
+import { revalidatePath, unstable_noStore as noStore } from 'next/cache'
 
 import {
   ProjectMetadataForm,
+  getPostsFormSchema,
   paramsFormSchema,
   postFormSchema,
   togglePostFeatureFormSchema,
@@ -26,6 +27,66 @@ import {
   uploadFiles
 } from '@/lib'
 import { authenticationMiddleware, authorizationMiddleware } from '@/lib/safe-action-middleware'
+import { PostType, SearchParams } from '@/types'
+import { OrderByInput, WhereAnd, WhereOr } from '@/types/prisma'
+import { filterColumn } from '@/lib/data-table/filterColumn'
+
+export type PostData = Awaited<ReturnType<typeof getPosts>>['data'][number]
+
+export async function getPosts(type: PostType, searchParams: SearchParams) {
+  noStore()
+
+  const search = getPostsFormSchema.safeParse(searchParams)
+
+  if (!search.success) return { data: [], pageCount: 0 }
+
+  const { page, per_page, sort, title, isFeatured, isPublished } = search.data
+
+  //* Offset to paginate the results
+  const offset = (page - 1) * per_page
+
+  //* Column and order to sort by
+  const [column, order] = (sort?.split('.').filter(Boolean) ?? ['createdAt', 'desc']) as [keyof Post, 'asc' | 'desc']
+
+  //* initialized where input
+  // prettier-ignore
+  const where: Prisma.PostWhereInput = {
+    typeCode: type,
+    ...(title ? filterColumn<'Post'>({ column: 'title', columnType: 'String', value: title }) : {}),
+    AND: [
+      ...(isFeatured ? [filterColumn<'Post'>({ column: 'isFeatured', columnType: 'Boolean', value: isFeatured, isSelectable: true })] : []),
+      ...(isPublished? [filterColumn<'Post'>({ column: 'isPublished', columnType: 'Boolean', value: isPublished, isSelectable: true })] : []),
+    ] as WhereAnd<'Post'> | WhereOr<'Post'>
+  }
+
+  //* initialized order input
+  const orderBy = { [column]: order } as OrderByInput<'Post'>
+
+  const [data, total] = await db.$transaction([
+    db.post.findMany({
+      where,
+      skip: offset,
+      take: per_page,
+      orderBy,
+      select: {
+        id: true,
+        title: true,
+        slug: true,
+        typeCode: true,
+        type: { select: { name: true, code: true } },
+        isFeatured: true,
+        isPublished: true,
+        createdAt: true
+      }
+    }),
+    db.post.count({ where })
+  ])
+
+  //* Calculate page count
+  const pageCount = Math.ceil(total / per_page)
+
+  return { data, pageCount }
+}
 
 export async function getPostBySlug(type: string, slug: string) {
   try {

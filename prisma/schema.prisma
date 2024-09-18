@@ -148,12 +148,12 @@ model Skill {
 }
 
 model Experience {
-  id          String   @id @default(uuid())
+  id          String    @id @default(uuid())
   title       String
   description String
   tags        String[]
-  start       DateTime @db.Date
-  end         DateTime @db.Date
+  start       DateTime
+  end         DateTime?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt

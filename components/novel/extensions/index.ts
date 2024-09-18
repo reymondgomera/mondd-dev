@@ -20,6 +20,7 @@ import UpdatedImage from './updated-image'
 import Superscript from '@tiptap/extension-superscript'
 import Subscript from '@tiptap/extension-subscript'
 import AutoJoiner from 'tiptap-extension-auto-joiner'
+import Image from './image'
 
 import CharacterCount from '@tiptap/extension-character-count'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
@@ -88,6 +89,7 @@ export {
   TaskItem,
   TaskList,
   TiptapImage,
+  Image,
   TiptapUnderline,
   MarkdownExtension as Markdown,
   TextStyle,

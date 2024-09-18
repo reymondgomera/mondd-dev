@@ -1,9 +1,17 @@
-import { ppDate } from '@/constant'
 import { z } from 'zod'
+import { ppDate } from '@/constant'
+
+import { dataTableSearchParamsSchema } from './data-table'
 
 const { arg, params, schema } = ppDate
 
 //* Schemas *//
+export const getPostsFormSchema = dataTableSearchParamsSchema.extend({
+  title: z.string().optional(),
+  isFeatured: z.string().optional(),
+  isPublished: z.string().optional()
+})
+
 export const postFormSchema = z.object({
   authorId: z.string().min(1, { message: 'Please enter an author id.' }),
   typeCode: z.string().min(1, { message: 'Please select a post type.' }),
@@ -51,6 +59,7 @@ export const blogFormSchema = postFormSchema.extend({ id: z.string().min(1, { me
 export const updateBlogFormSchema = blogFormSchema.extend({ formData: z.any() })
 
 //* Types *//
+export type GetPostsForm = z.infer<typeof getPostsFormSchema>
 export type PostForm = z.infer<typeof postFormSchema>
 export type UpdatePostBodyForm = z.infer<typeof updatePostBodyFormSchema>
 export type ProjectForm = z.infer<typeof projectFormSchema>
