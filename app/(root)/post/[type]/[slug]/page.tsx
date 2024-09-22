@@ -1,0 +1,36 @@
+import { notFound } from 'next/navigation'
+
+import { getPostBySlug } from '@/actions'
+import { TracingBeam } from '@/components/tracing-beam'
+import PostHeader from './_components/post-header'
+import PostImages from './_components/post-images'
+import PostBody from './_components/post-body'
+import BackButton from './_components/back-button'
+
+export default async function PostPage({ params }: { params: { type: string; slug: string } }) {
+  const post = await getPostBySlug(params.type, params.slug)
+
+  if (!post) notFound()
+
+  return (
+    <div>
+      <div className='mx-10 my-8'>
+        <BackButton />
+      </div>
+
+      <article className='container'>
+        <TracingBeam
+          className='px-6'
+          dot={{ color: '--teal-300', border: '--teal-300' }}
+          gradientColor={{ color1: '--teal-300', color2: '--teal-300', color3: '--teal-400', color4: '--teal-600' }}
+        >
+          <div className='relative flex flex-col gap-y-10'>
+            <PostHeader post={post} />
+            <PostImages post={post} />
+            <PostBody post={post} />
+          </div>
+        </TracingBeam>
+      </article>
+    </div>
+  )
+}

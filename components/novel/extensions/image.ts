@@ -118,7 +118,7 @@ const Image = Node.create<ImageOptions>({
         default: null
       },
       class: {
-        default: null,
+        default: 'mr-auto',
         rendered: true
       }
     }

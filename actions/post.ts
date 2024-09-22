@@ -27,11 +27,71 @@ import {
   uploadFiles
 } from '@/lib'
 import { authenticationMiddleware, authorizationMiddleware } from '@/lib/safe-action-middleware'
-import { PostType, SearchParams } from '@/types'
-import { OrderByInput, WhereAnd, WhereOr } from '@/types/prisma'
+import { PostType, SearchParams, OrderByInput, WhereAnd, WhereOr } from '@/types'
 import { filterColumn } from '@/lib/data-table/filterColumn'
 
 export type PostData = Awaited<ReturnType<typeof getPosts>>['data'][number]
+export type PostDataForLandingPage = Awaited<ReturnType<typeof getPostsForLandingPage>>['data'][number]
+
+export async function getLatestFeaturedAndPublishedPosts(type: PostType) {
+  return await db.post.findMany({
+    where: { typeCode: type, isFeatured: true, isPublished: true },
+    orderBy: { createdAt: 'desc' },
+    take: 5
+  })
+}
+
+export async function getPostsForLandingPage(type: PostType, searchParams: SearchParams) {
+  const search = getPostsFormSchema.safeParse(searchParams)
+
+  if (!search.success) return { data: [], pageCount: 0 }
+
+  const { page, per_page, title } = search.data
+
+  //* Offset to paginate the results
+  const offset = (page - 1) * per_page
+
+  //* initialized where input
+  const where: Prisma.PostWhereInput = {
+    typeCode: type,
+    ...(title
+      ? {
+          OR: [
+            { title: { contains: title, mode: 'insensitive' } },
+            { description: { contains: title, mode: 'insensitive' } },
+            { tags: { has: title } }
+          ]
+        }
+      : {}),
+    isPublished: true
+  }
+
+  const [data, total] = await db.$transaction([
+    db.post.findMany({
+      where,
+      skip: offset,
+      take: per_page,
+      orderBy: { createdAt: 'desc' },
+      select: {
+        id: true,
+        title: true,
+        slug: true,
+        thumbnail: true,
+        typeCode: true,
+        description: true,
+        tags: true,
+        metadata: true,
+        createdAt: true
+      }
+    }),
+    db.post.count({ where })
+  ])
+
+  //* Calculate page count
+  const pageCount = Math.ceil(total / per_page)
+
+  return { data, pageCount }
+}
 
 export async function getPosts(type: PostType, searchParams: SearchParams) {
   noStore()

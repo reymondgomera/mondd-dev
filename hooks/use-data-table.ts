@@ -18,12 +18,9 @@ import {
   type TableState,
   type VisibilityState
 } from '@tanstack/react-table'
-import { z } from 'zod'
 import { useDebounce } from '@/hooks/use-debounce'
 import { useQueryString } from '@/hooks/use-query-string'
 
-import { createStoreWithSelectors } from '@/lib'
-import { createWithEqualityFn } from 'zustand/traditional'
 import { dataTableSearchParamsSchema } from '@/schema'
 
 interface UseDataTableProps<TData>

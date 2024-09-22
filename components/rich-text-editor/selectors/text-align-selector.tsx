@@ -23,7 +23,7 @@ const items: SelectorItem[] = [
   },
   {
     name: 'Align Center',
-    icon: EditorIcons.alignLeft,
+    icon: EditorIcons.alignCenter,
     command: (editor) => editor?.chain().focus().setTextAlign('center').run(),
     isActive: (editor) => (editor ? editor.isActive({ textAlign: 'center' }) : false)
   },
@@ -58,7 +58,7 @@ export const TextAlignSelector = ({ open, onOpenChange }: NodeSelectorProps) => 
     <Popover modal={true} open={open} onOpenChange={onOpenChange}>
       <ActionTooltipProvider label='Align'>
         <PopoverTrigger asChild>
-          <Button size='sm' variant='ghost' className='gap-2 rounded-none hover:bg-accent focus:ring-0'>
+          <Button type='button' size='sm' variant='ghost' className='gap-2 rounded-none hover:bg-accent focus:ring-0'>
             <span className='whitespace-nowrap text-sm'>{<activeItem.icon className='h-4 w-4' />}</span>
             <EditorIcons.down className='h-4 w-4' />
           </Button>

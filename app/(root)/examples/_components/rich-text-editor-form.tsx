@@ -2,15 +2,13 @@
 
 import { z } from 'zod'
 import { FieldValues, useForm } from 'react-hook-form'
+import { useState } from 'react'
 
 import { editorDefaultContent } from '@/components/rich-text-editor/editor-default-content'
 import { zodResolver } from '@hookform/resolvers/zod'
 import RichTextEditorField from '@/components/form/rich-text-editor-field'
 import { Form } from '@/components/ui/form'
 import { Button } from '@/components/ui/button'
-import { JSONContent } from '@tiptap/core'
-import { useMemo, useState } from 'react'
-import { getGeneratedHTML } from '@/lib'
 import dynamic from 'next/dynamic'
 
 const EditorHtmlContent = dynamic(() => import('@/components/rich-text-editor/editor-html-content'), { ssr: false })

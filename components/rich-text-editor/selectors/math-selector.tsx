@@ -12,6 +12,7 @@ export const MathSelector = () => {
   return (
     <ActionTooltipProvider label='Mathethematics'>
       <Button
+        type='button'
         variant='ghost'
         size='sm'
         className='w-12 rounded-none'

@@ -7,11 +7,15 @@ import { redirect } from 'next/navigation'
 import { action, db, getServerActionError, returnServerActionError, returnServerActionSuccess, deleteFiles, uploadFiles } from '@/lib'
 import { authenticationMiddleware, authorizationMiddleware } from '@/lib/safe-action-middleware'
 import { getSkillsFormSchema, paramsFormSchema, skillFormSchema, toggleSkillFavoriteFormSchema } from '@/schema'
-import { SearchParams } from '@/types'
+import { SearchParams, OrderByInput, WhereAnd, WhereOr } from '@/types'
 import { filterColumn } from '@/lib/data-table/filterColumn'
-import { OrderByInput, WhereAnd, WhereOr } from '@/types/prisma'
 
 export type SkillData = Awaited<ReturnType<typeof getSkills>>['data'][number]
+export type SkillsDataForLandingPage = Awaited<ReturnType<typeof getSkillsForLandingPage>>[number]
+
+export async function getSkillsForLandingPage() {
+  return await db.skill.findMany({ select: { title: true, isFavorite: true, logo: true, typeCode: true }, orderBy: { title: 'asc' } })
+}
 
 export async function getSkills(searchParams: SearchParams) {
   noStore()

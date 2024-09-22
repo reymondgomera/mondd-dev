@@ -79,6 +79,7 @@ export const ImageResizer: FC = () => {
       >
         <ActionTooltipProvider label='Align Left'>
           <Button
+            type='button'
             size='sm'
             variant='ghost'
             className={cn('gap-2 rounded-none hover:bg-accent focus:ring-0', isActive('left') && 'text-blue-500')}
@@ -90,6 +91,7 @@ export const ImageResizer: FC = () => {
 
         <ActionTooltipProvider label='Align Center'>
           <Button
+            type='button'
             size='sm'
             variant='ghost'
             className={cn('gap-2 rounded-none hover:bg-accent focus:ring-0', isActive('center') && 'text-blue-500')}
@@ -101,6 +103,7 @@ export const ImageResizer: FC = () => {
 
         <ActionTooltipProvider label='Align Right'>
           <Button
+            type='button'
             size='sm'
             variant='ghost'
             className={cn('gap-2 rounded-none hover:bg-accent focus:ring-0', isActive('right') && 'text-blue-500')}

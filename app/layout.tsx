@@ -10,6 +10,7 @@ import ToastProvider from '@/components/provider/toast-provider'
 import TailwindIndicatorProvider from '@/components/provider/tailwind-indicator-provider'
 
 import './styles/index.css'
+import 'photoswipe/dist/photoswipe.css'
 
 const dmSans = DM_Sans({
   subsets: ['latin'],
@@ -26,12 +27,10 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const session = await auth()
-
   return (
     <html className='h-full scroll-smooth' lang='en' suppressHydrationWarning>
       <body className={`${dmSans.className} h-full`}>
-        <SessionProvider session={session}>
+        <SessionProvider>
           <ThemeProvider
             attribute='class'
             defaultTheme='dark'

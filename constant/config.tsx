@@ -30,11 +30,11 @@ export type NavItem = {
 }
 
 export const navItems: NavItem[] = [
-  { title: 'Skill', href: '#skill' },
-  { title: 'Project', href: '#project' },
-  { title: 'Experience', href: '#experience' },
-  { title: 'Blog', href: '#blog' },
-  { title: 'Contact', href: '#contact' }
+  { title: 'Skill', href: '/#skill' },
+  { title: 'Project', href: '/#project' },
+  { title: 'Experience', href: '/#experience' },
+  { title: 'Blog', href: '/#blog' },
+  { title: 'Contact', href: '/#contact' }
 ]
 
 export type SidebarNavItem = {

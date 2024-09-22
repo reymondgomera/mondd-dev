@@ -278,12 +278,18 @@ dependencies:
   react-moveable:
     specifier: ^0.56.0
     version: 0.56.0
+  react-photoswipe-gallery:
+    specifier: ^3.0.2
+    version: 3.0.2(photoswipe@5.4.4)(prop-types@15.8.1)(react@18.3.1)
   react-spinners:
     specifier: ^0.14.1
     version: 0.14.1(react-dom@18.3.1)(react@18.3.1)
   react-tweet:
     specifier: ^3.2.1
     version: 3.2.1(react-dom@18.3.1)(react@18.3.1)
+  reading-time:
+    specifier: ^1.5.0
+    version: 1.5.0
   recharts:
     specifier: ^2.12.7
     version: 2.12.7(react-dom@18.3.1)(react@18.3.1)
@@ -337,6 +343,9 @@ dependencies:
     version: 4.5.5(@types/react@18.3.3)(react@18.3.1)
 
 devDependencies:
+  '@faker-js/faker':
+    specifier: ^9.0.1
+    version: 9.0.1
   '@types/bcryptjs':
     specifier: ^2.4.6
     version: 2.4.6
@@ -924,6 +933,11 @@ packages:
   /@eslint/js@8.57.0:
     resolution: {integrity: sha512-Ys+3g2TaW7gADOJzPt83SJtCDhMjndcDMFVQ/Tj9iA1BfJzFKD9mAUXT3OenpuPHbI6P/myECxRJrofUsDx/5g==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
+
+  /@faker-js/faker@9.0.1:
+    resolution: {integrity: sha512-4mDeYIgM3By7X6t5E6eYwLAa+2h4DeZDF7thhzIg6XB76jeEvMwadYAMCFJL/R4AnEBcAUO9+gL0vhy3s+qvZA==}
+    engines: {node: '>=18.0.0', npm: '>=9.0.0'}
+    dev: true
 
   /@floating-ui/core@1.6.7:
     resolution: {integrity: sha512-yDzVT/Lm101nQ5TCVeK65LtdN7Tj4Qpr9RTXJ2vPFLqtLxwOrpoxAHAJI8J3yYWUc40J0BDBheaitK5SJmno2g==}
@@ -7306,6 +7320,11 @@ packages:
     resolution: {integrity: sha512-XIxfHpEuSJbITd1H3EeQwpcZbTLHc+VVr8ANI9t5sit565tsI4/xK3KWTUFE2e6QiangUkh3B0jihzmGnNrRsQ==}
     dev: false
 
+  /photoswipe@5.4.4:
+    resolution: {integrity: sha512-WNFHoKrkZNnvFFhbHL93WDkW3ifwVOXSW3w1UuZZelSmgXpIGiZSNlZJq37rR8YejqME2rHs9EhH9ZvlvFH2NA==}
+    engines: {node: '>= 0.12.0'}
+    dev: false
+
   /picocolors@1.0.1:
     resolution: {integrity: sha512-anP1Z8qwhkbmu7MFP5iTt+wQKXgwzf7zTyGlcdzabySa9vd0Xt392U0rVmz9poOaBj0uHJKyyo9/upk0HrEQew==}
 
@@ -7911,6 +7930,18 @@ packages:
       react-selecto: 1.26.3
     dev: false
 
+  /react-photoswipe-gallery@3.0.2(photoswipe@5.4.4)(prop-types@15.8.1)(react@18.3.1):
+    resolution: {integrity: sha512-TLkpzp2BSUUL/4GPRU5SQWXfJ8xuUBKgS8qUaHyhsT1co6CStr1mVCl4oQrSSFbWxAKhB5fHbr12l1R+TkqFcQ==}
+    peerDependencies:
+      photoswipe: '>= 5.2.2'
+      prop-types: '>= 15.7.0'
+      react: '>= 16.8.0'
+    dependencies:
+      photoswipe: 5.4.4
+      prop-types: 15.8.1
+      react: 18.3.1
+    dev: false
+
   /react-promise-suspense@0.3.4:
     resolution: {integrity: sha512-I42jl7L3Ze6kZaq+7zXWSunBa3b1on5yfvUW6Eo/3fFOj6dZ5Bqmcd264nJbTK/gn1HjjILAjSwnZbV4RpSaNQ==}
     dependencies:
@@ -8156,6 +8187,10 @@ packages:
     engines: {node: '>=8.10.0'}
     dependencies:
       picomatch: 2.3.1
+
+  /reading-time@1.5.0:
+    resolution: {integrity: sha512-onYyVhBNr4CmAxFsKS7bz+uTLRakypIe4R+5A824vBSkQy/hB3fZepoVEf8OVAxzLvK+H/jm9TzpI3ETSm64Kg==}
+    dev: false
 
   /recharts-scale@0.4.5:
     resolution: {integrity: sha512-kivNFO+0OcUNu7jQquLXAxz1FIwZj8nrj+YkOKc5694NbjCvcT6aSZiIzNzd2Kul4o4rTto8QVR9lMNtxD4G1w==}

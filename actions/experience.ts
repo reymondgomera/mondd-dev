@@ -4,14 +4,21 @@ import { Experience, Prisma } from '@prisma/client'
 import { revalidatePath, unstable_noStore as noStore } from 'next/cache'
 import { redirect } from 'next/navigation'
 
-import { SearchParams } from '@/types'
+import { SearchParams, OrderByInput } from '@/types'
 import { action, db, getServerActionError, returnServerActionError, returnServerActionSuccess } from '@/lib'
 import { authenticationMiddleware, authorizationMiddleware } from '@/lib/safe-action-middleware'
 import { paramsFormSchema, experienceFormSchema, getExperiencesFormSchema } from '@/schema'
 import { filterColumn } from '@/lib/data-table/filterColumn'
-import { OrderByInput } from '@/types/prisma'
 
 export type ExperienceData = Awaited<ReturnType<typeof getExperiences>>['data'][number]
+export type ExperiencesDataForLandingPage = Awaited<ReturnType<typeof getExperiencesForLandingPage>>[number]
+
+export async function getExperiencesForLandingPage() {
+  return await db.experience.findMany({
+    select: { title: true, description: true, start: true, end: true, tags: true },
+    orderBy: { start: 'desc' }
+  })
+}
 
 export async function getExperiences(searchParams: SearchParams) {
   noStore()

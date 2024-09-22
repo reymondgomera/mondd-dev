@@ -93,7 +93,9 @@ import {
   Square,
   Copy,
   Ellipsis,
-  EllipsisVertical
+  EllipsisVertical,
+  Search,
+  SquareArrowOutUpRight
 } from 'lucide-react'
 
 export type Icon = LucideIcon
@@ -164,6 +166,9 @@ export const Icons = {
   alignCenter: AlignCenter,
   alignRight: AlignRight,
   alignJustify: AlignJustify,
+  search: Search,
+  link: Link,
+  openNewTab: SquareArrowOutUpRight,
   heart: ({ className }: LocalIcon) => {
     return (
       <svg className={className} viewBox='0 0 17 16' fill='none' xmlns='http://www.w3.org/2000/svg'>

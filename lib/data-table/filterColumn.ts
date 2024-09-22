@@ -2,7 +2,7 @@ import { Prisma } from '@prisma/client'
 import { PrismaModels } from 'prisma-models'
 
 import { type DataTableConfig } from '@/constant'
-import { WhereAnd, WhereNot, WhereOr } from '@/types/prisma'
+import { WhereAnd, WhereNot, WhereOr } from '@/types'
 
 type Models = PrismaModels<Prisma.ModelName, Prisma.TypeMap>
 type ColumnType = 'Int' | 'BigInt' | 'Float' | 'Decimal' | 'Boolean' | 'DateTime' | 'String'

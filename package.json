@@ -107,8 +107,10 @@
     "react-icons": "^5.2.1",
     "react-markdown": "8.0.7",
     "react-moveable": "^0.56.0",
+    "react-photoswipe-gallery": "^3.0.2",
     "react-spinners": "^0.14.1",
     "react-tweet": "^3.2.1",
+    "reading-time": "^1.5.0",
     "recharts": "^2.12.7",
     "resend": "^3.3.0",
     "server-only": "^0.0.1",
@@ -128,6 +130,7 @@
     "zustand": "^4.5.2"
   },
   "devDependencies": {
+    "@faker-js/faker": "^9.0.1",
     "@types/bcryptjs": "^2.4.6",
     "@types/http-errors": "^2.0.4",
     "@types/katex": "^0.16.7",
