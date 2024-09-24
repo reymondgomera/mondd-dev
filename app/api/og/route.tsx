@@ -7,7 +7,6 @@ export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url)
 
-    const font = await fetch(new URL('../../../public/fonts/DMSans_ExtraBold.woff', import.meta.url)).then((res) => res.arrayBuffer())
     const placeholderImg = 'https://utfs.io/f/fTns6YWpn6vPZRUxJxK106YHk7GwAOXTjWzKFd23S5eoVuJh'
 
     const title = searchParams.get('title') ?? siteConfig.name
@@ -25,11 +24,11 @@ export async function GET(request: Request) {
             style={{
               display: 'flex',
               position: 'absolute',
-              fontFamily: 'DMSans',
               top: '50%',
               left: '50%',
               transform: 'translate(-50%, -50%)',
               fontSize: 48,
+              fontWeight: 'bold',
               padding: '0 64px',
               color: '#FFFFFF',
               width: '95%'
@@ -38,10 +37,7 @@ export async function GET(request: Request) {
             {title}
           </div>
         </div>
-      ),
-      {
-        fonts: [{ name: 'DMSans', data: font, style: 'normal' }]
-      }
+      )
     )
   } catch (err: any) {
     return new Response('Failed to generated OG image', { status: 500 })
