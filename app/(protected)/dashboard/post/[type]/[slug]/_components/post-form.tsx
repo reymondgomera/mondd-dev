@@ -61,7 +61,7 @@ export default function PostForm({ post }: PostFormProps) {
   })
 
   async function handleSubmit(formValues: FieldValues) {
-    const getResponse = async (data: FieldValues) => {
+    async function getResponse(data: FieldValues) {
       switch (data.typeCode) {
         case 'project': {
           const data = formValues as ProjectForm

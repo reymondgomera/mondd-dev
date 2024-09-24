@@ -1,18 +1,73 @@
 'use server'
 
-import { Skill } from '@prisma/client'
-import { revalidatePath } from 'next/cache'
+import { Prisma, Skill } from '@prisma/client'
+import { revalidatePath, unstable_noStore as noStore } from 'next/cache'
 import { redirect } from 'next/navigation'
 
 import { action, db, getServerActionError, returnServerActionError, returnServerActionSuccess, deleteFiles, uploadFiles } from '@/lib'
 import { authenticationMiddleware, authorizationMiddleware } from '@/lib/safe-action-middleware'
-import { paramsFormSchema, skillFormSchema, toggleSkillFavoriteFormSchema } from '@/schema'
+import { getSkillsFormSchema, paramsFormSchema, skillFormSchema, toggleSkillFavoriteFormSchema } from '@/schema'
+import { SearchParams, OrderByInput, WhereAnd, WhereOr } from '@/types'
+import { filterColumn } from '@/lib/data-table/filterColumn'
 
-export async function getSkills() {
-  return await db.skill.findMany({
-    select: { title: true, logo: true, isFavorite: true, typeCode: true },
-    orderBy: { title: 'asc' }
-  })
+export type SkillData = Awaited<ReturnType<typeof getSkills>>['data'][number]
+export type SkillsDataForLandingPage = Awaited<ReturnType<typeof getSkillsForLandingPage>>[number]
+
+export async function getSkillsForLandingPage() {
+  return await db.skill.findMany({ select: { title: true, isFavorite: true, logo: true, typeCode: true }, orderBy: { title: 'asc' } })
+}
+
+export async function getSkills(searchParams: SearchParams) {
+  noStore()
+
+  const search = getSkillsFormSchema.safeParse(searchParams)
+
+  if (!search.success) return { data: [], pageCount: 0 }
+
+  const { page, per_page, sort, title, typeCode, isFavorite } = search.data
+
+  //* Offset to paginate the results
+  const offset = (page - 1) * per_page
+
+  //* Column and order to sort by
+  const [column, order] = (sort?.split('.').filter(Boolean) ?? ['createdAt', 'desc']) as [keyof Skill, 'asc' | 'desc']
+
+  //* initialized where input
+  // prettier-ignore
+  const where: Prisma.SkillWhereInput = {
+    ...(title ? filterColumn<'Skill'>({ column: 'title', columnType: 'String', value: title }) : {}),
+    AND: [
+      ...(typeCode ? [filterColumn<'Skill'>({ column: 'typeCode', columnType: 'String', value: typeCode, isSelectable: true })] : []),
+      ...(isFavorite ? [filterColumn<'Skill'>({ column: 'isFavorite', columnType: 'Boolean', value: isFavorite, isSelectable: true })] : [])
+    ] as WhereAnd<'Skill'> | WhereOr<'Skill'>
+  }
+
+  //* initialized order input
+  const orderBy = { [column]: order } as OrderByInput<'Skill'>
+
+  const [data, total] = await db.$transaction([
+    db.skill.findMany({
+      where,
+      skip: offset,
+      take: per_page,
+      orderBy,
+      select: {
+        id: true,
+        title: true,
+        typeCode: true,
+        type: { select: { name: true, code: true } },
+        logo: true,
+        isFavorite: true,
+        createdAt: true
+      }
+    }),
+    db.skill.count({ where })
+  ])
+
+  //* calculate page count
+  const pageCount = Math.ceil(total / per_page)
+
+  return { data, pageCount }
 }
 
 export async function getSkillById(id: string) {
@@ -98,6 +153,8 @@ const deleteSkill = action
       await db.skill.delete({ where: { id: data.id } })
 
       revalidatePath(`/dashboard/skill`)
+
+      return returnServerActionSuccess({ message: `Skill "${skill.title}" deleted successfully!` })
     } catch (err) {
       return getServerActionError(err, 'DELETE_SKILL')
     }

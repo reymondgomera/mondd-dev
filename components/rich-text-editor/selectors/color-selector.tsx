@@ -108,7 +108,7 @@ export const ColorSelector = ({ open, onOpenChange }: ColorSelectorProps) => {
       <ActionTooltipProvider label='Color & Highlight'>
         <div>
           <PopoverTrigger asChild>
-            <Button size='sm' className='gap-2 rounded-none' variant='ghost'>
+            <Button type='button' size='sm' className='gap-2 rounded-none' variant='ghost'>
               <span
                 className='rounded-sm px-1'
                 style={{

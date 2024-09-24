@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { format } from 'date-fns'
 
 import { cn } from '@/lib'
@@ -17,14 +18,17 @@ type BentoGridItemProps = {
   title: string
   description: string
   creationDate: Date
-  madeAt: string
+  madeAt?: string
   tags: string[]
+  href: string
   className?: string
 }
 
-export const BentoGridItem = ({ thumbnail, title, description, creationDate, madeAt, tags, className }: BentoGridItemProps) => {
+export const BentoGridItem = ({ thumbnail, title, description, creationDate, madeAt, tags, href, className }: BentoGridItemProps) => {
   return (
-    <div
+    <Link
+      href={href}
+      scroll={false}
       className={cn(
         'group/bento relative row-span-1 flex cursor-pointer items-end overflow-hidden rounded-xl bg-slate-400/10 p-5 transition-all hover:scale-105',
         className
@@ -33,7 +37,7 @@ export const BentoGridItem = ({ thumbnail, title, description, creationDate, mad
       <div className='invisible flex flex-col gap-2 transition-all group-hover/bento:visible'>
         <div>
           <p className='text-xs text-slate-400'>
-            {format(creationDate, 'MMM yyyy')} | {madeAt}
+            {format(creationDate, 'MMM yyyy')} {madeAt ? ` | ${madeAt}` : ''}
           </p>
           <h1 className='text-balance text-lg font-bold text-slate-200'>{title}</h1>
           <p className='line-clamp-2 text-sm text-slate-300'>{description}</p>
@@ -48,6 +52,6 @@ export const BentoGridItem = ({ thumbnail, title, description, creationDate, mad
         alt={title}
         fill
       />
-    </div>
+    </Link>
   )
 }

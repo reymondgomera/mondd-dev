@@ -93,7 +93,7 @@ export const NodeSelector = ({ open, onOpenChange }: NodeSelectorProps) => {
     <Popover modal={true} open={open} onOpenChange={onOpenChange}>
       <ActionTooltipProvider label='Turn Into'>
         <PopoverTrigger asChild>
-          <Button size='sm' variant='ghost' className='gap-2 rounded-none border-none hover:bg-accent focus:ring-0'>
+          <Button type='button' size='sm' variant='ghost' className='gap-2 rounded-none border-none hover:bg-accent focus:ring-0'>
             <span className='whitespace-nowrap text-sm'>{activeItem.name}</span>
             <EditorIcons.down className='h-4 w-4' />
           </Button>

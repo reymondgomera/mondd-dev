@@ -26,7 +26,8 @@ import {
   TextAlign,
   Superscript,
   Subscript,
-  AutoJoiner
+  AutoJoiner,
+  Image
 } from '@/editor/extensions'
 import { UploadImagesPlugin } from '@/editor/plugins'
 
@@ -42,7 +43,7 @@ const tiptapLink = TiptapLink.configure({
   }
 })
 
-const tiptapImage = TiptapImage.extend({
+const tiptapImage = Image.extend({
   addProseMirrorPlugins() {
     return [
       UploadImagesPlugin({

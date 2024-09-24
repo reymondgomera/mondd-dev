@@ -21,10 +21,7 @@ export default function EditorHtmlContent({ className, value }: EditorHtmlConten
 
   return (
     <div
-      className={cn(
-        'empty-p prose-headings:font-title prose prose-base prose-slate w-full max-w-screen-lg p-5 dark:prose-invert',
-        className
-      )}
+      className={cn('empty-p prose-headings:font-title prose prose-base prose-slate w-full max-w-full p-5 dark:prose-invert', className)}
       dangerouslySetInnerHTML={{ __html: html }}
       suppressHydrationWarning
     />

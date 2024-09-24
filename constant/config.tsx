@@ -15,10 +15,46 @@ export const downloadUrls = {
 }
 
 export const siteConfig = {
-  name: 'mond.dev',
-  description: 'A professional portfolio website of Rey Mond Gomera, a Filipino Full Stack Developer.',
+  name: 'mondd.dev',
+  creator: 'Rey Mond Gomera',
+  description: 'A professional portfolio website of Rey Mond Gomera, a Filipino Full Stack Web Developer.',
+  keywords: [
+    'portfolio',
+    'rey mond',
+    'gomera',
+    'mond',
+    'mondd',
+    'mondd.dev',
+    'projects',
+    'blogs',
+    'full-stack development',
+    'front-end development',
+    'back-end development',
+    'full stack developer',
+    'front-end developer',
+    'back-end developer',
+    'software developer',
+    'software engineer',
+    'web developer'
+  ],
   socials,
-  downloadUrls
+  downloadUrls,
+  baseUrl: process.env.NEXT_PUBLIC_URL || 'http://localhost:3000',
+  protocol: process.env.NODE_ENV === 'production' ? 'https' : 'http',
+  pages: {
+    posts: {
+      project: {
+        id: 'project',
+        title: 'Project',
+        description: 'These projects demonstrate my skills and expertise in software development.'
+      },
+      blog: {
+        id: 'blog',
+        title: 'Blog',
+        description: 'Explore my latest blogs for tips, tutorials, and discussions related to software development.'
+      }
+    }
+  }
 }
 
 export type NavItem = {
@@ -30,11 +66,11 @@ export type NavItem = {
 }
 
 export const navItems: NavItem[] = [
-  { title: 'Skill', href: '#skill' },
-  { title: 'Project', href: '#project' },
-  { title: 'Experience', href: '#experience' },
-  { title: 'Blog', href: '#blog' },
-  { title: 'Contact', href: '#contact' }
+  { title: 'Skill', href: '/#skill' },
+  { title: 'Project', href: '/#project' },
+  { title: 'Experience', href: '/#experience' },
+  { title: 'Blog', href: '/#blog' },
+  { title: 'Contact', href: '/#contact' }
 ]
 
 export type SidebarNavItem = {

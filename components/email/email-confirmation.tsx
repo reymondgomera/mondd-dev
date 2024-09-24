@@ -6,6 +6,7 @@ import { Link } from '@react-email/link'
 import EmailContentWrapper from './_components/email-content-wrapper'
 import Email from './_components/email'
 import EmailButton from './_components/email-button'
+import { siteConfig } from '@/constant'
 
 type EmailConfirmationEmailProps = {
   token: string
@@ -13,8 +14,7 @@ type EmailConfirmationEmailProps = {
 }
 
 export default function EmailConfirmationEmail({ token = '', expires = new Date() }: EmailConfirmationEmailProps) {
-  const BASE_URL = process.env.NEXT_PUBLIC_URL || 'http://localhost:3000'
-  const confirmationLink = `${BASE_URL}/email-verification?token=${token}`
+  const confirmationLink = `${siteConfig.baseUrl}/email-verification?token=${token}`
 
   return (
     <Email title='mond.dev - Email Confirmation' preview='Confirm your email address'>

@@ -13,7 +13,7 @@ export default function Dashboard404() {
           </p>
         </div>
 
-        <BackButton label='Go Back' variant='primary' />
+        <BackButton variant='primary'>Go Back</BackButton>
       </div>
     </div>
   )

@@ -45,7 +45,7 @@ export const LinkSelector = ({ open, onOpenChange }: LinkSelectorProps) => {
     <Popover modal={true} open={open} onOpenChange={onOpenChange}>
       <ActionTooltipProvider label='Link'>
         <PopoverTrigger asChild>
-          <Button size='sm' variant='ghost' className='gap-2 rounded-none'>
+          <Button type='button' size='sm' variant='ghost' className='gap-2 rounded-none'>
             <EditorIcons.link className={cn('h-4 w-4', editor.isActive('link') && 'text-blue-500')} />
             <p
               className={cn('underline decoration-slate-400 underline-offset-4', {
@@ -59,6 +59,7 @@ export const LinkSelector = ({ open, onOpenChange }: LinkSelectorProps) => {
       </ActionTooltipProvider>
       <PopoverContent align='start' className='w-60 p-0' sideOffset={10}>
         <form
+          id='link-selector'
           onSubmit={(e) => {
             const target = e.currentTarget as HTMLFormElement
             e.stopPropagation()
@@ -94,7 +95,7 @@ export const LinkSelector = ({ open, onOpenChange }: LinkSelectorProps) => {
               <EditorIcons.trash className='h-4 w-4' />
             </Button>
           ) : (
-            <Button size='icon' className='h-8'>
+            <Button form='link-selector' size='icon' className='h-8'>
               <EditorIcons.check className='h-4 w-4' />
             </Button>
           )}

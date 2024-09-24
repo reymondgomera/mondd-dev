@@ -2,27 +2,18 @@
 
 import { useRef } from 'react'
 import Link from 'next/link'
-import { useInView, useScroll, useMotionValueEvent } from 'framer-motion'
+import { useInView } from 'framer-motion'
 
 import { Icons } from '@/components/icons'
 import { siteConfig } from '@/constant'
 import { Badge } from '@/components/ui/badge'
 import ContactMeButton from './contact-me-button'
 import FixedSocialNav from './fixed-social-nav'
-import { useNavigationStore } from '@/hooks'
 import BlurImage from '@/components/blur-image'
 
 export default function AboutSection() {
   const contactRef = useRef(null)
-  const { scrollYProgress } = useScroll()
   const isInView = useInView(contactRef, { amount: 'all' }) //? amount: 'all' - tells the animation to only run whenever the entire element is in the viewport/screen
-  const { setHasBackground } = useNavigationStore(['setHasBackground'])
-
-  useMotionValueEvent(scrollYProgress, 'change', (latest) => {
-    const percent = latest * 100
-    if (percent > 0) setHasBackground(true)
-    else setHasBackground(false)
-  })
 
   return (
     <>

@@ -22,7 +22,7 @@ export default function Footer({ className }: FooterProps) {
             <img
               src={theme === 'light' ? '/images/logo-text-dark.svg' : '/images/logo-text-default.svg'}
               alt='logo'
-              className='h-4 w-auto'
+              className='h-7 w-auto'
             />
           </Link>
 
@@ -60,7 +60,7 @@ export default function Footer({ className }: FooterProps) {
       <div className='flex justify-center bg-base-dark/80 py-3 dark:bg-base-dark'>
         <div className='flex gap-1 text-sm'>
           <span className='text-white'>© 2024, Made with</span>
-          <img src='/images/heart.svg' alt='heart' />
+          <Icons.heart className='h-5' />
           <span className='text-white'> by</span>
           <span className='font-semibold text-teal-300'>mond</span>
         </div>

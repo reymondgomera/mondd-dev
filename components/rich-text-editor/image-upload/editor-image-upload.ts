@@ -1,6 +1,6 @@
 import { toast } from 'sonner'
 
-import { onUpload } from '@/actions/editor'
+import { onUpload } from '@/actions'
 import { createImageUpload } from '@/editor/plugins'
 import { v4 as uuidv4 } from 'uuid'
 

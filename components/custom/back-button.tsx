@@ -3,9 +3,9 @@
 import { useRouter } from 'next/navigation'
 import { Button, ButtonProps } from '../ui/button'
 
-type BackButtonProps = Pick<ButtonProps, 'className' | 'variant'> & { label: string; href?: string }
+type BackButtonProps = Pick<ButtonProps, 'className' | 'variant' | 'children'> & { href?: string }
 
-export default function BackButton({ className, href, label, variant }: BackButtonProps) {
+export default function BackButton({ className, href, variant, children }: BackButtonProps) {
   const router = useRouter()
 
   function handleClick(href?: string) {
@@ -19,7 +19,7 @@ export default function BackButton({ className, href, label, variant }: BackButt
 
   return (
     <Button className={className} variant={variant} onClick={() => handleClick(href)}>
-      {label}
+      {children}
     </Button>
   )
 }

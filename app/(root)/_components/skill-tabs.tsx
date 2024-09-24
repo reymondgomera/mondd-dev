@@ -1,15 +1,15 @@
 import SkillCard from './skill-card'
-import { getSkills } from '@/actions'
 import { getReferences } from '@/actions'
+import { SkillsDataForLandingPage, getSkillsForLandingPage } from '@/actions'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/custom/tabs'
 
 type RenderTabsContent = {
   triggers: { value: string; label: string }[]
-  skills: Awaited<ReturnType<typeof getSkills>>
+  skills: SkillsDataForLandingPage[]
 }
 
 export default async function SkillTabs() {
-  const [skilltypes, skills] = await Promise.all([getReferences({ entityCodes: ['skill-type'] }), getSkills()])
+  const [skilltypes, skills] = await Promise.all([getReferences({ entityCodes: ['skill-type'] }), getSkillsForLandingPage()])
 
   if (!skilltypes || !skills) return null
 
