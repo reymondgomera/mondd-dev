@@ -8,5 +8,6 @@ export * from './user'
 export * from './token'
 export * from './post'
 export * from './settings'
-export * from './editor'
 export * from './seed'
+
+export { onDelete, onUpload } from './editor'

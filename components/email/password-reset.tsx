@@ -6,6 +6,7 @@ import { Link } from '@react-email/link'
 import EmailContentWrapper from './_components/email-content-wrapper'
 import Email from './_components/email'
 import EmailButton from './_components/email-button'
+import { siteConfig } from '@/constant'
 
 type PasswordResetEmailProps = {
   token: string
@@ -13,8 +14,7 @@ type PasswordResetEmailProps = {
 }
 
 export default function PasswordResetEmail({ token = '', expires = new Date() }: PasswordResetEmailProps) {
-  const BASE_URL = process.env.NEXT_PUBLIC_URL || 'http://localhost:3000'
-  const resetLink = `${BASE_URL}/new-password?token=${token}`
+  const resetLink = `${siteConfig.baseUrl}/new-password?token=${token}`
 
   return (
     <Email title='mond.dev - Forgot Password' preview='Set a new Password'>

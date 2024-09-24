@@ -1,14 +1,61 @@
+import { cache } from 'react'
+import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 
+import { capitalize, db } from '@/lib'
 import { getPostBySlug } from '@/actions'
 import { TracingBeam } from '@/components/tracing-beam'
 import PostHeader from './_components/post-header'
 import PostImages from './_components/post-images'
 import PostBody from './_components/post-body'
 import BackButton from './_components/back-button'
+import { siteConfig } from '@/constant'
+
+//* cache function
+const getPostBySlugCached = cache(getPostBySlug)
+
+//* ISR
+export async function generateStaticParams() {
+  const posts = await db.post.findMany({ select: { slug: true, typeCode: true } })
+  return posts.map((post) => ({ type: post.typeCode, slug: post.slug }))
+}
+
+export async function generateMetadata({ params }: { params: { type: string; slug: string } }): Promise<Metadata> {
+  const post = await getPostBySlugCached(params.type, params.slug, true)
+
+  if (!post) return {}
+
+  const title = post.title
+  const type = capitalize(post.typeCode)
+  const description = post.description
+  const ogUrl = `${siteConfig.baseUrl}/api/og?title=${post.title}&imgUrl=${post.thumbnail ?? ''}`
+
+  return {
+    title: `${type} - ${title}`,
+    description,
+    openGraph: {
+      title,
+      description,
+      images: [
+        {
+          url: ogUrl,
+          width: 1200,
+          height: 630,
+          alt: post.title
+        }
+      ]
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.title,
+      description: post.description,
+      images: [ogUrl]
+    }
+  }
+}
 
 export default async function PostPage({ params }: { params: { type: string; slug: string } }) {
-  const post = await getPostBySlug(params.type, params.slug)
+  const post = await getPostBySlugCached(params.type, params.slug, true)
 
   if (!post) notFound()
 

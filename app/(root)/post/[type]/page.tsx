@@ -1,3 +1,5 @@
+import { Metadata } from 'next'
+
 import { getPostsForLandingPage } from '@/actions'
 import { PostType, SearchParams } from '@/types'
 import PostList from './_components/post-list'
@@ -5,11 +7,29 @@ import AsyncWrapper from '@/components/async-wrapper'
 import { ComponentErrorFallback } from '@/components/error-fallback'
 import { Icons } from '@/components/icons'
 import { PostsListSkeleton } from '@/components/loading-fallback'
+import { siteConfig } from '@/constant'
 import PostHeader from './_components/post-header'
 
 type PostsPageProps = {
   params: { type: PostType }
   searchParams: SearchParams
+}
+
+export async function generateMetadata({ params }: { params: { type: PostType } }): Promise<Metadata> {
+  const post = siteConfig.pages.posts[params.type]
+
+  const title = post.title
+  const description = post.description
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      images: '/opengraph-image.png'
+    }
+  }
 }
 
 export default async function PostPage({ params, searchParams }: PostsPageProps) {

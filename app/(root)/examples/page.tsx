@@ -1,7 +1,11 @@
+import { notFound } from 'next/navigation'
+
 import { getExampleData } from '@/actions/examples'
 import ExampleForm from './_components/example-form'
 
 export default async function ExamplePage() {
+  if (process.env.NODE_ENV === 'production') notFound()
+
   const referenceData = await getExampleData()
   const postypeData = referenceData ? referenceData.filter((ref) => ref.entityCode === 'post-type') : []
 

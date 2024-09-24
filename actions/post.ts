@@ -148,9 +148,9 @@ export async function getPosts(type: PostType, searchParams: SearchParams) {
   return { data, pageCount }
 }
 
-export async function getPostBySlug(type: string, slug: string) {
+export async function getPostBySlug(type: string, slug: string, isPublished?: boolean) {
   try {
-    return await db.post.findUnique({ where: { typeCode: type, slug } })
+    return await db.post.findUnique({ where: { typeCode: type, slug, isPublished } })
   } catch (err) {
     return null
   }

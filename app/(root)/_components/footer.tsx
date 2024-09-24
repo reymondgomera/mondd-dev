@@ -22,7 +22,7 @@ export default function Footer({ className }: FooterProps) {
             <img
               src={theme === 'light' ? '/images/logo-text-dark.svg' : '/images/logo-text-default.svg'}
               alt='logo'
-              className='h-4 w-auto'
+              className='h-7 w-auto'
             />
           </Link>
 

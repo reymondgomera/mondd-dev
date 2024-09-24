@@ -33,7 +33,7 @@ export default function Nav({ items }: NavProps) {
       <nav className='container flex justify-between'>
         {/* logo */}
         <Link href='/' className='hidden lg:inline-flex lg:items-center' onClick={() => setHash('')}>
-          <img alt='logo' src='/images/logo-text-default.svg' className='h-4' />
+          <img alt='logo' src='/images/logo-text-default.svg' className='h-7' />
         </Link>
 
         <div className='hidden lg:flex lg:gap-3'>

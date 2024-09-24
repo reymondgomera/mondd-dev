@@ -1,6 +1,6 @@
 {
   "name": "mond-dev",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -114,6 +114,7 @@
     "recharts": "^2.12.7",
     "resend": "^3.3.0",
     "server-only": "^0.0.1",
+    "sharp": "^0.32",
     "slugify": "^1.6.6",
     "sonner": "^1.4.41",
     "tailwind-merge": "^2.3.0",

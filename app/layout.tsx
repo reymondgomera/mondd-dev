@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import { auth } from '@/auth'
 import { DM_Sans } from 'next/font/google'
 import { SessionProvider } from 'next-auth/react'
 import Script from 'next/script'
@@ -18,8 +17,15 @@ const dmSans = DM_Sans({
 })
 
 export const metadata: Metadata = {
-  title: siteConfig.name,
-  description: siteConfig.description
+  title: {
+    default: siteConfig.name,
+    template: `%s | ${siteConfig.name}`
+  },
+  description: siteConfig.description,
+  applicationName: siteConfig.name,
+  metadataBase: new URL(siteConfig.baseUrl),
+  keywords: siteConfig.keywords,
+  creator: siteConfig.creator
 }
 
 export default async function RootLayout({

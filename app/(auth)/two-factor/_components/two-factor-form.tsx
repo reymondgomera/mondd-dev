@@ -60,7 +60,7 @@ export default function TwoFactorForm() {
       }
 
       if (!result.error) {
-        router.replace(DEFAULT_LOGIN_REDIRECT)
+        window.location.replace(`${location.origin}/${DEFAULT_LOGIN_REDIRECT}`)
         return
       }
 
