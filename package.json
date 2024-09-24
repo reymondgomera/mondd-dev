@@ -74,7 +74,6 @@
     "@tiptap/starter-kit": "^2.6.4",
     "@tiptap/suggestion": "^2.6.4",
     "@uploadthing/react": "^6.7.2",
-    "@vercel/og": "0.5.18",
     "axios": "^1.7.2",
     "bcryptjs": "^2.4.3",
     "class-variance-authority": "^0.7.0",

@@ -28,28 +28,18 @@ export async function generateMetadata({ params }: { params: { type: string; slu
   const title = post.title
   const type = capitalize(post.typeCode)
   const description = post.description
-  const ogUrl = `${siteConfig.baseUrl}/api/og?title=${post.title}&imgUrl=${post.thumbnail ?? ''}`
 
   return {
     title: `${type} - ${title}`,
     description,
     openGraph: {
       title,
-      description,
-      images: [
-        {
-          url: ogUrl,
-          width: 1200,
-          height: 630,
-          alt: post.title
-        }
-      ]
+      description
     },
     twitter: {
       card: 'summary_large_image',
       title: post.title,
-      description: post.description,
-      images: [ogUrl]
+      description: post.description
     }
   }
 }
