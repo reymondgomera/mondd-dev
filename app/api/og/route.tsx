@@ -7,7 +7,7 @@ export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url)
 
-    const font = await fetch(new URL('../../../public/fonts/DMSans_ExtraBold.ttf', import.meta.url)).then((res) => res.arrayBuffer())
+    const font = await fetch(new URL('../../../public/fonts/DMSans_ExtraBold.woff', import.meta.url)).then((res) => res.arrayBuffer())
     const placeholderImg = 'https://utfs.io/f/fTns6YWpn6vPZRUxJxK106YHk7GwAOXTjWzKFd23S5eoVuJh'
 
     const title = searchParams.get('title') ?? siteConfig.name
