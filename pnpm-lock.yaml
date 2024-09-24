@@ -180,8 +180,8 @@ dependencies:
     specifier: ^6.7.2
     version: 6.7.2(next@14.2.3)(react@18.3.1)(uploadthing@6.13.2)
   '@vercel/og':
-    specifier: ^0.6.3
-    version: 0.6.3
+    specifier: 0.5.18
+    version: 0.5.18
   axios:
     specifier: ^1.7.2
     version: 1.7.4
@@ -3117,8 +3117,8 @@ packages:
     resolution: {integrity: sha512-dyHY+sMF0ihPus3O27ODd4+agdHMEmuRdyiZJ2CCWjPV5UFmn17ZbElvk6WOGVE4rdCJKZQCrPV2BcikOMLUGQ==}
     dev: false
 
-  /@resvg/resvg-wasm@2.4.0:
-    resolution: {integrity: sha512-C7c51Nn4yTxXFKvgh2txJFNweaVcfUPQxwEUFw4aWsCmfiBDJsTSwviIF8EcwjQ6k8bPyMWCl1vw4BdxE569Cg==}
+  /@resvg/resvg-wasm@2.4.1:
+    resolution: {integrity: sha512-yi6R0HyHtsoWTRA06Col4WoDs7SvlXU3DLMNP2bdAgs7HK18dTEVl1weXgxRzi8gwLteGUbIg29zulxIB3GSdg==}
     engines: {node: '>= 10'}
     dev: false
 
@@ -4083,11 +4083,11 @@ packages:
       std-env: 3.7.0
     dev: false
 
-  /@vercel/og@0.6.3:
-    resolution: {integrity: sha512-aoCrC9FqkeA+WEEb9CwSmjD0rGlFeNqbUsI41JPmKWR9Hx6FFn86tvH96O5HZMF6VAXTGHxa3nPH3BokROpdgA==}
+  /@vercel/og@0.5.18:
+    resolution: {integrity: sha512-l519y6hscj14VkORBKshExoWaXWB4MqGUCIhY3gcXYir4aJ3J+9BU1E/CQ9yKsNmkgY+1VXOgjnq9zUT4B49KQ==}
     engines: {node: '>=16'}
     dependencies:
-      '@resvg/resvg-wasm': 2.4.0
+      '@resvg/resvg-wasm': 2.4.1
       satori: 0.10.9
       yoga-wasm-web: 0.3.3
     dev: false

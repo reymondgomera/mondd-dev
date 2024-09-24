@@ -1,6 +1,5 @@
-import { ImageResponse } from '@vercel/og'
-
 import { siteConfig } from '@/constant'
+import { ImageResponse } from 'next/og'
 
 export const runtime = 'edge'
 
@@ -29,7 +28,7 @@ export async function GET(request: Request) {
               left: '50%',
               transform: 'translate(-50%, -50%)',
               fontSize: 48,
-              fontWeight: 'bold',
+              fontWeight: 700,
               padding: '0 64px',
               color: '#FFFFFF',
               width: '95%'
