@@ -1,5 +1,6 @@
+import { ImageResponse } from '@vercel/og'
+
 import { siteConfig } from '@/constant'
-import { ImageResponse } from 'next/og'
 
 export const runtime = 'edge'
 
