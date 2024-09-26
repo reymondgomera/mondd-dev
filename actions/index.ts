@@ -9,5 +9,6 @@ export * from './token'
 export * from './post'
 export * from './settings'
 export * from './seed'
+export * from './dashboard'
 
 export { onDelete, onUpload } from './editor'

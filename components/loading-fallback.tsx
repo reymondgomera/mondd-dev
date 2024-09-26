@@ -183,3 +183,7 @@ export function PostsListSkeleton() {
     </div>
   )
 }
+
+export function StatCardSkeleton({ className }: { className?: string }) {
+  return <div className={cn('animate-pulse rounded-lg bg-slate-800/90', className)} />
+}

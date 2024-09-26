@@ -58,7 +58,7 @@ export default function StatCard({
         className={cn('space-y-2', getClassName(extendedProps?.cardContentProps))}
         {...omitClassName(extendedProps?.cardContentProps)}
       >
-        <div className='text-4xl font-extrabold'>{value}</div>
+        <div className='text-3xl font-extrabold sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl'>{value}</div>
         {<TrendValue type={trendType} data={trendData} />}
       </CardContent>
     </Card>

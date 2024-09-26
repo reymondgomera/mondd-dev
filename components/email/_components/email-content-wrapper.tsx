@@ -5,6 +5,7 @@ import { Img } from '@react-email/img'
 import { Heading } from '@react-email/heading'
 
 import Footer from './footer'
+import { siteConfig } from '@/constant'
 
 type EmailContentWrapperProps = {
   title: string
@@ -12,13 +13,11 @@ type EmailContentWrapperProps = {
 }
 
 export default function EmailContentWrapper({ children, title }: EmailContentWrapperProps) {
-  const BASE_URL = process.env.NEXT_PUBLIC_URL || 'http://localhost:3000'
-
   return (
     <Body style={body}>
       <Container style={container}>
         <Section style={section}>
-          <Img style={img} src={`${BASE_URL}/images/logo.svg`} title='Logo' alt='Logo' />
+          <Img style={img} src={`${siteConfig.baseUrl}/images/logo.png`} title='Logo' alt='Logo' />
           <Heading style={heading}>{title}</Heading>
         </Section>
 

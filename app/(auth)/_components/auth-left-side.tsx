@@ -11,7 +11,7 @@ export default function AuthLeftSide({ subtitle }: AuthLeftSideProps) {
       <div className='relative flex flex-col items-center justify-center gap-y-1'>
         <Link href='/'>
           {/* // eslint-disable-next-line @next/next/no-img-element*/}
-          <img src='/images/logo-text-default.svg' alt='logo' className='h-[25px] w-auto' />
+          <img src='/images/logo-text-default.svg' alt='logo' className='h-7 w-auto' />
         </Link>
 
         {subtitle ? <p className='text-center text-sm text-slate-400'>"{subtitle}"</p> : null}
