@@ -4,6 +4,7 @@ import { format } from 'date-fns'
 import { cn } from '@/lib'
 import BadgeGroup from './badge-group'
 import BlurImage from './blur-image'
+import ActionTooltipProvider from './provider/tooltip-provider'
 
 export const BentoGrid = ({ className, children }: { className?: string; children?: React.ReactNode }) => {
   return (
@@ -30,7 +31,7 @@ export const BentoGridItem = ({ thumbnail, title, description, creationDate, mad
       href={href}
       scroll={false}
       className={cn(
-        'group/bento relative row-span-1 flex cursor-pointer items-end overflow-hidden rounded-xl bg-slate-400/10 p-5 transition-all hover:scale-105',
+        'group/bento relative row-span-1 flex cursor-pointer items-end rounded-xl bg-slate-400/10 p-5 transition-all hover:scale-105',
         className
       )}
     >
@@ -39,15 +40,19 @@ export const BentoGridItem = ({ thumbnail, title, description, creationDate, mad
           <p className='text-xs text-slate-400'>
             {format(creationDate, 'MMM yyyy')} {madeAt ? ` | ${madeAt}` : ''}
           </p>
-          <h1 className='text-balance text-lg font-bold text-slate-200'>{title}</h1>
-          <p className='line-clamp-2 text-sm text-slate-300'>{description}</p>
+          <ActionTooltipProvider label={title}>
+            <h1 className='line-clamp-2 text-balance text-lg font-bold text-slate-200'>{title}</h1>
+          </ActionTooltipProvider>
+          <ActionTooltipProvider label={description}>
+            <p className='line-clamp-2 text-sm text-slate-300'>{description}</p>
+          </ActionTooltipProvider>
         </div>
 
         <BadgeGroup max={5} data={tags} badgeProps={{ variant: 'primary', size: 'sm' }} />
       </div>
 
       <BlurImage
-        className='absolute inset-0 rounded-xl transition-all group-hover/bento:-z-10 group-hover/bento:brightness-[15%]'
+        className='absolute inset-0 rounded-xl object-cover object-left transition-all group-hover/bento:-z-10 group-hover/bento:brightness-[15%]'
         src={thumbnail}
         alt={title}
         fill

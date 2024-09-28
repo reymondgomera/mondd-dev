@@ -18,11 +18,8 @@ export default function MobileNav({ items, setShowMobileMenu, hash, setHash }: M
   return (
     <div className={cn('slide-out fixed inset-0 top-20 z-50 overflow-auto p-6 shadow-md animate-in slide-in-from-bottom-80 lg:hidden')}>
       <div className='relative z-20 flex min-w-[280px] flex-col gap-5 rounded-md bg-popover p-4'>
-        <Link href='/' className='text-center lg:hidden' onClick={() => setHash('')}>
-          <h1 className='text-lg font-bold'>
-            <span>mond.</span>
-            <span className='text-teal-300'>dev</span>
-          </h1>
+        <Link href='/' className='flex items-center justify-center lg:hidden' onClick={() => setHash('')}>
+          <img alt='logo' src='/images/logo-text-default.svg' className='h-7' />
         </Link>
 
         <div className='flex flex-col gap-3 lg:hidden'>
@@ -43,9 +40,10 @@ export default function MobileNav({ items, setShowMobileMenu, hash, setHash }: M
               ))
             : null}
 
-          {/* //TODO: Download Resume */}
-          <Button className='w-full' variant='primary'>
-            Resume
+          <Button variant='primary' asChild>
+            <Link href={process.env.NEXT_PUBLIC_RESUME_URL ?? '#'} target='_blank'>
+              Resume
+            </Link>
           </Button>
         </div>
       </div>

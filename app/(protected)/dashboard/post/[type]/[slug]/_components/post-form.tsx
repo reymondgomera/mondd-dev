@@ -213,7 +213,7 @@ export default function PostForm({ post }: PostFormProps) {
           </div>
         </div>
 
-        <PostFormFields />
+        <PostFormFields isDisabled={isDisabled} />
       </Form>
     </form>
   )

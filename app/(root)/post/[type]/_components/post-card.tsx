@@ -6,6 +6,7 @@ import { PostDataForLandingPage } from '@/actions'
 import BadgeGroup from '@/components/badge-group'
 import BlurImage from '@/components/blur-image'
 import Link from 'next/link'
+import ActionTooltipProvider from '@/components/provider/tooltip-provider'
 
 type PostCardProps = {
   post: PostDataForLandingPage
@@ -35,17 +36,16 @@ export default function PostCard({ post }: PostCardProps) {
               : format(post.createdAt, 'MMM yyyy')}
             {post.typeCode === 'project' ? (metadata.madeAt ? ` | ${metadata.madeAt}` : '') : ''}
           </span>
-          <h1 className='line-clamp-2 text-sm font-bold text-slate-200 md:text-base'>{post.title}</h1>
-          <p className='line-clamp-2 text-xs text-slate-400 md:text-sm'>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis commodi quae illo est nobis quisquam eius unde tempora!
-            Nesciunt dignissimos dolore incidunt dicta quia in quos accusamus sapiente ipsam qui. Tenetur autem quis perferendis magni, cum
-            in facilis officia dolore, eius incidunt aut soluta? Tempora repellendus in error ducimus doloremque veritatis cum recusandae
-            asperiores, labore repellat impedit tenetur totam sapiente.
-          </p>
+          <ActionTooltipProvider label={post.title}>
+            <h1 className='line-clamp-2 text-sm font-bold text-slate-200 md:text-base'>{post.title}</h1>
+          </ActionTooltipProvider>
+          <ActionTooltipProvider label={post.description}>
+            <p className='line-clamp-2 text-xs text-slate-400 md:text-sm'>{post.description}</p>
+          </ActionTooltipProvider>
         </div>
       </div>
 
-      <BadgeGroup max={7} data={post.tags} badgeProps={{ variant: 'primary', size: 'sm', className: 'capitalize' }} />
+      <BadgeGroup max={7} data={post.tags} badgeProps={{ variant: 'primary', size: 'sm' }} />
     </Link>
   )
 }

@@ -25,7 +25,7 @@ export default function PostList({ postsPromise }: PostListProps) {
           <div key='not-found' className='mt-10 flex flex-col items-center justify-center gap-y-3 md:col-span-2 lg:col-span-3'>
             <h1 className='text-center text-2xl font-extrabold md:text-3xl lg:text-4xl'>No {type} found</h1>
             <p className='text-center text-sm leading-5 text-slate-400 md:text-base md:leading-6 lg:leading-7'>
-              What you searched was unfortunately not found or does not exist.
+              Sorry, what you're looking for couldn't be found or may not exist.
             </p>
           </div>
         )}
