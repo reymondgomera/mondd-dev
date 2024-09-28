@@ -25,7 +25,7 @@ export default function UserButton({ user }: UserButtonProps) {
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <Avatar className='size-9 cursor-pointer'>
-          <AvatarImage src={user.image ?? ''} />
+          <AvatarImage className='object-cover object-center' src={user.image ?? ''} />
           <AvatarFallback>{getInitials(user.name ?? '').toUpperCase()}</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
@@ -33,7 +33,7 @@ export default function UserButton({ user }: UserButtonProps) {
       <DropdownMenuContent align='end' sideOffset={15}>
         <div className='flex items-center gap-x-3 px-2 py-1.5'>
           <Avatar className='size-11'>
-            <AvatarImage src={user.image ?? ''} />
+            <AvatarImage className='object-cover object-center' src={user.image ?? ''} />
             <AvatarFallback>{getInitials(user.name).toUpperCase()}</AvatarFallback>
           </Avatar>
           <div className='flex-col'>
