@@ -34,6 +34,8 @@ export type PostData = Awaited<ReturnType<typeof getPosts>>['data'][number]
 export type PostDataForLandingPage = Awaited<ReturnType<typeof getPostsForLandingPage>>['data'][number]
 
 export async function getLatestFeaturedAndPublishedPosts(type: PostType) {
+  noStore()
+
   return await db.post.findMany({
     where: { typeCode: type, isFeatured: true, isPublished: true },
     orderBy: { createdAt: 'desc' },
@@ -42,6 +44,8 @@ export async function getLatestFeaturedAndPublishedPosts(type: PostType) {
 }
 
 export async function getPostsForLandingPage(type: PostType, searchParams: SearchParams) {
+  noStore()
+
   const search = getPostsFormSchema.safeParse(searchParams)
 
   if (!search.success) return { data: [], pageCount: 0 }

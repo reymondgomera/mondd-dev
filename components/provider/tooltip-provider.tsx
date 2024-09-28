@@ -4,9 +4,10 @@ import { ToolTipContentProps, Tooltip, TooltipContent, TooltipProvider, TooltipT
 type ActionTooltipProviderProps = ToolTipContentProps & {
   label: string | React.ReactNode
   children: React.ReactNode & { asChild?: boolean }
+  delayDuration?: number
 }
 
-export default function ActionTooltipProvider({ label, children, ...props }: ActionTooltipProviderProps) {
+export default function ActionTooltipProvider({ label, children, delayDuration = 500, ...props }: ActionTooltipProviderProps) {
   function renderLabel(label: string | React.ReactNode) {
     if (typeof label === 'string') return <p className='text-sm font-medium capitalize'>{label.toLowerCase()}</p>
     return label
@@ -14,7 +15,7 @@ export default function ActionTooltipProvider({ label, children, ...props }: Act
 
   return (
     <TooltipProvider>
-      <Tooltip delayDuration={50}>
+      <Tooltip delayDuration={delayDuration}>
         <TooltipTrigger asChild>{children}</TooltipTrigger>
         <TooltipContent {...props}>{renderLabel(label)}</TooltipContent>
       </Tooltip>

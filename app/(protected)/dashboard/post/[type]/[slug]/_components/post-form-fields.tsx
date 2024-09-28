@@ -4,7 +4,7 @@ import { toast } from 'sonner'
 import { v4 as uuidv4 } from 'uuid'
 import { useRouter } from 'next/navigation'
 import { useForm, useFormContext } from 'react-hook-form'
-import { KeyboardEvent, useEffect, useMemo } from 'react'
+import { KeyboardEvent, useCallback, useEffect, useMemo } from 'react'
 import DraggableTags from '@/components/draggable-tags'
 
 import { Icons } from '@/components/icons'
@@ -21,24 +21,33 @@ import { useAction } from 'next-safe-action/hooks'
 import { updatePostBody } from '@/actions'
 import { Badge } from '@/components/ui/badge'
 
-export default function PostFormFields() {
+type PostFormFieldsProps = {
+  isDisabled?: boolean
+}
+
+export default function PostFormFields({ isDisabled }: PostFormFieldsProps) {
   const form = useFormContext<ProjectForm | BlogForm>()
   const router = useRouter()
   const { executeAsync, isExecuting } = useAction(updatePostBody)
 
-  const handleOnUpdate = async (id: string, body: string) => {
-    try {
-      const response = await executeAsync({ id, body })
-      const result = response?.data
+  const handleOnUpdate = useCallback(
+    async (id: string, body: string) => {
+      if (isDisabled) return
 
-      if (result && result.error) toast.error(result.message)
+      try {
+        const response = await executeAsync({ id, body })
+        const result = response?.data
 
-      router.refresh()
-    } catch (err) {
-      console.error(err)
-      toast.error('Something went wrong! Please try again later.')
-    }
-  }
+        if (result && result.error) toast.error(result.message)
+
+        router.refresh()
+      } catch (err) {
+        console.error(err)
+        toast.error('Something went wrong! Please try again later.')
+      }
+    },
+    [isDisabled]
+  )
 
   return (
     <div className='flex flex-col gap-6 lg:flex-row'>

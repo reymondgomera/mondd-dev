@@ -379,7 +379,7 @@ export default function ImageUploader({
                 fill
                 src={uploadedFiles[0].url}
                 alt={uploadedFiles[0].file.name}
-                className='absolute z-30 block h-full w-full rounded-md'
+                className='absolute z-30 block h-full w-full rounded-md object-cover object-center'
               />
             </>
           )}

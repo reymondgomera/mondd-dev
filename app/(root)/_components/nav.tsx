@@ -47,8 +47,11 @@ export default function Nav({ items }: NavProps) {
               ))
             : null}
 
-          {/* //TODO: Download Resume */}
-          <Button variant='primary'>Resume</Button>
+          <Button variant='primary' asChild>
+            <Link href={process.env.NEXT_PUBLIC_RESUME_URL ?? '#'} target='_blank'>
+              Resume
+            </Link>
+          </Button>
         </div>
 
         <Button className='hover:bg-transparent lg:hidden' variant='ghost' onClick={() => setShowMobileMenu((prev) => !prev)}>
