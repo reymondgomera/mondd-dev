@@ -14,13 +14,8 @@ export default function EditorInitializer({ value, setInitialContent }: EditorIn
 
     if (editor && value) setInitialContent(JSON.parse(value))
     else setInitialContent(editorDefaultContent)
-
-    return () => {
-      editor?.destroy()
-      setInitialContent(null)
-    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [editor, value])
+  }, [])
 
   return null
 }
