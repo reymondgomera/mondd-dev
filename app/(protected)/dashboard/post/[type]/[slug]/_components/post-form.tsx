@@ -113,7 +113,6 @@ export default function PostForm({ post }: PostFormProps) {
       }
 
       toast.success(`${capitalize(post.typeCode)} updated successfully!`)
-      router.refresh()
     } catch (err) {
       console.error(err)
       toast.error('Something went wrong! Please try again later.')

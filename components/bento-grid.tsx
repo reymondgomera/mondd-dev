@@ -29,7 +29,6 @@ export const BentoGridItem = ({ thumbnail, title, description, creationDate, mad
   return (
     <Link
       href={href}
-      scroll={false}
       className={cn(
         'group/bento relative row-span-1 flex cursor-pointer items-end rounded-xl bg-slate-400/10 p-5 transition-all hover:scale-105',
         className

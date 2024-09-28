@@ -322,6 +322,7 @@ const updateProject = action
     if (success && result) {
       revalidatePath(`/dashboard/post/${result.typeCode}/${result.slug}`)
       revalidatePath(`/post/${result.typeCode}/${result.slug}`)
+      redirect(`/dashboard/post/${result.typeCode}/${result.slug}`)
     }
   })
 
@@ -389,6 +390,7 @@ const updateBlog = action
     if (success && result) {
       revalidatePath(`/dashboard/post/${result.typeCode}/${result.slug}`)
       revalidatePath(`/post/${result.typeCode}/${result.slug}`)
+      redirect(`/dashboard/post/${result.typeCode}/${result.slug}`)
     }
   })
 
