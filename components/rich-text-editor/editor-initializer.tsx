@@ -10,10 +10,13 @@ export default function EditorInitializer({ value, setInitialContent }: EditorIn
   const { editor } = useEditor()
 
   useEffect(() => {
-    console.log({ editor, value })
-
     if (editor && value) setInitialContent(JSON.parse(value))
     else setInitialContent(editorDefaultContent)
+
+    return () => {
+      editor?.destroy()
+      setInitialContent(null)
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

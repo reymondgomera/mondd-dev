@@ -152,7 +152,6 @@ const RichTextEditor = ({
       ) : null}
       <EditorRoot>
         <EditorContent
-          immediatelyRender={false}
           initialContent={initialContent || undefined}
           extensions={extensions}
           className={cn('relative min-h-[500px] w-full', className)}
