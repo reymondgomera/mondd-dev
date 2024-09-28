@@ -153,6 +153,8 @@ export async function getPosts(type: PostType, searchParams: SearchParams) {
 }
 
 export async function getPostBySlug(type: string, slug: string, isPublished?: boolean) {
+  noStore()
+
   try {
     return await db.post.findUnique({ where: { typeCode: type, slug, isPublished } })
   } catch (err) {
