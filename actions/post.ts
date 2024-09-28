@@ -34,6 +34,8 @@ export type PostData = Awaited<ReturnType<typeof getPosts>>['data'][number]
 export type PostDataForLandingPage = Awaited<ReturnType<typeof getPostsForLandingPage>>['data'][number]
 
 export async function getLatestFeaturedAndPublishedPosts(type: PostType) {
+  //* impose noStore since it will be used in root page which is statically rendered
+  //* enables the rsc to be uncached
   noStore()
 
   return await db.post.findMany({
@@ -44,8 +46,6 @@ export async function getLatestFeaturedAndPublishedPosts(type: PostType) {
 }
 
 export async function getPostsForLandingPage(type: PostType, searchParams: SearchParams) {
-  noStore()
-
   const search = getPostsFormSchema.safeParse(searchParams)
 
   if (!search.success) return { data: [], pageCount: 0 }
