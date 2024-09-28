@@ -246,7 +246,10 @@ const updatePostBody = action
       return getServerActionError(err, 'UPDATE_POST_BODY')
     }
 
-    if (success && result) revalidatePath(`/dashboard/post/${result.typeCode}/${result.slug}`)
+    if (success && result) {
+      revalidatePath(`/dashboard/post/${result.typeCode}/${result.slug}`)
+      revalidatePath(`/post/${result.typeCode}/${result.slug}`)
+    }
   })
 
 const updateProject = action
@@ -316,7 +319,10 @@ const updateProject = action
       return getServerActionError(err, 'UPDATE_PROJECT')
     }
 
-    if (success && result) redirect(`/dashboard/post/${result.typeCode}/${result.slug}`)
+    if (success && result) {
+      revalidatePath(`/dashboard/post/${result.typeCode}/${result.slug}`)
+      revalidatePath(`/post/${result.typeCode}/${result.slug}`)
+    }
   })
 
 const updateBlog = action
@@ -380,7 +386,10 @@ const updateBlog = action
       return getServerActionError(err, 'UPDATE_BLOG')
     }
 
-    if (success && result) redirect(`/dashboard/post/${result.typeCode}/${result.slug}`)
+    if (success && result) {
+      revalidatePath(`/dashboard/post/${result.typeCode}/${result.slug}`)
+      revalidatePath(`/post/${result.typeCode}/${result.slug}`)
+    }
   })
 
 const togglePostFeature = action
@@ -395,6 +404,7 @@ const togglePostFeature = action
       })
 
       revalidatePath(`/dashboard/post/${result.typeCode}/${result.slug}`)
+      revalidatePath(`/post/${result.typeCode}/${result.slug}`)
 
       return returnServerActionSuccess({
         message: `${capitalize(result.typeCode)} ${result.isFeatured ? 'featured' : 'unfeatured'} successfully!.`
@@ -416,6 +426,7 @@ const togglePostPublish = action
       })
 
       revalidatePath(`/dashboard/post/${result.typeCode}/${result.slug}`)
+      revalidatePath(`/post/${result.typeCode}/${result.slug}`)
 
       return returnServerActionSuccess({
         message: `${capitalize(result.typeCode)} ${result.isPublished ? 'published' : 'unpublished'} successfully!.`
