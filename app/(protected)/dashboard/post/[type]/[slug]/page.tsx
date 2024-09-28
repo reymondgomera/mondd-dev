@@ -6,8 +6,6 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbS
 import { capitalize } from '@/lib'
 import PostForm from './_components/post-form'
 
-export const dynamic = 'force-dynamic'
-
 export default async function PostPage({ params }: { params: { type: string; slug: string } }) {
   const post = await getPostBySlug(params.type, params.slug)
 

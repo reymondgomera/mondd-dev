@@ -18,7 +18,7 @@ export default function EditorInitializer({ value, setInitialContent }: EditorIn
       setInitialContent(null)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [value])
 
   return null
 }
