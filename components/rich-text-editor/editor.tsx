@@ -35,6 +35,7 @@ import { Transaction } from '@tiptap/pm/state'
 import EditorInfo from './editor-info'
 import { EditorIcons } from '../icons'
 import { EditorKeyboardShortcuts } from './editor-keyboard-shortcuts'
+import { editorDefaultContent } from './editor-default-content'
 
 export type RichTextEditorProps = {
   onChange: (content: string) => void
@@ -139,6 +140,13 @@ const RichTextEditor = ({
     setSaveStatus('Saved')
   }, [isLoading])
 
+  useEffect(() => {
+    if (value) setInitialContent(JSON.parse(value))
+    else setInitialContent(editorDefaultContent)
+  }, [])
+
+  if (!initialContent) return null
+
   return (
     <div className='relative flex w-full flex-col justify-center rounded-md border border-input bg-background'>
       {showEditorInfo ? (
@@ -152,7 +160,8 @@ const RichTextEditor = ({
       ) : null}
       <EditorRoot>
         <EditorContent
-          initialContent={initialContent || undefined}
+          immediatelyRender={false}
+          initialContent={initialContent}
           extensions={extensions}
           className={cn('relative min-h-[500px] w-full', className)}
           editorProps={{
@@ -171,8 +180,6 @@ const RichTextEditor = ({
           onTransaction={handleOnTransaction}
           slotAfter={<ImageResizer />}
         >
-          <EditorInitializer value={value} setInitialContent={setInitialContent} />
-
           <EditorCommand className='z-50 h-auto max-h-[330px] overflow-y-auto rounded-md border border-muted bg-background px-1 py-2 shadow-md transition-all'>
             <EditorCommandEmpty className='px-2 text-muted-foreground'>No results</EditorCommandEmpty>
             <EditorCommandList>
