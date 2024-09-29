@@ -9,7 +9,6 @@ import PostHeader from './_components/post-header'
 import PostImages from './_components/post-images'
 import PostBody from './_components/post-body'
 import BackButton from './_components/back-button'
-import { siteConfig } from '@/constant'
 
 //* cache function
 const getPostBySlugCached = cache(getPostBySlug)
@@ -36,6 +35,7 @@ export async function generateMetadata({ params }: { params: { type: string; slu
       title,
       description
     },
+    keywords: post.tags,
     twitter: {
       card: 'summary_large_image',
       title: post.title,

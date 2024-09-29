@@ -22,6 +22,7 @@ export const experienceFormSchema = z
   .refine(
     (formObj) => {
       if (!formObj.end) return true
+      if (formObj.start.getMonth() === formObj.end.getMonth() && formObj.start.getFullYear() === formObj.end.getFullYear()) return true
       if (formObj.start < formObj.end) return true
     },
     { message: 'End date should be greater than start date.', path: ['end'] }

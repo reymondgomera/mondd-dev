@@ -30,7 +30,7 @@ export default function PostHeader({ post }: PostHeaderProps) {
         <h1 className='text-balance text-2xl font-extrabold md:text-3xl'>{post.title}</h1>
       </div>
 
-      <BadgeGroup max={post.tags.length ?? 7} data={post.tags} badgeProps={{ variant: 'primary', size: 'sm', className: 'capitalize' }} />
+      <BadgeGroup max={post.tags.length ?? 7} data={post.tags} badgeProps={{ variant: 'primary', size: 'sm' }} />
 
       {readingTime ? <p className='text-sm text-slate-400'>{readingTime.text}</p> : null}
 

@@ -1,15 +1,23 @@
 import React from 'react'
 import { ToolTipContentProps, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip'
+import { cn } from '@/lib'
 
 type ActionTooltipProviderProps = ToolTipContentProps & {
   label: string | React.ReactNode
   children: React.ReactNode & { asChild?: boolean }
   delayDuration?: number
+  labelClassName?: string
 }
 
-export default function ActionTooltipProvider({ label, children, delayDuration = 500, ...props }: ActionTooltipProviderProps) {
+export default function ActionTooltipProvider({
+  label,
+  labelClassName,
+  children,
+  delayDuration = 500,
+  ...props
+}: ActionTooltipProviderProps) {
   function renderLabel(label: string | React.ReactNode) {
-    if (typeof label === 'string') return <p className='text-sm font-medium capitalize'>{label.toLowerCase()}</p>
+    if (typeof label === 'string') return <p className={cn('text-sm font-medium capitalize', labelClassName)}>{label.toLowerCase()}</p>
     return label
   }
 
