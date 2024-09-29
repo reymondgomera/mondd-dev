@@ -1,6 +1,6 @@
 import { format } from 'date-fns'
 
-import { cn } from '@/lib'
+import { cn, formatMonthYear } from '@/lib'
 import BadgeGroup from '@/components/badge-group'
 import { getExperiencesForLandingPage } from '@/actions'
 
@@ -18,13 +18,13 @@ export default async function ExperienceTimeline() {
             </div>
 
             <div className='mx-auto mt-1 hidden self-start text-xs font-semibold uppercase text-slate-500 lg:block'>
-              {format(new Date(item.start), 'MMM yyyy')} - {item.end ? format(new Date(item.end), 'MMM yyyy') : 'PRESENT'}
+              {formatMonthYear(item.start)} - {item.end ? formatMonthYear(item.end) : 'PRESENT'}
             </div>
 
             <div className='col-span-4 flex flex-col gap-y-3 self-start pb-8 md:col-span-3 lg:col-span-2'>
               <div className='flex flex-col gap-1'>
                 <div className='mt-1 w-full self-start text-center text-xs font-semibold uppercase text-slate-500 md:text-start lg:hidden'>
-                  {format(new Date(item.start), 'MMM yyyy')} - {item.end ? format(new Date(item.end), 'MMM yyyy') : 'PRESENT'}
+                  {formatMonthYear(item.start)} - {item.end ? formatMonthYear(item.end) : 'PRESENT'}
                 </div>
                 <h1 className='text-balance text-center text-base font-semibold text-slate-200 md:text-start lg:text-lg'>{item.title}</h1>
                 <p className='text-center text-sm leading-5 text-slate-400 md:text-start md:text-base md:leading-6 lg:leading-7'>
