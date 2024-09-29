@@ -17,7 +17,7 @@ export default function PasswordResetEmail({ token = '', expires = new Date() }:
   const resetLink = `${siteConfig.baseUrl}/new-password?token=${token}`
 
   return (
-    <Email title='mond.dev - Forgot Password' preview='Set a new Password'>
+    <Email title='mondd.dev - Forgot Password' preview='Set a new Password'>
       <EmailContentWrapper title='Reset your password'>
         <Text style={instructions}>If you've lost your password or wish to reset it, please use the link below to get started.</Text>
 
