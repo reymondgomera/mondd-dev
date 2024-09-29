@@ -14,6 +14,10 @@ export type SkillData = Awaited<ReturnType<typeof getSkills>>['data'][number]
 export type SkillsDataForLandingPage = Awaited<ReturnType<typeof getSkillsForLandingPage>>[number]
 
 export async function getSkillsForLandingPage() {
+  //* impose noStore since it will be used in root page which is statically rendered
+  //* enables the rsc to be uncached
+  noStore()
+
   return await db.skill.findMany({ select: { title: true, isFavorite: true, logo: true, typeCode: true }, orderBy: { title: 'asc' } })
 }
 

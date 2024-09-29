@@ -34,6 +34,10 @@ export type PostData = Awaited<ReturnType<typeof getPosts>>['data'][number]
 export type PostDataForLandingPage = Awaited<ReturnType<typeof getPostsForLandingPage>>['data'][number]
 
 export async function getLatestFeaturedAndPublishedPosts(type: PostType) {
+  //* impose noStore since it will be used in root page which is statically rendered
+  //* enables the rsc to be uncached
+  noStore()
+
   if (type === 'project') {
     return (await db.post.findMany({ where: { typeCode: type, isFeatured: true, isPublished: true } }))
       .sort((a, b) => {

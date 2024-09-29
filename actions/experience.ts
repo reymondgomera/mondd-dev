@@ -14,6 +14,10 @@ export type ExperienceData = Awaited<ReturnType<typeof getExperiences>>['data'][
 export type ExperiencesDataForLandingPage = Awaited<ReturnType<typeof getExperiencesForLandingPage>>[number]
 
 export async function getExperiencesForLandingPage() {
+  //* impose noStore since it will be used in root page which is statically rendered
+  //* enables the rsc to be uncached
+  noStore()
+
   return await db.experience.findMany({
     select: { title: true, description: true, start: true, end: true, tags: true },
     orderBy: { start: 'desc' }
