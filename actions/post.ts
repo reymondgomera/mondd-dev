@@ -38,6 +38,20 @@ export async function getLatestFeaturedAndPublishedPosts(type: PostType) {
   //* enables the rsc to be uncached
   noStore()
 
+  if (type === 'project') {
+    return (await db.post.findMany({ where: { typeCode: type, isFeatured: true, isPublished: true } }))
+      .sort((a, b) => {
+        const aDate = a.metadata as Record<string, any>
+        const bDate = b.metadata as Record<string, any>
+
+        const aDateCreatedAt = aDate.createdAt ? new Date(aDate.createdAt) : new Date(a.createdAt)
+        const bDateCreatedAt = bDate.createdAt ? new Date(bDate.createdAt) : new Date(b.createdAt)
+
+        return bDateCreatedAt.getTime() - aDateCreatedAt.getTime()
+      })
+      .slice(0, 5)
+  }
+
   return await db.post.findMany({
     where: { typeCode: type, isFeatured: true, isPublished: true },
     orderBy: { createdAt: 'desc' },
@@ -246,7 +260,10 @@ const updatePostBody = action
       return getServerActionError(err, 'UPDATE_POST_BODY')
     }
 
-    if (success && result) revalidatePath(`/dashboard/post/${result.typeCode}/${result.slug}`)
+    if (success && result) {
+      revalidatePath(`/dashboard/post/${result.typeCode}/${result.slug}`)
+      revalidatePath(`/post/${result.typeCode}/${result.slug}`)
+    }
   })
 
 const updateProject = action
@@ -316,7 +333,11 @@ const updateProject = action
       return getServerActionError(err, 'UPDATE_PROJECT')
     }
 
-    if (success && result) redirect(`/dashboard/post/${result.typeCode}/${result.slug}`)
+    if (success && result) {
+      revalidatePath(`/dashboard/post/${result.typeCode}/${result.slug}`)
+      revalidatePath(`/post/${result.typeCode}/${result.slug}`)
+      redirect(`/dashboard/post/${result.typeCode}/${result.slug}`)
+    }
   })
 
 const updateBlog = action
@@ -380,7 +401,11 @@ const updateBlog = action
       return getServerActionError(err, 'UPDATE_BLOG')
     }
 
-    if (success && result) redirect(`/dashboard/post/${result.typeCode}/${result.slug}`)
+    if (success && result) {
+      revalidatePath(`/dashboard/post/${result.typeCode}/${result.slug}`)
+      revalidatePath(`/post/${result.typeCode}/${result.slug}`)
+      redirect(`/dashboard/post/${result.typeCode}/${result.slug}`)
+    }
   })
 
 const togglePostFeature = action
@@ -395,6 +420,7 @@ const togglePostFeature = action
       })
 
       revalidatePath(`/dashboard/post/${result.typeCode}/${result.slug}`)
+      revalidatePath(`/post/${result.typeCode}/${result.slug}`)
 
       return returnServerActionSuccess({
         message: `${capitalize(result.typeCode)} ${result.isFeatured ? 'featured' : 'unfeatured'} successfully!.`
@@ -416,6 +442,7 @@ const togglePostPublish = action
       })
 
       revalidatePath(`/dashboard/post/${result.typeCode}/${result.slug}`)
+      revalidatePath(`/post/${result.typeCode}/${result.slug}`)
 
       return returnServerActionSuccess({
         message: `${capitalize(result.typeCode)} ${result.isPublished ? 'published' : 'unpublished'} successfully!.`

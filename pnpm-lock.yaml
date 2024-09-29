@@ -272,6 +272,9 @@ dependencies:
   react-icons:
     specifier: ^5.2.1
     version: 5.3.0(react@18.3.1)
+  react-image-size:
+    specifier: ^2.4.0
+    version: 2.4.0(react-dom@18.3.1)(react@18.3.1)
   react-markdown:
     specifier: 8.0.7
     version: 8.0.7(@types/react@18.3.3)(react@18.3.1)
@@ -8048,6 +8051,16 @@ packages:
       react: '*'
     dependencies:
       react: 18.3.1
+    dev: false
+
+  /react-image-size@2.4.0(react-dom@18.3.1)(react@18.3.1):
+    resolution: {integrity: sha512-ag0Lv3yHRE6tPdLXQqV2Vp21LEVlJ9aAS55tOQNghSdSBGQescpkN6XKkjtsoXaAFevYpDoBqQL8HsJYJEfNGg==}
+    peerDependencies:
+      react: '>=16.9.0'
+      react-dom: '>=16.9.0'
+    dependencies:
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
     dev: false
 
   /react-is@16.13.1:

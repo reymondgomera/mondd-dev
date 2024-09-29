@@ -2,6 +2,8 @@ import axios from 'axios'
 import { twMerge } from 'tailwind-merge'
 import { type ClassValue, clsx } from 'clsx'
 import { v4 as uuidv4 } from 'uuid'
+import { format } from 'date-fns'
+import { enUS } from 'date-fns/locale/en-US'
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -40,4 +42,8 @@ export async function getFileFromBlobUrl(url: string) {
 export function extractFileKeyFromUrl(url: string) {
   if (url) return url.split('/').pop() ?? ''
   return ''
+}
+
+export function formatMonthYear(date: Date) {
+  return format(date, 'MMM yyyy', { locale: enUS })
 }

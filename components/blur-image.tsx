@@ -10,7 +10,7 @@ const BlurImage = forwardRef<HTMLImageElement, ImageProps>((props, ref) => {
 
   return (
     // eslint-disable-next-line jsx-a11y/alt-text
-    <Image {...props} ref={ref} fill className={cn(props.className, isLoading ? 'blur-md' : 'blur-0')} onLoad={() => setIsLoading(false)} />
+    <Image {...props} ref={ref} fill className={cn(props.className, isLoading ? 'blur-sm' : 'blur-0')} onLoad={() => setIsLoading(false)} />
   )
 })
 

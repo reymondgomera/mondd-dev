@@ -29,9 +29,8 @@ export const BentoGridItem = ({ thumbnail, title, description, creationDate, mad
   return (
     <Link
       href={href}
-      scroll={false}
       className={cn(
-        'group/bento relative row-span-1 flex cursor-pointer items-end rounded-xl bg-slate-400/10 p-5 transition-all hover:scale-105',
+        'group/bento relative row-span-1 flex cursor-pointer items-end rounded-xl bg-slate-400/10 p-5 transition-all hover:scale-105 ',
         className
       )}
     >
@@ -41,10 +40,10 @@ export const BentoGridItem = ({ thumbnail, title, description, creationDate, mad
             {format(creationDate, 'MMM yyyy')} {madeAt ? ` | ${madeAt}` : ''}
           </p>
           <ActionTooltipProvider label={title}>
-            <h1 className='line-clamp-2 text-balance text-lg font-bold text-slate-200'>{title}</h1>
+            <h1 className='line-clamp-2 w-fit text-balance text-lg font-bold text-slate-200'>{title}</h1>
           </ActionTooltipProvider>
           <ActionTooltipProvider label={description}>
-            <p className='line-clamp-2 text-sm text-slate-300'>{description}</p>
+            <p className='line-clamp-2 w-fit text-sm text-slate-300'>{description}</p>
           </ActionTooltipProvider>
         </div>
 
@@ -52,10 +51,11 @@ export const BentoGridItem = ({ thumbnail, title, description, creationDate, mad
       </div>
 
       <BlurImage
-        className='absolute inset-0 rounded-xl object-cover object-left transition-all group-hover/bento:-z-10 group-hover/bento:brightness-[15%]'
+        className='absolute -z-10 rounded-xl object-cover object-left-top transition-all group-hover/bento:brightness-[15%]'
         src={thumbnail}
         alt={title}
         fill
+        quality={100}
       />
     </Link>
   )
