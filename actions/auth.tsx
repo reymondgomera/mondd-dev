@@ -50,7 +50,7 @@ const signupUser = action.schema(signupFormSchema).action(async ({ parsedInput: 
     const verificationToken = await generateVerificationToken(email)
 
     const emailData = await resend.emails.send({
-      from: `mond.dev <${process.env.RESEND_EMAIL_SENDER}>`,
+      from: `mondd.dev <${process.env.RESEND_EMAIL_SENDER}>`,
       to: verificationToken.email,
       subject: 'Confirm Your Email Address',
       react: <EmailConfirmationEmail token={verificationToken.token} expires={verificationToken.expiresAt} />
@@ -77,7 +77,7 @@ const signinUser = action.schema(signinFormSchema).action(async ({ parsedInput: 
     const verificationToken = await generateVerificationToken(email)
 
     const emailData = await resend.emails.send({
-      from: `mond.dev <${process.env.RESEND_EMAIL_SENDER}>`,
+      from: `mondd.dev <${process.env.RESEND_EMAIL_SENDER}>`,
       to: verificationToken.email,
       subject: 'Confirm Your Email Address',
       react: <EmailConfirmationEmail token={verificationToken.token} expires={verificationToken.expiresAt} />
@@ -103,7 +103,7 @@ const signinUser = action.schema(signinFormSchema).action(async ({ parsedInput: 
       const twoFactorToken = await generateTwoFactorToken(user.email)
 
       const emailData = await resend.emails.send({
-        from: `mond.dev <${process.env.RESEND_EMAIL_SENDER}>`,
+        from: `mondd.dev <${process.env.RESEND_EMAIL_SENDER}>`,
         to: twoFactorToken.email,
         subject: 'Two Factor Authentication',
         react: <TwoFactorAuthEmail token={twoFactorToken.token} expires={twoFactorToken.expiresAt} />
@@ -150,7 +150,7 @@ const resendCode = action.schema(resendCodeFormSchema).action(async ({ parsedInp
       const twoFactorToken = await generateTwoFactorToken(user.email)
 
       const emailData = await resend.emails.send({
-        from: `mond.dev <${process.env.RESEND_EMAIL_SENDER}>`,
+        from: `mondd.dev <${process.env.RESEND_EMAIL_SENDER}>`,
         to: twoFactorToken.email,
         subject: 'Two Factor Authentication',
         react: <TwoFactorAuthEmail token={twoFactorToken.token} expires={twoFactorToken.expiresAt} />
@@ -246,7 +246,7 @@ const forgotPassword = action.schema(forgotPasswordFormSchema).action(async ({ p
     const passwordResetToken = await generatePasswordResetToken(email)
 
     const emailData = await resend.emails.send({
-      from: `mond.dev <${process.env.RESEND_EMAIL_SENDER}>`,
+      from: `mondd.dev <${process.env.RESEND_EMAIL_SENDER}>`,
       to: passwordResetToken.email,
       subject: 'Reset your password',
       react: <PasswordResetEmail token={passwordResetToken.token} expires={passwordResetToken.expiresAt} />

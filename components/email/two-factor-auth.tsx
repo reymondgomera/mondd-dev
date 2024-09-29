@@ -12,7 +12,7 @@ type TwoFactorAuthEmailProps = {
 
 export default function TwoFactorAuthEmail({ token = '', expires = new Date() }: TwoFactorAuthEmailProps) {
   return (
-    <Email title='mond.dev - 2 Factor Authentication' preview='Here is your 2-factor authentication code'>
+    <Email title='mondd.dev - 2 Factor Authentication' preview='Here is your 2-factor authentication code'>
       <EmailContentWrapper title='2 factor authentication code'>
         <Text style={instructions}>Use the code below to complete your authentication.</Text>
 

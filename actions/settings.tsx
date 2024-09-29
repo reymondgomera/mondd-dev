@@ -50,7 +50,7 @@ const updateSettings = action
         const verificationToken = await generateVerificationToken(data.email)
 
         const emailData = await resend.emails.send({
-          from: `mond.dev <${process.env.RESEND_EMAIL_SENDER}>`,
+          from: `mondd.dev <${process.env.RESEND_EMAIL_SENDER}>`,
           to: verificationToken.email,
           subject: 'Confirm Your Email Address',
           react: <EmailConfirmationEmail token={verificationToken.token} expires={verificationToken.expiresAt} />

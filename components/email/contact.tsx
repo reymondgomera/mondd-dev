@@ -11,7 +11,7 @@ type ContactEmailProps = {
 
 export default function ContactEmail({ data = { fullName: '', email: '', message: '' } }: ContactEmailProps) {
   return (
-    <Email title='mond.dev - Contact' preview='Contact form submission'>
+    <Email title='mondd.dev - Contact' preview='Contact form submission'>
       <EmailContentWrapper title='Inquiry'>
         <Section style={section}>
           <Text>Hello Rey Mond,</Text>

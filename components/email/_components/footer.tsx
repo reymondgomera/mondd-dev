@@ -9,7 +9,7 @@ export default function Footer() {
 
       <Section>
         <Text style={addressText}>Davao City, Davao Del Sur, Philippines</Text>
-        <Text style={copyrightText}>&copy; {new Date().getFullYear()}&nbsp;mond.dev, All rights reserved.</Text>
+        <Text style={copyrightText}>&copy; {new Date().getFullYear()}&nbsp;mondd.dev, All rights reserved.</Text>
       </Section>
     </footer>
   )
