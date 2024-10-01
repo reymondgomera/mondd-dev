@@ -34,7 +34,7 @@ export const BentoGridItem = ({ thumbnail, title, description, creationDate, mad
         className
       )}
     >
-      <div className='invisible flex flex-col gap-2 transition-all group-hover/bento:visible'>
+      <div className='invisible flex flex-col gap-2 transition-all group-hover/bento:visible sm:min-w-[328px]'>
         <div>
           <p className='text-xs text-slate-400'>
             {format(creationDate, 'MMM yyyy')} {madeAt ? ` | ${madeAt}` : ''}
