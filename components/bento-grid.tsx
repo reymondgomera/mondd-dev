@@ -34,8 +34,8 @@ export const BentoGridItem = ({ thumbnail, title, description, creationDate, mad
         className
       )}
     >
-      <div className='invisible flex flex-col gap-2 transition-all group-hover/bento:visible sm:min-w-[328px]'>
-        <div>
+      <div className='invisible flex flex-col gap-2 transition-all group-hover/bento:visible'>
+        <div className='sm:min-w-[302.5px]'>
           <p className='text-xs text-slate-400'>
             {format(creationDate, 'MMM yyyy')} {madeAt ? ` | ${madeAt}` : ''}
           </p>
@@ -47,7 +47,7 @@ export const BentoGridItem = ({ thumbnail, title, description, creationDate, mad
           </ActionTooltipProvider>
         </div>
 
-        <BadgeGroup max={5} data={tags} badgeProps={{ variant: 'primary', size: 'sm' }} />
+        <BadgeGroup className='sm:min-w-[302px]' max={5} data={tags} badgeProps={{ variant: 'primary', size: 'sm' }} />
       </div>
 
       <BlurImage
