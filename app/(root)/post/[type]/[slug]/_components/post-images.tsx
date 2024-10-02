@@ -55,7 +55,7 @@ export default function PostImages({ post }: PostImagesProps) {
 
   return (
     <div className='flex flex-col gap-y-5'>
-      <div className='w-full overflow-hidden rounded-lg'>
+      <div className='max-h-[540px] overflow-hidden rounded-lg'>
         <BlurImage
           className='!relative object-cover object-center'
           src={post.thumbnail ?? '/images/img-placeholder.jpg'}

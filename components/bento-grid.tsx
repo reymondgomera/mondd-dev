@@ -34,20 +34,26 @@ export const BentoGridItem = ({ thumbnail, title, description, creationDate, mad
         className
       )}
     >
-      <div className='invisible flex flex-col gap-2 transition-all group-hover/bento:visible'>
-        <div className='sm:min-w-[302.5px]'>
+      <div className='item invisible flex flex-col gap-2 transition-all group-hover/bento:visible'>
+        <div className='pr-4 sm:min-w-[302.5px]'>
           <p className='text-xs text-slate-400'>
             {format(creationDate, 'MMM yyyy')} {madeAt ? ` | ${madeAt}` : ''}
           </p>
-          <ActionTooltipProvider label={title}>
-            <h1 className='line-clamp-2 w-fit text-balance text-lg font-bold text-slate-200'>{title}</h1>
+          <ActionTooltipProvider label={title} labelClassName='max-w-sm sm:max-w-md md:max-w-xl lg:max-w-2xl'>
+            <h1 className='line-clamp-2 w-fit text-balance break-words text-lg font-bold text-slate-200'>{title}</h1>
           </ActionTooltipProvider>
-          <ActionTooltipProvider label={description}>
-            <p className='line-clamp-2 w-fit text-sm text-slate-300'>{description}</p>
+          <ActionTooltipProvider label={description} labelClassName='max-w-sm sm:max-w-md md:max-w-xl lg:max-w-2xl'>
+            <p className='line-clamp-2 w-fit text-ellipsis break-words text-sm text-slate-300'>{description}</p>
           </ActionTooltipProvider>
         </div>
 
-        <BadgeGroup className='sm:min-w-[302px]' max={5} data={tags} badgeProps={{ variant: 'primary', size: 'sm' }} />
+        <BadgeGroup
+          className='sm:min-w-[302px]'
+          max={5}
+          data={tags}
+          badgeProps={{ variant: 'primary', size: 'sm' }}
+          extendedProps={{ actionTooltipProviderProps: { labelClassName: 'max-w-sm sm:max-w-md md:max-w-xl lg:max-w-2xl' } }}
+        />
       </div>
 
       <BlurImage
