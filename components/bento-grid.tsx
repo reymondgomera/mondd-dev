@@ -39,10 +39,10 @@ export const BentoGridItem = ({ thumbnail, title, description, creationDate, mad
           <p className='text-xs text-slate-400'>
             {format(creationDate, 'MMM yyyy')} {madeAt ? ` | ${madeAt}` : ''}
           </p>
-          <ActionTooltipProvider label={title} labelClassName='max-w-sm sm:max-w-md md:max-w-xl lg:max-w-2xl'>
+          <ActionTooltipProvider label={title} labelClassName='max-w-sm sm:max-w-md md:max-w-xl lg:max-w-2xl normal-case'>
             <h1 className='line-clamp-2 w-fit text-balance break-words text-lg font-bold text-slate-200'>{title}</h1>
           </ActionTooltipProvider>
-          <ActionTooltipProvider label={description} labelClassName='max-w-sm sm:max-w-md md:max-w-xl lg:max-w-2xl'>
+          <ActionTooltipProvider label={description} labelClassName='max-w-sm sm:max-w-md md:max-w-xl lg:max-w-2xl normal-case'>
             <p className='line-clamp-2 w-fit text-ellipsis break-words text-sm text-slate-300'>{description}</p>
           </ActionTooltipProvider>
         </div>

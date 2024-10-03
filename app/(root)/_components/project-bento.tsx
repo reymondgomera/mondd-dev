@@ -31,7 +31,7 @@ export default async function ProjectBento() {
 
       <Link
         className='text-based group inline-flex w-full items-center gap-1.5 font-semibold decoration-teal-300 underline-offset-4 hover:underline'
-        href='/post/project'
+        href='/post/project?page=1&per_page=6'
         replace={false}
       >
         <span>Browse Entire Project Collection</span> <Icons.arrowRight className='size-4 transition-all group-hover:translate-x-1.5' />

@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { toast } from 'sonner'
 import { FieldValues, useForm } from 'react-hook-form'
 import { useParams, useRouter } from 'next/navigation'
@@ -26,6 +26,7 @@ type PostFormProps = {
 export default function PostForm({ post }: PostFormProps) {
   const router = useRouter()
   const { type } = useParams() as { type: PostType; slug: string }
+  const [isProcessingFile, setIsProcessingFile] = useState<boolean>(false)
 
   const { isHeaderSticky, headerContainerRef } = useHeaderSticky()
 
@@ -51,8 +52,8 @@ export default function PostForm({ post }: PostFormProps) {
   const { executeAsync: togglePostPublishExecuteAsync, isExecuting: togglePostPublishIsExecuting } = useAction(togglePostPublish)
 
   const isDisabled = useMemo(() => {
-    return updateProjectIsExecuting || updateBlogIsExecuting || togglePostFeatureIsExecuting || togglePostPublishIsExecuting
-  }, [updateProjectIsExecuting, updateBlogIsExecuting, togglePostFeatureIsExecuting, togglePostPublishIsExecuting])
+    return isProcessingFile || updateProjectIsExecuting || updateBlogIsExecuting || togglePostFeatureIsExecuting || togglePostPublishIsExecuting // prettier-ignore
+  }, [isProcessingFile, updateProjectIsExecuting, updateBlogIsExecuting, togglePostFeatureIsExecuting, togglePostPublishIsExecuting])
 
   const form = useForm({
     mode: 'onChange',
@@ -99,6 +100,8 @@ export default function PostForm({ post }: PostFormProps) {
     }
 
     try {
+      setIsProcessingFile(true) //* show loading immediately, so that when file is still resolving user can see loading
+
       const response = await getResponse(formValues)
       const result = response?.data
 
@@ -113,8 +116,10 @@ export default function PostForm({ post }: PostFormProps) {
       }
 
       toast.success(`${capitalize(post.typeCode)} updated successfully!`)
+      setIsProcessingFile(false)
     } catch (err) {
       console.error(err)
+      setIsProcessingFile(false)
       toast.error('Something went wrong! Please try again later.')
     }
   }
@@ -175,7 +180,7 @@ export default function PostForm({ post }: PostFormProps) {
             isHeaderSticky && 'py-5'
           )}
         >
-          <HeaderHeading title='Project' description='Form for creating a project.' />
+          <HeaderHeading title={capitalize(type)} description={`Form for creating/updating a ${type}.`} />
 
           <div className='w-full space-x-0 space-y-[10px] md:flex md:w-fit md:items-center md:space-x-[10px] md:space-y-0 md:self-center'>
             <Button
