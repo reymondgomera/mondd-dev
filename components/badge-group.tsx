@@ -1,6 +1,6 @@
 import React from 'react'
 import { Badge, BadgeProps } from './ui/badge'
-import { cn } from '@/lib'
+import { cn, getClassName, omitClassName } from '@/lib'
 import ActionTooltipProvider from './provider/tooltip-provider'
 
 type ExtendedProps = {
@@ -27,7 +27,11 @@ export default function BadgeGroup({ data, max, badgeProps, className, extendedP
       ))}
 
       {data.length > max && (
-        <ActionTooltipProvider label={data.slice(max).join(', ')} labelClassName='lowercase' {...extendedProps?.actionTooltipProviderProps}>
+        <ActionTooltipProvider
+          label={data.slice(max).join(', ')}
+          labelClassName={cn('lowercase', getClassName(extendedProps?.actionTooltipProviderProps, 'labelClassName'))}
+          {...omitClassName(extendedProps?.actionTooltipProviderProps, 'labelClassName')}
+        >
           <Badge {...badgeProps}>+{countFormatter.format(data.length - max)}</Badge>
         </ActionTooltipProvider>
       )}

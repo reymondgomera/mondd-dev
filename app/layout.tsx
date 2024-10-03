@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import { DM_Sans } from 'next/font/google'
-import { SessionProvider } from 'next-auth/react'
 import Script from 'next/script'
 
 import { siteConfig } from '@/constant'
@@ -36,20 +35,18 @@ export default async function RootLayout({
   return (
     <html className='h-full scroll-smooth' lang='en' suppressHydrationWarning>
       <body className={`${dmSans.className} h-full`}>
-        <SessionProvider>
-          <ThemeProvider
-            attribute='class'
-            defaultTheme='dark'
-            forcedTheme='dark'
-            enableSystem
-            disableTransitionOnChange
-            storageKey='mond-dev-theme'
-          >
-            {children}
+        <ThemeProvider
+          attribute='class'
+          defaultTheme='dark'
+          forcedTheme='dark'
+          enableSystem
+          disableTransitionOnChange
+          storageKey='mond-dev-theme'
+        >
+          {children}
 
-            <TailwindIndicatorProvider />
-          </ThemeProvider>
-        </SessionProvider>
+          <TailwindIndicatorProvider />
+        </ThemeProvider>
 
         <ToastProvider />
       </body>

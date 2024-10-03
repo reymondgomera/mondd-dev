@@ -28,7 +28,7 @@ export default async function BlogBento() {
 
       <Link
         className='text-based group inline-flex w-full items-center gap-1.5 font-semibold decoration-teal-300 underline-offset-4 hover:underline'
-        href='/post/blog'
+        href='/post/blog?page=1&per_page=6'
         replace={false}
       >
         <span>View All Blogs</span> <Icons.arrowRight className='size-4 transition-all group-hover:translate-x-1.5' />

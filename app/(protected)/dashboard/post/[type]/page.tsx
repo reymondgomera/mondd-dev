@@ -5,8 +5,7 @@ import AsyncWrapper from '@/components/async-wrapper'
 import { ComponentErrorFallback } from '@/components/error-fallback'
 import { DataTableSkeleton } from '@/components/data-table/data-table-skeleton'
 import PostTable from './_components/post-table'
-import AddPostButton from './_components/add-post-button'
-import HeaderHeading from '../../_components/header-heading'
+import PostHeader from './[slug]/_components/post-header'
 
 type PostsPageProps = {
   params: { type: PostType }
@@ -16,31 +15,9 @@ type PostsPageProps = {
 export default function PostsPage({ params, searchParams }: PostsPageProps) {
   const postsPromise = getPosts(params.type, searchParams)
 
-  function Heading() {
-    switch (params.type) {
-      case 'project': {
-        return (
-          <div className='flex items-center justify-between'>
-            <HeaderHeading title='Projects' description='These are all the projects you have made throughout your career.' />
-            <AddPostButton />
-          </div>
-        )
-      }
-
-      default: {
-        return (
-          <div className='flex items-center justify-between'>
-            <HeaderHeading title='Blog' description='These are all the blogs you want to share with everyone.' />
-            <AddPostButton />
-          </div>
-        )
-      }
-    }
-  }
-
   return (
     <>
-      <Heading />
+      <PostHeader />
 
       <AsyncWrapper
         errorBoundaryProps={{

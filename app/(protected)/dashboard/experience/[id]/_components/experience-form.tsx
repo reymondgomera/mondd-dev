@@ -77,7 +77,7 @@ export default function ExperienceForm({ experience }: ExperienceFormProps) {
             isHeaderSticky && 'py-5'
           )}
         >
-          <HeaderHeading title='Experience' description='Form for creating a experience.' />
+          <HeaderHeading title='Experience' description='Form for creating/updating an experience.' />
 
           <div className='w-full space-x-0 space-y-[10px] md:flex md:w-fit md:items-center md:space-x-[10px] md:space-y-0 md:self-center'>
             <Button
