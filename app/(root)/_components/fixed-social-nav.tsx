@@ -36,7 +36,7 @@ export default function FixedSocialNav({ className, isInView }: FixedSocialNavPr
       <Link className='group transition-all hover:scale-125' href={siteConfig.socials.twitter} target='_blank'>
         <Icons.social.twitterX className='size-6 fill-current text-slate-400 group-hover:text-slate-200' />
       </Link>
-      <Link className='group transition-all hover:scale-125' href={siteConfig.downloadUrls.resume} target='_blank'>
+      <Link className='group transition-all hover:scale-125' href={process.env.NEXT_PUBLIC_RESUME_URL ?? '#'} target='_blank'>
         <Icons.fileText className='size-6 fill-current stroke-slate-400 text-slate-subtle-1 group-hover:stroke-slate-200' />
       </Link>
     </div>

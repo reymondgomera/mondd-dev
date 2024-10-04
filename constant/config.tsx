@@ -5,13 +5,9 @@ export const socials = {
   messenger: 'https://m.me/raymond.gomera',
   github: 'https://github.com/reymondgomera',
   linkedIn: 'https://www.linkedin.com/in/rey-mond-gomera-030a3023a/',
-  twitter: '/#',
-  instagram: '/#',
+  twitter: 'https://x.com/mondd_dev',
+  instagram: 'https://www.instagram.com/mondd_dev',
   email: 'mailto:reymondgomera24@gmail.com'
-}
-
-export const downloadUrls = {
-  resume: '/#'
 }
 
 export const siteConfig = {
@@ -38,7 +34,6 @@ export const siteConfig = {
     'web developer'
   ],
   socials,
-  downloadUrls,
   baseUrl: process.env.NEXT_PUBLIC_URL || 'http://localhost:3000',
   protocol: process.env.NODE_ENV === 'production' ? 'https' : 'http',
   pages: {
