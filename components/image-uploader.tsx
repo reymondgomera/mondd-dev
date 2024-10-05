@@ -1,5 +1,4 @@
 import React from 'react'
-import Image from 'next/image'
 import Link from 'next/link'
 import { toast } from 'sonner'
 import { ElementRef, useEffect, useRef, useState } from 'react'
@@ -375,8 +374,7 @@ export default function ImageUploader({
               >
                 <Icons.close className='h-4 w-4' />
               </span>
-              <Image
-                fill
+              <img
                 src={uploadedFiles[0].url}
                 alt={uploadedFiles[0].file.name}
                 className='absolute z-30 block h-full w-full rounded-md object-cover object-center'
