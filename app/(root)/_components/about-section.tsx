@@ -67,8 +67,8 @@ export default function AboutSection() {
 
         {/* hero image */}
         <div className='order-1 flex w-60 items-center justify-center xs:w-[400px] lg:order-2 lg:w-[560px]'>
-          <div className='relative min-h-[240px] rounded-full xs:min-h-[300px]  md:min-h-[320px] md:w-[320px]'>
-            <BlurImage className='!relative' src='/images/mond.svg' alt='mond' fill />
+          <div className='relative min-w-[200px] rounded-full xs:w-[300px] md:w-[320px]'>
+            <BlurImage className='!relative' src='/images/mond.png' alt='mond' fill />
             <div className='absolute left-6 top-5 -z-10 size-48 animate-pulse rounded-full bg-teal-300/15 blur-2xl xs:left-14 xs:top-10 sm:left-10 sm:size-56 md:left-12' />
           </div>
         </div>
