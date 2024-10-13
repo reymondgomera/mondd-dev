@@ -6,7 +6,6 @@ export const socials = {
   github: 'https://github.com/reymondgomera',
   linkedIn: 'https://www.linkedin.com/in/rey-mond-gomera-030a3023a/',
   twitter: 'https://x.com/mondd_dev',
-  instagram: 'https://www.instagram.com/mondd_dev',
   email: 'mailto:reymondgomera24@gmail.com'
 }
 

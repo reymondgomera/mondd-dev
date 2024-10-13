@@ -39,9 +39,6 @@ export default function Footer({ className }: FooterProps) {
             <Link className='group transition-all hover:scale-125' href={siteConfig.socials.facebook} target='_blank'>
               <Icons.social.facebook className='size-5 fill-current text-slate-400 group-hover:text-slate-200' />
             </Link>
-            <Link className='group transition-all hover:scale-125' href={siteConfig.socials.instagram} target='_blank'>
-              <Icons.social.instagram className='size-5 fill-current text-slate-400 group-hover:text-slate-200' />
-            </Link>
             <Link className='group transition-all hover:scale-125' href={siteConfig.socials.twitter} target='_blank'>
               <Icons.social.twitterX className='size-5 fill-current text-slate-400 group-hover:text-slate-200' />
             </Link>
