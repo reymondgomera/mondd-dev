@@ -3,7 +3,7 @@
 import { Post, Prisma } from '@prisma/client'
 import { redirect } from 'next/navigation'
 import slugify from 'slugify'
-import { revalidatePath, unstable_noStore as noStore } from 'next/cache'
+import { revalidatePath, unstable_noStore as noStore, unstable_cache, revalidateTag } from 'next/cache'
 
 import {
   ProjectMetadataForm,
@@ -34,29 +34,37 @@ export type PostData = Awaited<ReturnType<typeof getPosts>>['data'][number]
 export type PostDataForLandingPage = Awaited<ReturnType<typeof getPostsForLandingPage>>['data'][number]
 
 export async function getLatestFeaturedAndPublishedPosts(type: PostType) {
-  //* impose noStore since it will be used in root page which is statically rendered
-  //* enables the rsc to be uncached
-  noStore()
-
   if (type === 'project') {
-    return (await db.post.findMany({ where: { typeCode: type, isFeatured: true, isPublished: true } }))
-      .sort((a, b) => {
-        const aDate = a.metadata as Record<string, any>
-        const bDate = b.metadata as Record<string, any>
+    unstable_cache(
+      async () => {
+        return (await db.post.findMany({ where: { typeCode: type, isFeatured: true, isPublished: true } }))
+          .sort((a, b) => {
+            const aDate = a.metadata as Record<string, any>
+            const bDate = b.metadata as Record<string, any>
 
-        const aDateCreatedAt = aDate.createdAt ? new Date(aDate.createdAt) : new Date(a.createdAt)
-        const bDateCreatedAt = bDate.createdAt ? new Date(bDate.createdAt) : new Date(b.createdAt)
+            const aDateCreatedAt = aDate.createdAt ? new Date(aDate.createdAt) : new Date(a.createdAt)
+            const bDateCreatedAt = bDate.createdAt ? new Date(bDate.createdAt) : new Date(b.createdAt)
 
-        return bDateCreatedAt.getTime() - aDateCreatedAt.getTime()
-      })
-      .slice(0, 5)
+            return bDateCreatedAt.getTime() - aDateCreatedAt.getTime()
+          })
+          .slice(0, 5)
+      },
+      [`${type}-landing-page`],
+      { tags: [`${type}-landing-page`] }
+    )()
   }
 
-  return await db.post.findMany({
-    where: { typeCode: type, isFeatured: true, isPublished: true },
-    orderBy: { createdAt: 'desc' },
-    take: 5
-  })
+  return unstable_cache(
+    async () => {
+      return db.post.findMany({
+        where: { typeCode: type, isFeatured: true, isPublished: true },
+        orderBy: { createdAt: 'desc' },
+        take: 5
+      })
+    },
+    [`${type}-landing-page`],
+    { tags: [`${type}-landing-page`] }
+  )()
 }
 
 export async function getPostsForLandingPage(type: PostType, searchParams: SearchParams) {
@@ -191,7 +199,10 @@ const createPost = action
       return getServerActionError(err, 'CREATE_POST')
     }
 
-    if (success && result) redirect(`/dashboard/post/${result.typeCode}/${result.slug}`)
+    if (success && result) {
+      revalidateTag(`${result.typeCode}-landing-page`)
+      redirect(`/dashboard/post/${result.typeCode}/${result.slug}`)
+    }
   })
 
 const deletePost = action
@@ -232,6 +243,7 @@ const deletePost = action
 
       const deletedPost = await db.post.delete({ where: { id: data.id } })
 
+      revalidateTag(`${post.typeCode}-landing-page`)
       revalidatePath(`/dashboard/post/${post.typeCode}`)
 
       return returnServerActionSuccess({ message: `${capitalize(deletedPost.typeCode)} deleted successfully!` })
@@ -261,6 +273,7 @@ const updatePostBody = action
     }
 
     if (success && result) {
+      revalidateTag(`${result.typeCode}-landing-page`)
       revalidatePath(`/dashboard/post/${result.typeCode}/${result.slug}`)
       revalidatePath(`/post/${result.typeCode}/${result.slug}`)
     }
@@ -334,6 +347,7 @@ const updateProject = action
     }
 
     if (success && result) {
+      revalidateTag(`${result.typeCode}-landing-page`)
       revalidatePath(`/dashboard/post/${result.typeCode}/${result.slug}`)
       revalidatePath(`/post/${result.typeCode}/${result.slug}`)
       redirect(`/dashboard/post/${result.typeCode}/${result.slug}`)
@@ -402,6 +416,7 @@ const updateBlog = action
     }
 
     if (success && result) {
+      revalidateTag(`${result.typeCode}-landing-page`)
       revalidatePath(`/dashboard/post/${result.typeCode}/${result.slug}`)
       revalidatePath(`/post/${result.typeCode}/${result.slug}`)
       redirect(`/dashboard/post/${result.typeCode}/${result.slug}`)
@@ -419,6 +434,7 @@ const togglePostFeature = action
         data: { isFeatured: data.isFeatured }
       })
 
+      revalidateTag(`${result.typeCode}-landing-page`)
       revalidatePath(`/dashboard/post/${result.typeCode}/${result.slug}`)
       revalidatePath(`/post/${result.typeCode}/${result.slug}`)
 
@@ -441,6 +457,7 @@ const togglePostPublish = action
         data: { isPublished: data.isPublished }
       })
 
+      revalidateTag(`${result.typeCode}-landing-page`)
       revalidatePath(`/dashboard/post/${result.typeCode}/${result.slug}`)
       revalidatePath(`/post/${result.typeCode}/${result.slug}`)
 

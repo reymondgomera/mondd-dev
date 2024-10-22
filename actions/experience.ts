@@ -1,7 +1,7 @@
 'use server'
 
 import { Experience, Prisma } from '@prisma/client'
-import { revalidatePath, unstable_noStore as noStore } from 'next/cache'
+import { revalidatePath, unstable_noStore as noStore, unstable_cache, revalidateTag } from 'next/cache'
 import { redirect } from 'next/navigation'
 
 import { SearchParams, OrderByInput } from '@/types'
@@ -14,14 +14,16 @@ export type ExperienceData = Awaited<ReturnType<typeof getExperiences>>['data'][
 export type ExperiencesDataForLandingPage = Awaited<ReturnType<typeof getExperiencesForLandingPage>>[number]
 
 export async function getExperiencesForLandingPage() {
-  //* impose noStore since it will be used in root page which is statically rendered
-  //* enables the rsc to be uncached
-  noStore()
-
-  return await db.experience.findMany({
-    select: { title: true, description: true, start: true, end: true, tags: true },
-    orderBy: { start: 'desc' }
-  })
+  return unstable_cache(
+    async () => {
+      return db.experience.findMany({
+        select: { title: true, description: true, start: true, end: true, tags: true },
+        orderBy: { start: 'desc' }
+      })
+    },
+    ['experience-landing-page'],
+    { tags: ['experience-landing-page'] }
+  )()
 }
 
 export async function getExperiences(searchParams: SearchParams) {
@@ -106,6 +108,8 @@ const createOrUpdateExperience = action
       return getServerActionError(err, 'CREATE_OR_UPDATE_EXPERIENCE')
     }
 
+    revalidateTag('experience-landing-page')
+
     if (isRedirect && result) redirect(`/dashboard/experience/${result.id}`)
     revalidatePath(`/dashboard/experience/${result.id}`)
   })
@@ -123,6 +127,7 @@ const deleteExperience = action
 
       await db.experience.delete({ where: { id: data.id } })
 
+      revalidateTag('experience-landing-page')
       revalidatePath(`/dashboard/experience`)
 
       return returnServerActionSuccess({ message: `Experience "${experience.title}" deleted successfully!` })

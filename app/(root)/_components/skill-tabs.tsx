@@ -1,3 +1,5 @@
+import { unstable_cache } from 'next/cache'
+
 import SkillCard from './skill-card'
 import { getReferences } from '@/actions'
 import { SkillsDataForLandingPage, getSkillsForLandingPage } from '@/actions'
@@ -8,8 +10,18 @@ type RenderTabsContent = {
   skills: SkillsDataForLandingPage[]
 }
 
+async function getSkillType() {
+  return await unstable_cache(
+    async () => getReferences({ entityCodes: ['skill-type'] }),
+    ['skill-type-landing-page', 'skill-landing-page'],
+    {
+      tags: ['skill-type-landing-page', 'skill-landing-page']
+    }
+  )()
+}
+
 export default async function SkillTabs() {
-  const [skilltypes, skills] = await Promise.all([getReferences({ entityCodes: ['skill-type'] }), getSkillsForLandingPage()])
+  const [skilltypes, skills] = await Promise.all([getSkillType(), getSkillsForLandingPage()])
 
   if (!skilltypes || !skills) return null
 

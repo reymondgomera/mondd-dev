@@ -46,6 +46,7 @@ export default function PostFormFields({ isDisabled }: PostFormFieldsProps) {
         toast.error('Something went wrong! Please try again later.')
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [isDisabled]
   )
 

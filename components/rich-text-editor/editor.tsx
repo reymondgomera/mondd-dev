@@ -142,6 +142,7 @@ const RichTextEditor = ({
   useEffect(() => {
     if (value) setInitialContent(JSON.parse(value))
     else setInitialContent(editorDefaultContent)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   if (!initialContent) return null

@@ -1,7 +1,7 @@
 'use server'
 
 import { Prisma, Skill } from '@prisma/client'
-import { revalidatePath, unstable_noStore as noStore } from 'next/cache'
+import { revalidatePath, unstable_noStore as noStore, unstable_cache, revalidateTag } from 'next/cache'
 import { redirect } from 'next/navigation'
 
 import { action, db, getServerActionError, returnServerActionError, returnServerActionSuccess, deleteFiles, uploadFiles } from '@/lib'
@@ -14,11 +14,13 @@ export type SkillData = Awaited<ReturnType<typeof getSkills>>['data'][number]
 export type SkillsDataForLandingPage = Awaited<ReturnType<typeof getSkillsForLandingPage>>[number]
 
 export async function getSkillsForLandingPage() {
-  //* impose noStore since it will be used in root page which is statically rendered
-  //* enables the rsc to be uncached
-  noStore()
-
-  return await db.skill.findMany({ select: { title: true, isFavorite: true, logo: true, typeCode: true }, orderBy: { title: 'asc' } })
+  return await unstable_cache(
+    async () => {
+      return db.skill.findMany({ select: { title: true, isFavorite: true, logo: true, typeCode: true }, orderBy: { title: 'asc' } })
+    },
+    ['skill-landing-page'],
+    { tags: ['skill-landing-page'] }
+  )()
 }
 
 export async function getSkills(searchParams: SearchParams) {
@@ -132,6 +134,8 @@ const createOrUpdateSkill = action
       return getServerActionError(err, 'CREATE_OR_UPDATE_SKILL')
     }
 
+    revalidateTag('skill-landing-page')
+
     if (isRedirect && id === 'new' && result) redirect(`/dashboard/skill/${result.id}`)
     revalidatePath(`/dashboard/skill/${result.id}`)
   })
@@ -156,6 +160,7 @@ const deleteSkill = action
       //* delete skill
       await db.skill.delete({ where: { id: data.id } })
 
+      revalidateTag('skill-landing-page')
       revalidatePath(`/dashboard/skill`)
 
       return returnServerActionSuccess({ message: `Skill "${skill.title}" deleted successfully!` })
@@ -175,6 +180,7 @@ const toggleSkillFavorite = action
         data: { isFavorite: data.isFavorite }
       })
 
+      revalidateTag('skill-landing-page')
       revalidatePath(`/dashboard/skill/${result.id}`)
 
       return returnServerActionSuccess({
