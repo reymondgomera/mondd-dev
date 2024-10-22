@@ -35,7 +35,7 @@ export type PostDataForLandingPage = Awaited<ReturnType<typeof getPostsForLandin
 
 export async function getLatestFeaturedAndPublishedPosts(type: PostType) {
   if (type === 'project') {
-    unstable_cache(
+    return unstable_cache(
       async () => {
         return (await db.post.findMany({ where: { typeCode: type, isFeatured: true, isPublished: true } }))
           .sort((a, b) => {
