@@ -4,7 +4,7 @@ export const socials = {
   facebook: 'https://www.facebook.com/raymond.gomera',
   messenger: 'https://m.me/raymond.gomera',
   github: 'https://github.com/reymondgomera',
-  linkedIn: 'https://www.linkedin.com/in/rey-mond-gomera-030a3023a/',
+  linkedIn: 'https://linkedin.com/in/mondgomera',
   twitter: 'https://x.com/mondd_dev',
   email: 'mailto:reymondgomera24@gmail.com'
 }
