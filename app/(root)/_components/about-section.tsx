@@ -31,11 +31,23 @@ export default function AboutSection() {
 
               <div className='absolute -top-10 left-16 -z-10 size-52 animate-pulse rounded-full bg-teal-300/10 blur-2xl lg:left-20 xl:left-28' />
             </div>
-            <p className='text-center text-sm leading-5 text-slate-400 md:text-base md:leading-6 lg:text-start lg:leading-7'>
-              I’m a Filipino Full Stack Web Developer and have worked in the industry for over a year now. I excel in delivering
-              high-impact, scalable, and robust software solutions that drive business growth and enhance user experiences. My expertise
-              spans both frontend and backend development, including creating UI/UX designs, developing UI components, SEO, and creating API
-              endpoints while ensuring security and optimizations.
+            <p className='text-center text-sm leading-5 text-slate-400 md:text-[15.5px] md:leading-6 lg:text-start lg:leading-7'>
+              I am a <span className='font-bold text-slate-200'>Filipino web developer</span> with{' '}
+              <span className='font-bold text-slate-200'>strong experience</span> in the{' '}
+              <span className='font-bold text-slate-200'>JavaScript ecosystem</span>. I have work on both{' '}
+              <span className='font-bold text-slate-200'>front-end</span> and{' '}
+              <span className='font-bold text-slate-200'>back-end development</span> for{' '}
+              <span className='font-bold text-slate-200'>over 2 years</span> now, I have built web apps using technologies like
+              <span className='font-bold text-slate-200'> JavaScript/TypeScript</span>,{' '}
+              <span className='font-bold text-slate-200'>React.js</span>, <span className='font-bold text-slate-200'>Next.js</span>,{' '}
+              <span className='font-bold text-slate-200'>Node.js</span>, <span className='font-bold text-slate-200'> Express.js</span>,{' '}
+              <span className='font-bold text-slate-200'>Nest.js</span> and databases such as{' '}
+              <span className='font-bold text-slate-200'>PostgreSQL</span>, <span className='font-bold text-slate-200'>MySQL</span>,{' '}
+              <span className='font-bold text-slate-200'>MSSQL</span>, <span className='font-bold text-slate-200'>Firebase Fire Store</span>{' '}
+              and <span className='font-bold text-slate-200'>MongoDB</span>. I am passionate about{' '}
+              <span className='font-bold text-slate-200'>exploring</span> and{' '}
+              <span className='font-bold text-slate-200'>experimenting</span> with existing or latest technologies and finding ways to use
+              them to improve development and create quality products.
             </p>
 
             {/* social */}
